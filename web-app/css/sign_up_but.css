@@ -1,0 +1,10 @@
+@charset "utf-8";
+#sign_up_but{
+	display:inline-block;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+	background-color:#09F;
+	color:#FFF;
+	height:100%;
+}

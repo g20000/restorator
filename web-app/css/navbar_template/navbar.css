@@ -1,0 +1,11 @@
+body {
+  /*padding-top: 20px;
+  padding-bottom: 20px;*/
+}
+
+.navbar {
+  width:75%;
+  margin-left:10px;	
+  margin-bottom: 20px;
+  float:right;
+}

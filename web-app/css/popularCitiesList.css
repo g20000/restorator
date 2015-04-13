@@ -1,0 +1,7 @@
+@charset "utf-8";
+#popularCitiesList {
+	display:inline-block;
+	clear:both;
+	width:80%;
+	overflow: hidden;
+}
