@@ -3,6 +3,7 @@ package restoratorUserSpace
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import restorator.Cafee
+import restorator.ReservedTable
 
 class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
@@ -44,8 +45,24 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToCafeePage(params){
-		println params['cafeeName']
 		render (view:'cafeeInfo.gsp', model: [cafeeName: params['cafeeName']])
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def makeReserve(params){
+		def user = springSecurityService.currentUser
+		Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
+		def ownerName = cafee.getOwner()
+		def cafeeName = cafee.getCafeeName()
+		ReservedTable myPlace = new ReservedTable(visitor: user, owner: ownerName, cafeeName: cafeeName)
+		myPlace.save(flush: true)
+		
+		showReservedTableForVisitor(myPlace)
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def showReservedTableForVisitor(ReservedTable myTable){
+		render (view:'reserved.gsp', model: [tableInfo: myTable])
 	}
 	
 	def updateUserData(){

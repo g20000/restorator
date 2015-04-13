@@ -43,6 +43,7 @@
       <div class="jumbotron">
       	<div>
       		<p>Название заведения: ${cafeeName}</p>
+      		<p><g:link action="makeReserve" params="[cafeeName: "${cafeeName}"]">Забронировать</g:link></p>
       	</div> 
        </div>
 		<div class="row marketing">

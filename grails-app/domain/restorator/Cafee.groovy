@@ -20,4 +20,12 @@ class Cafee {
 		cafeeName blank: false, unique: true
 		owner blank: false, unique: true
     }
+	
+	String getOwner(){
+		return owner
+	}
+	
+	String getCafeeName(){
+		return cafeeName
+	}
 }
