@@ -44,7 +44,8 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToCafeePage(params){
-		
+		println params['cafeeName']
+		render (view:'cafeeInfo.gsp', model: [cafeeName: params['cafeeName']])
 	}
 	
 	def updateUserData(){

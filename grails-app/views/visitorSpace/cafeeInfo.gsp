@@ -42,6 +42,7 @@
 	  </script>	
       <div class="jumbotron">
       	<div>
+      		<p>Название заведения: ${cafeeName}</p>
       	</div> 
        </div>
 		<div class="row marketing">
