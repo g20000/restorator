@@ -29,7 +29,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="#">Бронировать столик</a></li>
-              <li><a href="#">Отменить броню столика</a></li>
+              <li><g:link controller="VisitorSpace" action="showReservedTableForVisitor">Отменить броню столика</g:link></li>
               <li><a href="#">Редактировать бронирование</a></li>
             </ul>
           </div><!--/.nav-collapse -->

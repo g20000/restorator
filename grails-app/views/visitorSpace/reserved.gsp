@@ -28,7 +28,7 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="#">Бронировать столик</a></li>
+              <li><g:link controller="VisitorSpace" action="index">Бронировать столик</g:link></li>
               <li class="active"><a href="#">Отменить броню столика</a></li>
               <li><a href="#">Редактировать бронирование</a></li>
             </ul>

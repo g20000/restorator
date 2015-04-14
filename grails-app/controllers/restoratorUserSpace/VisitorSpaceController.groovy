@@ -50,12 +50,16 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def makeReserve(params){
-		def user = springSecurityService.currentUser
+		def user = springSecurityService.currentUser.username
 		Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
 		def ownerName = cafee.getOwner()
 		def cafeeName = cafee.getCafeeName()
 		ReservedTable myPlace = new ReservedTable(visitor: user, owner: ownerName, cafeeName: cafeeName)
-		myPlace.save(flush: true)
+		if(!myPlace.save(flush: true)){
+			myPlace.errors.each {
+				println it
+			}
+		}
 		
 		showReservedTableForVisitor(myPlace)
 	}
@@ -65,6 +69,13 @@ class VisitorSpaceController {
 		render (view:'reserved.gsp', model: [tableInfo: myTable])
 	}
 	
+	@Secured(['ROLE_VISITOR'])
+	def deleteReservedTable(){
+		def user = springSecurityService.currentUser
+		ReservedTable myPlace = ReservedTable.findByVisitor(user)
+		myPlace.delete(flush: true)
+	}
+		
 	def updateUserData(){
 		
 	}
