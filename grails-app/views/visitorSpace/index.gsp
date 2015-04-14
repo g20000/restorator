@@ -43,25 +43,25 @@
 		});
 	  </script>	
       <div class="jumbotron">
-      	<div>
-	      	<g:each in="${availableCafee}" var="cafeeInfo">
-		      	<table class="table">
-					<thead>
-						<tr>
-							<th>Название заведения</th>
-							<th>Цена за место</th>
-							<th>Тип принимаемой валюты</th>
-						</tr>	
-					</thead>
-					<tbody>
+      	<div>   	
+	      	<table class="table">
+				<thead>
+					<tr>
+						<th>Название заведения</th>
+						<th>Цена за место</th>
+						<th>Тип принимаемой валюты</th>
+					</tr>	
+				</thead>
+				<tbody>
+					<g:each in="${availableCafee}" var="cafeeInfo">
 						<tr>
 							<td><g:link action="goToCafeePage" params="[cafeeName: "${cafeeInfo.cafeeName}"]">${cafeeInfo.cafeeName}</g:link></td>
 							<td>${cafeeInfo.placeCost}</td>
 							<td>${cafeeInfo.currencyType}</td>
 						</tr>
-					</tbody>
-				</table>
-			</g:each>
+					</g:each>
+				</tbody>
+			</table>			
       	</div> 
        </div>
 		<div class="row marketing">
