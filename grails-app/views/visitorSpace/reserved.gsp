@@ -49,11 +49,13 @@
 					<thead>
 						<tr>
 							<th>Название заведения</th>
+							<th></th>
 						</tr>	
 					</thead>
 					<tbody>
 						<tr>
 							<td>${table.cafeeName}</td>
+							<td><g:link action="deleteReservedTable">Отменить бронирование</g:link></td>
 						</tr>
 					</tbody>
 				</table>
