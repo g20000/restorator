@@ -30,8 +30,8 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Cведения о заведении</a></li>
-              <li><g:link action="showReservedTableForAdmin">Информация о бронировании</g:link></li>
+              <li><g:link action="index">Cведения о заведении</g:link></li>
+              <li class="active"><a href="#">Информация о бронировании</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -46,20 +46,20 @@
       <div class="jumbotron">
      	<h3>Информация о заведении</h3>
      	<div>
-      	<g:each in="${placeinfo}" var="cafeeInfo">
-	      	<p>Название заведения: ${cafeeInfo.cafeeName}</p>
-	      	<p>Мест в заведении: ${cafeeInfo.totalPlaces}</p>
-	      	<p>Доступно мест для бронирования: ${cafeeInfo.totalReservationPlaces}</p>
-	      	<p>Цена за место: ${cafeeInfo.placeCost}</div>
-	      	<p>Тип принимаемой валюты: ${cafeeInfo.currencyType}</p>
-	      	<p>Бронирование доступно: ${cafeeInfo.isReservationAvailable}</p>
-	      	<p>Ограничение бронирования по времени включено: ${cafeeInfo.reservationTimeLimit}</p>
-	      	<p>Ограничение бронирования по дате включено: ${cafeeInfo.reservationDateLimit}</p>
-	      	<p>Начало ограничения бронирования по времени: ${cafeeInfo.startTimeLimit}</p>
-	      	<p>Конец ограничения бронирования по времени: ${cafeeInfo.endTimeLimit}</p>
-	      	<p>Начало ограничения бронирования по дате: ${cafeeInfo.startDateLimit}</p>
-	      	<p>Конец ограничения бронирования по дате: ${cafeeInfo.endDateLimit}</p>	      	
-      	</g:each>
+      		<g:each in="${tableInfo}" var="table">
+		      	<table class="table">
+					<thead>
+						<tr>
+							<th>Название заведения</th>
+						</tr>	
+					</thead>
+					<tbody>
+						<tr>
+							<td>${table.visitor}</td>
+						</tr>
+					</tbody>
+				</table>
+			</g:each>
      	</div> 
       </div>
 		<div class="row marketing">

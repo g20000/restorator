@@ -79,6 +79,14 @@ class VisitorSpaceController {
 		myPlace.delete(flush: true)
 		showReservedTableForVisitor()
 	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def showReservedTableForAdmin(){		
+		def user = springSecurityService.currentUser.username
+		ReservedTable myTable = ReservedTable.findByOwner(user)
+		
+		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
+	}
 		
 	def updateUserData(){
 		
