@@ -44,22 +44,22 @@
 	  </script>	
       <div class="jumbotron">
       	<div>
-	      	<g:each in="${tableInfo}" var="table">
-		      	<table class="table">
-					<thead>
-						<tr>
-							<th>Название заведения</th>
-							<th></th>
-						</tr>	
-					</thead>
-					<tbody>
+	      	<table class="table">
+				<thead>
+					<tr>
+						<th>Название заведения</th>
+						<th></th>
+					</tr>	
+				</thead>
+				<tbody>
+					<g:each in="${tableInfo}" var="table">
 						<tr>
 							<td>${table.cafeeName}</td>
-							<td><g:link action="deleteReservedTable">Отменить бронирование</g:link></td>
+							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName}"]">Отменить бронирование</g:link></td>
 						</tr>
-					</tbody>
-				</table>
-			</g:each>
+					</g:each>
+				</tbody>
+			</table>
       	</div> 
        </div>
 		<div class="row marketing">

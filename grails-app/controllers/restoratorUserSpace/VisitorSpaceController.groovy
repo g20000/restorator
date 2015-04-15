@@ -67,15 +67,15 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])
 	def showReservedTableForVisitor(){
 		def user = springSecurityService.currentUser.username
-		ReservedTable myTable = ReservedTable.findByVisitor(user)
+		def myTable = ReservedTable.findAllByVisitor(user)
 		
 		render (view:'reserved.gsp', model: [tableInfo: myTable])
 	}
 	
 	@Secured(['ROLE_VISITOR'])
-	def deleteReservedTable(){
+	def deleteReservedTable(params){
 		def user = springSecurityService.currentUser.username
-		ReservedTable myPlace = ReservedTable.findByVisitor(user)
+		def myPlace = ReservedTable.findByVisitorAndCafeeName(user, params['cafeeName'])
 		myPlace.delete(flush: true)
 		showReservedTableForVisitor()
 	}
