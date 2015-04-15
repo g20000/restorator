@@ -46,20 +46,20 @@
       <div class="jumbotron">
      	<h3>Информация о заведении</h3>
      	<div>
-      		<g:each in="${tableInfo}" var="table">
-		      	<table class="table">
-					<thead>
-						<tr>
-							<th>Название заведения</th>
-						</tr>	
-					</thead>
-					<tbody>
+	      	<table class="table">
+				<thead>
+					<tr>
+						<th>Название заведения</th>
+					</tr>	
+				</thead>
+				<tbody>
+					<g:each in="${tableInfo}" var="table">
 						<tr>
 							<td>${table.visitor}</td>
 						</tr>
-					</tbody>
-				</table>
-			</g:each>
+					</g:each>
+				</tbody>
+			</table>			
      	</div> 
       </div>
 		<div class="row marketing">

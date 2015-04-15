@@ -34,6 +34,12 @@ class BootStrap {
 		 {
 			 PersonAuthority.create(visitor, visitorRole, true)
 		 }
+		 
+		 visitor = Person.findOrSaveWhere(username: 'testerUser2', password:'password', firstName:'Кишлак', lastName:'Базыров', email:'shaitan@gmail.com', isAdminCafee: false)
+		 if(!visitor.authorities.contains(visitorRole))
+		 {
+			 PersonAuthority.create(visitor, visitorRole, true)
+		 }
     }
     def destroy = {
     }

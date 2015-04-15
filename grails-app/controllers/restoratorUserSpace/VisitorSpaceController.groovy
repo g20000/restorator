@@ -83,7 +83,7 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def showReservedTableForAdmin(){		
 		def user = springSecurityService.currentUser.username
-		ReservedTable myTable = ReservedTable.findByOwner(user)
+		def myTable = ReservedTable.findAllByOwner(user)
 		
 		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
 	}

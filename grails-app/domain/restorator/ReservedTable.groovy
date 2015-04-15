@@ -8,7 +8,7 @@ class ReservedTable {
     static constraints = {
 		visitor blank: false
 		owner blank: false
-		cafeeName blank: false, unique: true
+		cafeeName blank: false
     }
 	
 	String getCafeeName(){
