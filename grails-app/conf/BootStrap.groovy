@@ -9,25 +9,39 @@ class BootStrap {
 		 def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
-		 
-		 def user = Person.findOrSaveWhere(username: 'testerAndrewRes', password:'password', firstName:'Andrew', lastName:'Bobkov', email:'pragmus2@gmail.com', isAdminCafee: true,
-			 cafee: 'Тарелка', inn: '1234567890')
+		 		 
+		 def newCafe = new Cafee(cafeeName: "Tarelka").addToAdmin(new Person(username: 'testerAndrewRes', password:'password',
+			 accountExpired: false, accountLocked: false, passwordExpired: false, 
+			 firstName:'Andrew', lastName:'Bobkov', email:'pragmus2@gmail.com', isAdminCafee: true,
+			 inn: '1234567890')).save()
+		 println newCafe
+		 def user = Person.findByCafee(newCafe)
+		 println user
 		 if(!user.authorities.contains(adminRole))
 		 {
 			 PersonAuthority.create(user, adminRole, true)
 		 }
-		 def newCafe = new Cafee(cafeeName: 'Tarelka', owner: 'testerAndrewRes')
-		 newCafe.save()
 		 
-		 def admin = Person.findOrSaveWhere(username: 'testerAdmin', password:'password', firstName:'Сидр', lastName:'Сидоров', email:'sidr@gmail.com', isAdminCafee: true,
-			 cafee: 'U Petrovicha', inn: '9876543210')
+		 newCafe = new Cafee(cafeeName: "U Petrovicha").addToAdmin(new Person(username: 'testerAdmin', password:'password',
+			 accountExpired: false, accountLocked: false, passwordExpired: false,
+			 firstName:'Sidr', lastName:'Sidorov', email:'sidr@gmail.com', isAdminCafee: true,
+			 inn: '9876543210')).save()
+		 user = Person.findByCafee(newCafe)
+		 println user
+		 if(!user.authorities.contains(adminRole))
+		 {
+			 PersonAuthority.create(user, adminRole, true)
+		 }
+		 		 		 
+		 /*def admin = Person.findOrSaveWhere(username: 'testerAdmin', password:'password', firstName:'Сидр', lastName:'Сидоров', email:'sidr@gmail.com', isAdminCafee: true, 
+			inn: '9876543210')
 		 if(!admin.authorities.contains(adminRole))
 		 {
 			 PersonAuthority.create(admin, adminRole, true)
 		 }
-		 newCafe = new Cafee(cafeeName: 'U Petrovicha', owner: 'testerAdmin')
-		 newCafe.save()
-		 
+		 newCafe = new Cafee(cafeeName: 'U Petrovicha')
+		 newCafe.addToAdmin(admin).save()*/
+		 		 	 
 		 
 		 def visitor = Person.findOrSaveWhere(username: 'testerUser', password:'password', firstName:'Иван', lastName:'Иванов', email:'ivanov@gmail.com', isAdminCafee: false)
 		 if(!visitor.authorities.contains(visitorRole))

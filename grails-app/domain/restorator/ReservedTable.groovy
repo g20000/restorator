@@ -1,17 +1,15 @@
 package restorator
 
+import restorator.auth.Person
+
 class ReservedTable {
-	String visitor = ""
-	String owner = ""
-	String cafeeName = ""
+	Person visitor
+	Person owner
+	Cafee cafeeName
 
     static constraints = {
 		visitor blank: false
 		owner blank: false
 		cafeeName blank: false
     }
-	
-	String getCafeeName(){
-		return cafeeName
-	}
 }

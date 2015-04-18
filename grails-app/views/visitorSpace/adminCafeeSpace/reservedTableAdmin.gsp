@@ -55,7 +55,7 @@
 				<tbody>
 					<g:each in="${tableInfo}" var="table">
 						<tr>
-							<td>${table.visitor}</td>
+							<td>${table.visitor.username}</td>
 						</tr>
 					</g:each>
 				</tbody>

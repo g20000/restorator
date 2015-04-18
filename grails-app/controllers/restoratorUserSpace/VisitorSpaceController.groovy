@@ -4,6 +4,7 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import restorator.Cafee
 import restorator.ReservedTable
+import restorator.auth.Person
 
 class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
@@ -25,11 +26,11 @@ class VisitorSpaceController {
 		render (view:'index.gsp', model: [availableCafee: availableCafee])
 	}
 	
-	@Secured(['ROLE_ADMIN'])
+	@Secured(['ROLE_ADMIN'])//fixed
 	def showAdminSpace(){
-		def placeinfo = Cafee.where{
-			owner == springSecurityService.currentUser.username
-		}
+		println springSecurityService.currentUser.username
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def placeinfo = user.cafee
 		render (view:'adminCafeeSpace/indexAdmin.gsp', model: [placeinfo: placeinfo])
 	}
 	
@@ -48,13 +49,14 @@ class VisitorSpaceController {
 		render (view:'cafeeInfo.gsp', model: [cafeeName: params['cafeeName']])
 	}
 	
-	@Secured(['ROLE_VISITOR'])
+	@Secured(['ROLE_VISITOR'])//fixed
 	def makeReserve(params){
-		def user = springSecurityService.currentUser.username
+		Person user = Person.findByUsername(springSecurityService.currentUser.username)
 		Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
-		def ownerName = cafee.getOwner()
-		def cafeeName = cafee.getCafeeName()
-		ReservedTable myPlace = new ReservedTable(visitor: user, owner: ownerName, cafeeName: cafeeName)
+		println cafee
+		Person owner = Person.findByCafee(cafee)
+		println owner
+		ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee)
 		if(!myPlace.save(flush: true)){
 			myPlace.errors.each {
 				println it
@@ -64,30 +66,31 @@ class VisitorSpaceController {
 		showReservedTableForVisitor()
 	}
 	
-	@Secured(['ROLE_VISITOR'])
+	@Secured(['ROLE_VISITOR'])//fixed
 	def showReservedTableForVisitor(){
-		def user = springSecurityService.currentUser.username
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myTable = ReservedTable.findAllByVisitor(user)
 		
 		render (view:'reserved.gsp', model: [tableInfo: myTable])
 	}
 	
-	@Secured(['ROLE_VISITOR'])
+	@Secured(['ROLE_VISITOR'])//fixed
 	def deleteReservedTable(params){
-		def user = springSecurityService.currentUser.username
-		def myPlace = ReservedTable.findByVisitorAndCafeeName(user, params['cafeeName'])
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def myPlace = ReservedTable.findByVisitorAndCafeeName(user, Cafee.findByCafeeName(params['cafeeName']))
 		myPlace.delete(flush: true)
 		showReservedTableForVisitor()
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def showReservedTableForAdmin(){		
-		def user = springSecurityService.currentUser.username
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myTable = ReservedTable.findAllByOwner(user)
 		
 		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
 	}
-		
+	
+	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
 	def updateUserData(){
 		
 	}

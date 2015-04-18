@@ -54,8 +54,8 @@
 				<tbody>
 					<g:each in="${tableInfo}" var="table">
 						<tr>
-							<td>${table.cafeeName}</td>
-							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName}"]">Отменить бронирование</g:link></td>
+							<td>${table.cafeeName.cafeeName}</td>
+							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}"]">Отменить бронирование</g:link></td>
 						</tr>
 					</g:each>
 				</tbody>

@@ -1,5 +1,7 @@
 package restorator.auth
 
+import restorator.Cafee
+
 class Person {
 
 	transient springSecurityService
@@ -15,18 +17,20 @@ class Person {
 	String lastName
 	String email
 	String inn = ""
-	String cafee = ""
 	boolean isAdminCafee = false
 	static transients = ['springSecurityService']
 
+	static belongsTo = [cafee: Cafee]
+	
 	static constraints = {
 		username blank: false, unique: true
 		firstName blank: false
 		lastName blank: false
 		password blank: false
 		email blank: false, unique: true
+		cafee nullable: true
 	}
-
+	
 	static mapping = {
 		password column: '`password`'
 	}

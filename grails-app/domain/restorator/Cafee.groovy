@@ -1,9 +1,10 @@
 package restorator
 
+import restorator.auth.Person
+
 class Cafee {
 	
 	String cafeeName = ""
-	String owner = ""
 	int totalReservationPlaces = 0
 	double placeCost = 0
 	String currencyType = ""
@@ -16,15 +17,12 @@ class Cafee {
 	Date startDateLimit = new Date()
 	Date endDateLimit = new Date()	
 	
+	static hasMany = [admin: Person]
+	
     static constraints = {
 		cafeeName blank: false, unique: true
-		owner blank: false, unique: true
     }
-	
-	String getOwner(){
-		return owner
-	}
-	
+			
 	String getCafeeName(){
 		return cafeeName
 	}
