@@ -114,4 +114,12 @@ class VisitorSpaceController {
 		render "Updated!"
 		
 	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def setReservation(){		
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def myTable = ReservedTable.findAllByOwner(user)
+		
+		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
+	}
 }
