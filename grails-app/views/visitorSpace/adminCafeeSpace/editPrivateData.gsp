@@ -43,17 +43,19 @@
 	        <label for="login" class="sr-only">Логин</label>
 	        <g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
 	        <label for="firstName" class="sr-only">Ваше имя</label>
-	        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" required="" type="text"/>
+	        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
 	        <label for="lastName" class="sr-only">Вашa фамилия</label>
-	        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" required=""  type="text"/>
+	        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
 	        
 	        <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
-	        <g:textField id="inputEmail" class="form-control" name="email" placeholder="Адрес эл. почты" var = "user" value="${user.email}" required="" autofocus="" data-translatable-string="Email address" type="email"/>
+	        <g:textField id="inputEmail" class="form-control" name="email" placeholder="E-mail" var = "user" value="${user.email}" autofocus="" data-translatable-string="" type="email"/>
+	        <label for="inputINN" class="sr-only">ИНН</label>
+	        <g:textField id="inputINN" class="form-control" name="inn" placeholder="ИНН" var = "user" value="${user.inn}" autofocus="" data-translatable-string="INN" type="number"/>
 	        <label for="inputPassword" class="sr-only">Пароль</label>
-	        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" required="" data-translatable-string="Password"/>
+	        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
 	        
 	        <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
-	        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" required="" data-translatable-string="Password"/>
+	        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
 	        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
       	</g:form>	
        </div>

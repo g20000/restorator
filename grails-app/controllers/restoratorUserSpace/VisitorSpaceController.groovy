@@ -4,6 +4,7 @@ import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import restorator.Cafee
 import restorator.ReservedTable
+import restorator.auth.Authority
 import restorator.auth.Person
 
 class VisitorSpaceController {
@@ -91,7 +92,26 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
-	def updateUserData(){
+	def updateUserData(params){		
+		Authority userAdminAuthority = Authority.findByAuthority('ROLE_ADMIN')
+		Person oldUserRecord = Person.findByUsername(springSecurityService.currentUser.username)
+		oldUserRecord.username = params['login']
+		oldUserRecord.firstName = params['firstName']
+		oldUserRecord.lastName = params['lastName']
+		oldUserRecord.email = params['email']
+		oldUserRecord.password = params['password']
+				
+		if(oldUserRecord.getAuthorities().contains(userAuthority)){
+			oldUserRecord.inn = params['inn']
+		}
+		
+		if(!params['password'].equals(params['controlPassword'])){
+			render "Enter your password correctly!"
+		}else{
+			oldUserRecord.save()
+		}
+								
+		render "Updated!"
 		
 	}
 }

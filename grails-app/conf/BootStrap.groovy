@@ -32,17 +32,7 @@ class BootStrap {
 		 {
 			 PersonAuthority.create(user, adminRole, true)
 		 }
-		 		 		 
-		 /*def admin = Person.findOrSaveWhere(username: 'testerAdmin', password:'password', firstName:'Сидр', lastName:'Сидоров', email:'sidr@gmail.com', isAdminCafee: true, 
-			inn: '9876543210')
-		 if(!admin.authorities.contains(adminRole))
-		 {
-			 PersonAuthority.create(admin, adminRole, true)
-		 }
-		 newCafe = new Cafee(cafeeName: 'U Petrovicha')
-		 newCafe.addToAdmin(admin).save()*/
-		 		 	 
-		 
+		 	 		 	 		 	 
 		 def visitor = Person.findOrSaveWhere(username: 'testerUser', password:'password', firstName:'Иван', lastName:'Иванов', email:'ivanov@gmail.com', isAdminCafee: false)
 		 if(!visitor.authorities.contains(visitorRole))
 		 {
