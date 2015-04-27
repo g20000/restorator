@@ -1,0 +1,17 @@
+---
+applications:
+  ".":
+    name: restorator
+    framework:
+      name: grails
+      info:
+        mem: 512M
+        description: Java SpringSource Grails Application
+        exec: 
+    infra: aws
+    url: "${name}.${target-base}"
+    mem: 512M
+    instances: 1
+    services:
+      mysql-fe129:
+        type: mysql

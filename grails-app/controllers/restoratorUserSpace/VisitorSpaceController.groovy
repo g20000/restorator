@@ -118,8 +118,36 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def setReservation(){		
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def myTable = ReservedTable.findAllByOwner(user)
+		def cafee = user.cafee
+				
+		render (view:'adminCafeeSpace/setupReservation.gsp', model: [cafeeInfo: cafee])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def editReservation(params){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def oldCafeeInfo = user.cafee
 		
-		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
+		oldCafeeInfo.cafeeName = params['cafee']
+		oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
+		oldCafeeInfo.currencyType = params['currencyType']
+		oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
+		oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
+		oldCafeeInfo.isReservationAvailable = Boolean.parseBoolean(params['reservationAvailable'])
+		oldCafeeInfo.reservationTimeLimit = Boolean.parseBoolean(params['timeLimitReservation'])
+		oldCafeeInfo.reservationDateLimit = Boolean.parseBoolean(params['dateLimitReservation'])
+		println params['startTimeReservation']
+		oldCafeeInfo.startTimeLimit = params['startTimeReservation']
+		oldCafeeInfo.endTimeLimit = params['endTimeReservation']
+		oldCafeeInfo.startDateLimit = params['startDateReservation']
+		oldCafeeInfo.endDateLimit = params['endDateReservation']
+		
+		if(!oldCafeeInfo.save()){
+			oldCafeeInfo.errors.each{
+				println it
+			}
+		}
+		
+		render "Cafee data has been successfully updated!"
 	}
 }

@@ -2,6 +2,7 @@
 <%@ page import="grails.plugin.springsecurity.SpringSecurityService" %>
 <%@ page import="grails.plugin.springsecurity.annotation.Secured" %>
 <%@ page import="restorator.auth.Person" %>
+<%@ page import="org.joda.time.LocalTime" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
@@ -38,25 +39,62 @@
         </div><!--/.container-fluid -->
       </nav>	
       <div class="jumbotron">
-        <h3>Редактирование личных данных</h3>
+        <h3>Редактирование информации о заведении</h3>
         <g:form class="form-signin" controller="VisitorSpace">
-	        <label for="login" class="sr-only">Логин</label>
-	        <g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
-	        <label for="firstName" class="sr-only">Ваше имя</label>
-	        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
-	        <label for="lastName" class="sr-only">Вашa фамилия</label>
-	        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
-	        
-	        <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
-	        <g:textField id="inputEmail" class="form-control" name="email" placeholder="E-mail" var = "user" value="${user.email}" autofocus="" data-translatable-string="" type="email"/>
-	        <label for="inputINN" class="sr-only">ИНН</label>
-	        <g:textField id="inputINN" class="form-control" name="inn" placeholder="ИНН" var = "user" value="${user.inn}" autofocus="" data-translatable-string="INN" type="number"/>
-	        <label for="inputPassword" class="sr-only">Пароль</label>
-	        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-	        
-	        <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
-	        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-	        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <label for="cafee" class="sr-only">Имя заведения</label>
+	        <g:textField id="cafee" class="form-control" name="cafee" placeholder="Название заведения" value="${cafeeInfo.cafeeName}" required="" autofocus=""/>
+	        <label for="totalPlaces" class="sr-only">Количество мест в заведении</label>
+	        <g:textField id="totalPlaces" class="form-control" name="totalPlaces" placeholder="Количество мест в заведении" value="${cafeeInfo.totalPlaces}" type="number"/>
+	        <label for="reservationPlaces" class="sr-only">Доступно мест для бронирования</label>
+	        <g:textField id="reservationPlaces" class="form-control" name="reservationPlaces" placeholder="Доступно мест для бронирования" value="${cafeeInfo.totalReservationPlaces}" type="number"/>     
+	        <label for="placePrice" class="sr-only">Цена за место</label>
+	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена за место" value="${cafeeInfo.placeCost}" autofocus="" data-translatable-string="" type="number"/>
+	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
+	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="${cafeeInfo.currencyType}" autofocus="" data-translatable-string="" type="string"/>
+	        <label for="reservationAvailable" class="sr-only">Разрешить резервирование мест</label>
+	        <div class="checkbox">
+	        	<label>
+	        		<g:checkBox name="reservationAvailable" value="${cafeeInfo.isReservationAvailable}"/>
+	        		Разрешить резервирование мест
+        		</label>
+	        </div>
+	        <div class="checkbox">
+	        	<label>
+	        		<g:checkBox name="timeLimitReservation" value="${cafeeInfo.reservationTimeLimit}"/>
+	        		Ограничить резервирование мест по времени
+        		</label>
+	        </div>	        
+	        <div class="checkbox">
+	        	<label>
+		        	<g:checkBox name="dateLimitReservation" value="${cafeeInfo.reservationDateLimit}"/>
+		        	Ограничить резервирование мест по дате
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		Начало ограничения по дате:
+	        		<g:datePicker name="startDateReservation" value="${new Date()}" precision="day"/>
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		Окончание ограничения по дате:
+	        		<g:datePicker name="endDateReservation" value="${new Date()}" precision="day"/>
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		Начало ограничения по времени:
+	        		<joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute" />
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		Конец ограничения по времени:
+	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
+	        	</label>
+	        </div>
+	        <g:actionSubmit value="Подтвердить изменения"  action="editReservation" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
       	</g:form>	
        </div>
 		<div class="row marketing">

@@ -1,5 +1,7 @@
 package restorator
 
+import org.joda.time.LocalTime
+
 import restorator.auth.Person
 
 class Cafee {
@@ -12,8 +14,8 @@ class Cafee {
 	boolean reservationTimeLimit = false
 	boolean reservationDateLimit = false
 	int totalPlaces = 0
-	long startTimeLimit = 0
-	long endTimeLimit = 0
+	LocalTime startTimeLimit = new LocalTime()
+	LocalTime endTimeLimit = new LocalTime()
 	Date startDateLimit = new Date()
 	Date endDateLimit = new Date()	
 	

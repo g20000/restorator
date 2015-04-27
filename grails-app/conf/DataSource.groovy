@@ -1,4 +1,4 @@
-/*dataSource {
+dataSource {
     pooled = true
     jmxExport = true
     driverClassName = "org.h2.Driver"
@@ -54,41 +54,13 @@ environments {
             }
         }
     }
-}*/
+}
 
 /*dataSource {
-	pooled = true
-	dbCreate = "create"
-	url = "jdbc:mysql://localhost:3306/my_database"
-	driverClassName = "com.mysql.jdbc.Driver"
-	dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-	username = "sa"
-	password = ""
-	properties {
-	   jmxEnabled = true
-	   initialSize = 5
-	   maxActive = 50
-	   minIdle = 5
-	   maxIdle = 25
-	   maxWait = 10000
-	   maxAge = 10 * 60000
-	   timeBetweenEvictionRunsMillis = 5000
-	   minEvictableIdleTimeMillis = 60000
-	   validationQuery = "SELECT 1"
-	   validationQueryTimeout = 3
-	   validationInterval = 15000
-	   testOnBorrow = true
-	   testWhileIdle = true
-	   testOnReturn = false
-	   jdbcInterceptors = "ConnectionState;StatementCache(max=200)"
-	   defaultTransactionIsolation = java.sql.Connection.TRANSACTION_READ_COMMITTED
-	}
-}*/
-
-dataSource {
  pooled = true
  jmxExport = true
  url = "jdbc:mysql://localhost:3306/my_database"
+ //url = "jdbc:mysql://s155.eatj.com:3307/pragmus"
  driverClassName = "com.mysql.jdbc.Driver"
  dialect = org.hibernate.dialect.MySQL5InnoDBDialect
  username = "root"
@@ -143,4 +115,4 @@ environments {
 		 }
 	 }
  }
-}
+}*/
