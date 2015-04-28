@@ -73,25 +73,25 @@
 	        <div>
 	        	<label>
 	        		Начало ограничения по дате:
-	        		<g:datePicker name="startDateReservation" value="${new Date()}" precision="day"/>
+	        		<g:datePicker name="startDateReservation" value="${cafeeInfo.startDateLimit}" precision="day"/>
 	        	</label>
 	        </div>
 	        <div>
 	        	<label>
 	        		Окончание ограничения по дате:
-	        		<g:datePicker name="endDateReservation" value="${new Date()}" precision="day"/>
+	        		<g:datePicker name="endDateReservation" value="${cafeeInfo.endDateLimit}" precision="day"/>
 	        	</label>
 	        </div>
 	        <div>
 	        	<label>
 	        		Начало ограничения по времени:
-	        		<joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute" />
+	        		<joda:timePicker name="startTimeReservation" value="${cafeeInfo.startTimeLimit}" precision="minute"/>
 	        	</label>
 	        </div>
 	        <div>
 	        	<label>
 	        		Конец ограничения по времени:
-	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
+	        		<joda:timePicker name="endTimeReservation" value="${cafeeInfo.endTimeLimit}" precision="minute" />
 	        	</label>
 	        </div>
 	        <g:actionSubmit value="Подтвердить изменения"  action="editReservation" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>

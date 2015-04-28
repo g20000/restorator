@@ -50,15 +50,28 @@
 	      	<p>Название заведения: ${cafeeInfo.cafeeName}</p>
 	      	<p>Мест в заведении: ${cafeeInfo.totalPlaces}</p>
 	      	<p>Доступно мест для бронирования: ${cafeeInfo.totalReservationPlaces}</p>
-	      	<p>Цена за место: ${cafeeInfo.placeCost}</div>
+	      	<p>Цена за место: ${cafeeInfo.placeCost}</p>
 	      	<p>Тип принимаемой валюты: ${cafeeInfo.currencyType}</p>
-	      	<p>Бронирование доступно: ${cafeeInfo.isReservationAvailable}</p>
-	      	<p>Ограничение бронирования по времени включено: ${cafeeInfo.reservationTimeLimit}</p>
-	      	<p>Ограничение бронирования по дате включено: ${cafeeInfo.reservationDateLimit}</p>
-	      	<p>Начало ограничения бронирования по времени: ${cafeeInfo.startTimeLimit}</p>
-	      	<p>Конец ограничения бронирования по времени: ${cafeeInfo.endTimeLimit}</p>
-	      	<p>Начало ограничения бронирования по дате: ${cafeeInfo.startDateLimit}</p>
-	      	<p>Конец ограничения бронирования по дате: ${cafeeInfo.endDateLimit}</p>	      	
+	      	<g:if test="${cafeeInfo.isReservationAvailable}">
+	      		<p>Бронирование включено</p>
+	      		<g:if test="${cafeeInfo.reservationTimeLimit}">
+	      			<p>Ограничение бронирования по времени включено</p>
+	      		</g:if>
+	      		<g:if test="${cafeeInfo.reservationDateLimit}">
+		      		<p>Ограничение бронирования по дате включено</p>
+		      	</g:if>
+		      	<g:if test="${cafeeInfo.reservationTimeLimit}">
+		      		<p>Начало ограничения бронирования по времени: ${cafeeInfo.startTimeLimit}</p>
+		      		<p>Конец ограничения бронирования по времени: ${cafeeInfo.endTimeLimit}</p>
+		      	</g:if>
+		      	<g:if test="${cafeeInfo.reservationDateLimit}">		      	
+			      	<p>Начало ограничения бронирования по дате: ${cafeeInfo.startDateLimit}</p>
+			      	<p>Конец ограничения бронирования по дате: ${cafeeInfo.endDateLimit}</p>
+		      	</g:if>
+	      	</g:if>
+	      	<g:else>
+		    	<p>Бронирование отключено</p>
+		    </g:else>	      	
       	</g:each>
      	</div> 
       </div>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="org.joda.time.LocalTime" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
@@ -41,10 +42,30 @@
 		});
 	  </script>	
       <div class="jumbotron">
-      	<div>
-      		<p>Название заведения: ${cafeeName}</p>
-      		<p><g:link action="makeReserve" params="[cafeeName: "${cafeeName}"]">Забронировать</g:link></p>
-      	</div> 
+      	<g:form class="form-signin" controller="VisitorSpace">
+      		<p>Название заведения: ${cafeeName.cafeeName}</p>
+      		<p>Цена за место: ${cafeeName.placeCost}</p>
+      		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
+      		<div>
+	        	<label>
+	        		Выберите день бронирования:
+	        		<g:datePicker name="startDateReservation" value="${new Date()}" precision="day"/>
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		Забронировать с:
+	        		<joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute"/>
+	        	</label>
+	        </div>
+	        <div>
+	        	<label>
+	        		до:
+	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
+	        	</label>
+	        </div>
+	        <g:actionSubmit value="Забронировать"  action="makeReserve" class="btn btn-lg btn-primary btn-block">Забронировать</g:actionSubmit>
+      	</g:form> 
        </div>
 		<div class="row marketing">
         </div>

@@ -2,6 +2,9 @@ package restoratorUserSpace
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
+
+import org.joda.time.LocalTime
+
 import restorator.Cafee
 import restorator.ReservedTable
 import restorator.auth.Authority
@@ -47,17 +50,44 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToCafeePage(params){
-		render (view:'cafeeInfo.gsp', model: [cafeeName: params['cafeeName']])
+		def goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+		render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee])
 	}
 	
 	@Secured(['ROLE_VISITOR'])//fixed
 	def makeReserve(params){
 		Person user = Person.findByUsername(springSecurityService.currentUser.username)
 		Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
+		println params
+		def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
+		def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+		
+		if(startTimeReservation >= endTimeReservation){
+			render "Start time reservation can not be more than end time reservation!"
+			return
+		}
+				
+		if(!Boolean.parseBoolean(cafee.isReservationAvailable)){
+			render "Sorry, this cafee closed for reservation at the moment!"
+			return
+		}
+		
+		if((!Boolean.parseBoolean(cafee.reservationDateLimit)) && (cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])){
+			render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
+			return
+		}
+		
+		if((!Boolean.parseBoolean(cafee.reservationTimeLimit)) && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
+			&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
+			render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
+			return
+		}
+		
 		println cafee
 		Person owner = Person.findByCafee(cafee)
 		println owner
-		ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee)
+		ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
+			reservationDate: params['reservationDate'])
 		if(!myPlace.save(flush: true)){
 			myPlace.errors.each {
 				println it
@@ -124,25 +154,57 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_ADMIN'])
-	def editReservation(params){
+	def editReservation(params){		
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def oldCafeeInfo = user.cafee
+		Cafee oldCafeeInfo = user.cafee
+		
+		def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
+		def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
 		
 		oldCafeeInfo.cafeeName = params['cafee']
 		oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
 		oldCafeeInfo.currencyType = params['currencyType']
 		oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
 		oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
-		oldCafeeInfo.isReservationAvailable = Boolean.parseBoolean(params['reservationAvailable'])
-		oldCafeeInfo.reservationTimeLimit = Boolean.parseBoolean(params['timeLimitReservation'])
-		oldCafeeInfo.reservationDateLimit = Boolean.parseBoolean(params['dateLimitReservation'])
-		println params['startTimeReservation']
-		oldCafeeInfo.startTimeLimit = params['startTimeReservation']
-		oldCafeeInfo.endTimeLimit = params['endTimeReservation']
+		
+		if(params['reservationAvailable'] == 'on'){
+			oldCafeeInfo.isReservationAvailable = true
+		}else{
+			oldCafeeInfo.isReservationAvailable = false
+		}
+		
+		if(params['timeLimitReservation'] == 'on'){
+			oldCafeeInfo.reservationTimeLimit = true
+		}else{
+			oldCafeeInfo.reservationTimeLimit = false
+		}
+		
+		if(params['dateLimitReservation'] == 'on'){
+			oldCafeeInfo.reservationDateLimit = true
+		}else{
+			oldCafeeInfo.reservationDateLimit = false
+		}
+		
+		oldCafeeInfo.startTimeLimit = startTimePoint
+		oldCafeeInfo.endTimeLimit = endTimePoint
 		oldCafeeInfo.startDateLimit = params['startDateReservation']
 		oldCafeeInfo.endDateLimit = params['endDateReservation']
 		
-		if(!oldCafeeInfo.save()){
+		if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
+			render "Amount places for reservation can't be more than total places amount!"
+			return
+		}
+		
+		if(params['startDateReservation'] >= params['endDateReservation']){
+			render "Start date point can not be more than end date point!"
+			return
+		}
+		
+		if(startTimePoint >= endTimePoint){
+			render "Start time point can not be more than end time point!"
+		}
+		
+		if(!oldCafeeInfo.save(flush: true)){
 			oldCafeeInfo.errors.each{
 				println it
 			}
