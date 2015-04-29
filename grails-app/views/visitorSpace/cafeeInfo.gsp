@@ -49,7 +49,7 @@
       		<div>
 	        	<label>
 	        		Выберите день бронирования:
-	        		<g:datePicker name="startDateReservation" value="${new Date()}" precision="day"/>
+	        		<g:datePicker name="reservationDate" value="${new Date()}" precision="day"/>
 	        	</label>
 	        </div>
 	        <div>
@@ -64,6 +64,7 @@
 	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
 	        	</label>
 	        </div>
+	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:actionSubmit value="Забронировать"  action="makeReserve" class="btn btn-lg btn-primary btn-block">Забронировать</g:actionSubmit>
       	</g:form> 
        </div>

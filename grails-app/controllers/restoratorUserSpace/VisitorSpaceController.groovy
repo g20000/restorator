@@ -67,25 +67,37 @@ class VisitorSpaceController {
 			return
 		}
 				
-		if(!Boolean.parseBoolean(cafee.isReservationAvailable)){
+		println cafee		
+		if(!cafee.isReservationAvailable){
 			render "Sorry, this cafee closed for reservation at the moment!"
 			return
 		}
 		
-		if((!Boolean.parseBoolean(cafee.reservationDateLimit)) && (cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])){
+		if(cafee.reservationDateLimit && (cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])){
 			render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
 			return
 		}
 		
-		if((!Boolean.parseBoolean(cafee.reservationTimeLimit)) && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
+		if(cafee.reservationTimeLimit && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
 			&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
 			render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
 			return
 		}
-		
+					
+		if(cafee.totalReservationPlaces < 1){
+			render "Sorry, no more free places in this cafee for reservation"
+			return
+		}
+			
 		println cafee
 		Person owner = Person.findByCafee(cafee)
-		println owner
+		println params['reservationDate']
+		cafee.totalReservationPlaces -= 1
+		if(!cafee.save()){
+			cafee.errors.each {
+				println it
+			}
+		}
 		ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
 			reservationDate: params['reservationDate'])
 		if(!myPlace.save(flush: true)){
@@ -109,6 +121,8 @@ class VisitorSpaceController {
 	def deleteReservedTable(params){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myPlace = ReservedTable.findByVisitorAndCafeeName(user, Cafee.findByCafeeName(params['cafeeName']))
+		def cafee = Cafee.findByCafeeName(params['cafeeName'])
+		cafee.totalReservationPlaces += 1
 		myPlace.delete(flush: true)
 		showReservedTableForVisitor()
 	}
@@ -195,12 +209,12 @@ class VisitorSpaceController {
 			return
 		}
 		
-		if(params['startDateReservation'] >= params['endDateReservation']){
+		if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
 			render "Start date point can not be more than end date point!"
 			return
 		}
 		
-		if(startTimePoint >= endTimePoint){
+		if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
 			render "Start time point can not be more than end time point!"
 		}
 		

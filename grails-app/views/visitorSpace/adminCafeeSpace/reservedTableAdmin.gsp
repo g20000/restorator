@@ -44,18 +44,24 @@
 		});
 	  </script>
       <div class="jumbotron">
-     	<h3>Информация о заведении</h3>
+     	<h3>Информация о бронировании</h3>
      	<div>
 	      	<table class="table">
 				<thead>
 					<tr>
-						<th>Название заведения</th>
+						<th>Имя пользователя</th>
+						<th>Дата бронирования</th>
+						<th>Время бронирования с</th>
+						<th>Время бронирования до</th>
 					</tr>	
 				</thead>
 				<tbody>
 					<g:each in="${tableInfo}" var="table">
 						<tr>
 							<td>${table.visitor.username}</td>
+							<td>${table.reservationDate}</td>
+							<td>${table.startTimeLimit}</td>
+							<td>${table.endTimeLimit}</td>
 						</tr>
 					</g:each>
 				</tbody>

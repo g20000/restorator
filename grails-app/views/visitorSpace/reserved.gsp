@@ -29,7 +29,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><g:link controller="VisitorSpace" action="index">Бронировать столик</g:link></li>
-              <li class="active"><a href="#">Отменить броню столика</a></li>
+              <li class="active"><a href="#">Просмотр забронированных мест</a></li>
               <li><a href="#">Редактировать бронирование</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -48,6 +48,9 @@
 				<thead>
 					<tr>
 						<th>Название заведения</th>
+						<th>Дата бронирования</th>
+						<th>Время бронирования с</th>
+						<th>Время бронирования до</th>
 						<th></th>
 					</tr>	
 				</thead>
@@ -55,6 +58,9 @@
 					<g:each in="${tableInfo}" var="table">
 						<tr>
 							<td>${table.cafeeName.cafeeName}</td>
+							<td>${table.reservationDate}</td>
+							<td>${table.startTimeLimit}</td>
+							<td>${table.endTimeLimit}</td>
 							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}"]">Отменить бронирование</g:link></td>
 						</tr>
 					</g:each>
