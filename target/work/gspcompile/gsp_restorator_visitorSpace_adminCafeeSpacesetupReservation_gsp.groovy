@@ -69,13 +69,13 @@ invokeTag('checkBox','g',63,['name':("timeLimitReservation"),'value':(cafeeInfo.
 printHtmlPart(21)
 invokeTag('checkBox','g',69,['name':("dateLimitReservation"),'value':(cafeeInfo.reservationDateLimit)],-1)
 printHtmlPart(22)
-invokeTag('datePicker','g',76,['name':("startDateReservation"),'value':(new Date()),'precision':("day")],-1)
+invokeTag('datePicker','g',76,['name':("startDateReservation"),'value':(cafeeInfo.startDateLimit),'precision':("day")],-1)
 printHtmlPart(23)
-invokeTag('datePicker','g',82,['name':("endDateReservation"),'value':(new Date()),'precision':("day")],-1)
+invokeTag('datePicker','g',82,['name':("endDateReservation"),'value':(cafeeInfo.endDateLimit),'precision':("day")],-1)
 printHtmlPart(24)
-invokeTag('timePicker','joda',88,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('timePicker','joda',88,['name':("startTimeReservation"),'value':(cafeeInfo.startTimeLimit),'precision':("hour")],-1)
 printHtmlPart(25)
-invokeTag('timePicker','joda',94,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('timePicker','joda',94,['name':("endTimeReservation"),'value':(cafeeInfo.endTimeLimit),'precision':("hour")],-1)
 printHtmlPart(26)
 createClosureForHtmlPart(27, 3)
 invokeTag('actionSubmit','g',97,['value':("Подтвердить изменения"),'action':("editReservation"),'class':("btn btn-lg btn-primary btn-block")],3)
@@ -92,7 +92,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430173509595L
+public static final long LAST_MODIFIED = 1430314577407L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

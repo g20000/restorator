@@ -44,13 +44,19 @@ for( table in (tableInfo) ) {
 printHtmlPart(13)
 expressionOut.print(table.cafeeName.cafeeName)
 printHtmlPart(14)
+expressionOut.print(table.reservationDate)
+printHtmlPart(14)
+expressionOut.print(table.startTimeLimit)
+printHtmlPart(14)
+expressionOut.print(table.endTimeLimit)
+printHtmlPart(14)
 createClosureForHtmlPart(15, 3)
-invokeTag('link','g',58,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}"])],3)
+invokeTag('link','g',64,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}"])],3)
 printHtmlPart(16)
 }
 printHtmlPart(17)
 })
-invokeTag('captureBody','sitemesh',76,[:],1)
+invokeTag('captureBody','sitemesh',82,[:],1)
 printHtmlPart(18)
 }
 public static final Map JSP_TAGS = new HashMap()
@@ -58,7 +64,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1429386444723L
+public static final long LAST_MODIFIED = 1430311643065L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

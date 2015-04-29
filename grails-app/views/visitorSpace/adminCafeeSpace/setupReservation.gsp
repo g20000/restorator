@@ -85,13 +85,13 @@
 	        <div>
 	        	<label>
 	        		Начало ограничения по времени:
-	        		<joda:timePicker name="startTimeReservation" value="${cafeeInfo.startTimeLimit}" precision="minute"/>
+	        		<joda:timePicker name="startTimeReservation" value="${cafeeInfo.startTimeLimit}" precision="hour"/>
 	        	</label>
 	        </div>
 	        <div>
 	        	<label>
 	        		Конец ограничения по времени:
-	        		<joda:timePicker name="endTimeReservation" value="${cafeeInfo.endTimeLimit}" precision="minute" />
+	        		<joda:timePicker name="endTimeReservation" value="${cafeeInfo.endTimeLimit}" precision="hour" />
 	        	</label>
 	        </div>
 	        <g:actionSubmit value="Подтвердить изменения"  action="editReservation" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>

@@ -55,32 +55,49 @@ expressionOut.print(cafeeInfo.placeCost)
 printHtmlPart(19)
 expressionOut.print(cafeeInfo.currencyType)
 printHtmlPart(20)
-expressionOut.print(cafeeInfo.isReservationAvailable)
+if(true && (cafeeInfo.isReservationAvailable)) {
 printHtmlPart(21)
-expressionOut.print(cafeeInfo.reservationTimeLimit)
+if(true && (cafeeInfo.reservationTimeLimit)) {
 printHtmlPart(22)
-expressionOut.print(cafeeInfo.reservationDateLimit)
-printHtmlPart(23)
-expressionOut.print(cafeeInfo.startTimeLimit)
-printHtmlPart(24)
-expressionOut.print(cafeeInfo.endTimeLimit)
-printHtmlPart(25)
-expressionOut.print(cafeeInfo.startDateLimit)
-printHtmlPart(26)
-expressionOut.print(cafeeInfo.endDateLimit)
-printHtmlPart(27)
 }
+printHtmlPart(23)
+if(true && (cafeeInfo.reservationDateLimit)) {
+printHtmlPart(24)
+}
+printHtmlPart(25)
+if(true && (cafeeInfo.reservationTimeLimit)) {
+printHtmlPart(26)
+expressionOut.print(cafeeInfo.startTimeLimit)
+printHtmlPart(27)
+expressionOut.print(cafeeInfo.endTimeLimit)
 printHtmlPart(28)
-})
-invokeTag('captureBody','sitemesh',76,[:],1)
+}
+printHtmlPart(25)
+if(true && (cafeeInfo.reservationDateLimit)) {
 printHtmlPart(29)
+expressionOut.print(cafeeInfo.startDateLimit)
+printHtmlPart(30)
+expressionOut.print(cafeeInfo.endDateLimit)
+printHtmlPart(28)
+}
+printHtmlPart(31)
+}
+else {
+printHtmlPart(32)
+}
+printHtmlPart(33)
+}
+printHtmlPart(34)
+})
+invokeTag('captureBody','sitemesh',89,[:],1)
+printHtmlPart(35)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1429570808640L
+public static final long LAST_MODIFIED = 1430257840462L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

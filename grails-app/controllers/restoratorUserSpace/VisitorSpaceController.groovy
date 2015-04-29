@@ -3,6 +3,8 @@ package restoratorUserSpace
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 
+import java.util.concurrent.TimeUnit
+
 import org.joda.time.LocalTime
 
 import restorator.Cafee
@@ -160,7 +162,7 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_ADMIN'])
-	def setReservation(){		
+	def setReservation(){	
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 				
@@ -168,12 +170,14 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_ADMIN'])
-	def editReservation(params){		
+	def editReservation(params){
+		def MINUTE_ZERO = 0
+		def presentDate = new Date()
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		Cafee oldCafeeInfo = user.cafee
 		
-		def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
-		def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+		def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+		def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
 		
 		oldCafeeInfo.cafeeName = params['cafee']
 		oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
@@ -203,6 +207,16 @@ class VisitorSpaceController {
 		oldCafeeInfo.endTimeLimit = endTimePoint
 		oldCafeeInfo.startDateLimit = params['startDateReservation']
 		oldCafeeInfo.endDateLimit = params['endDateReservation']
+		
+		/*if(Integer.parseInt(params['endTimeReservation_hour']) - Integer.parseInt(params['startTimeReservation_hour']) < 1){
+			render "Difference between end reservation time point and start reservation time point must be a hour minimum!"
+			return
+		}
+		
+		if((presentDate - params['startDateReservation'] < TimeUnit.DAYS.toDays(1)) || (presentDate - params['endDateReservation'] > TimeUnit.DAYS.toDays(1))){
+			render "Start date point reservation and end date point reservation must be more than the present date"
+			return
+		}*/
 		
 		if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
 			render "Amount places for reservation can't be more than total places amount!"
