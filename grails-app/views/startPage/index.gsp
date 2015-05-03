@@ -16,7 +16,21 @@
         </nav>
         <h3 class="text-muted">Olumn</h3>
       </div>
-
+		
+	  <div>
+	  	<g:form class="form-inline">
+		  <div class="form-group">
+		    <label class="sr-only">Поиск заведения по городам</label>
+		    <p class="form-control-static">Поиск заведения по городам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Город заведения</label>
+		    <g:textField class="form-control" name="city" placeholder="Город заведения"/>
+		  </div>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		</g:form>
+	  </div>	
+		
       <div class="jumbotron">
        <div class="imageTable">
         <div class="imageRow">	

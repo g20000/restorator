@@ -3,8 +3,6 @@ package restoratorUserSpace
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 
-import java.util.concurrent.TimeUnit
-
 import org.joda.time.LocalTime
 
 import restorator.Cafee
@@ -16,12 +14,47 @@ class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
-    def index() {	
+    def index() {				
 		def user = springSecurityService.currentUser
-		if(user.isAdminCafee){
+		if(user.isAdminCafee){			
 			showAdminSpace()
 		}else{
-			showVisitorSpace()
+			if(params.containsKey('cafeeName')){
+				def month
+				switch(Integer.parseInt(params['reservationDate_month']) - 1){
+					case 0: month = Calendar.JANUARY
+							break
+					case 1: month = Calendar.FEBRUARY
+							break
+					case 2: month = Calendar.MARCH
+							break
+					case 3: month = Calendar.APRIL
+							break
+					case 4: month = Calendar.MAY
+							break
+					case 5: month = Calendar.JUNE
+							break
+					case 6: month = Calendar.JULY
+							break
+					case 7: month = Calendar.AUGUST
+							break
+					case 8: month = Calendar.SEPTEMBER
+							break
+					case 9: month = Calendar.OCTOBER
+							break
+					case 10: month = Calendar.NOVEMBER
+							break
+					case 11: month = Calendar.DECEMBER
+							break
+					default: break
+				}
+				def tempDate = new Date()
+				tempDate.set(year: Integer.parseInt(params['reservationDate_year']), month: month, dayOfMonth: Integer.parseInt(params['reservationDate_day']))
+				params.put('reservationDate', tempDate)
+				makeReserve(params)
+			}else{
+				showVisitorSpace()
+			}
 		}
 	}
 	
@@ -69,7 +102,7 @@ class VisitorSpaceController {
 			return
 		}
 				
-		println cafee		
+		println "hello from makeReserve"		
 		if(!cafee.isReservationAvailable){
 			render "Sorry, this cafee closed for reservation at the moment!"
 			return

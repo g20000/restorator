@@ -22,11 +22,14 @@ class RegistrationController {
 		
 		if((!(Person.find{username == params['login']}).equals(null)) || (!(Person.find{email == params['email']}).equals(null))){
 			render "User with the same email or login has been registered already!"
+			return
 		}
 		if(!params['password'].equals(params['controlPassword'])){
 			render "Enter your password correctly!"
+			return
 		}
-		if(params['isAdminCafee']){
+		println params
+		if(params['isAdminCafee'] == "on"){
 			 isAdmin = true;
 			 userRole = adminRole
 		}else{
@@ -36,16 +39,15 @@ class RegistrationController {
 		def newUserRole = Authority.findOrSaveWhere(authority: userRole)
 		
 		if(isAdmin){
-			newUser = new Person(username: params['login'], password: params['password'], firstName: params['firstName'], lastName: params['lastName'], email: params['email'], isAdminCafee: isAdmin,
-			cafee: params['cafeeName'], inn: params['inn'])
-			newCafee = new Cafee(cafeeName: params['cafeeName'], owner: params['login'])
-			newCafee.save()
+			newCafee = new Cafee(cafeeName: params['cafeeName'], region: params['region'], city: params['city']).addToAdmin(new Person(username: params['login'], password: params['password'], firstName: params['firstName'], lastName: params['lastName'], email: params['email'], isAdminCafee: isAdmin,
+				 inn: params['inn'])).save()
+			newUser = Person.findByUsername(params['login'])
 		}else{
 			newUser = new Person(username: params['login'], password: params['password'], firstName: params['firstName'], lastName: params['lastName'], email: params['email'], isAdminCafee: isAdmin)
+			newUser.save(flush: true)
+			newUser.validate()
+			println newUser.errors
 		}
-		newUser.save(flush: true)
-		newUser.validate()
-		println newUser.errors
 		PersonAuthority.create(newUser, newUserRole, true)
 		
 		render "Registration has been finished successful!" 

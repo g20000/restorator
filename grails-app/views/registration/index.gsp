@@ -62,13 +62,19 @@
         <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
         <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" required="" data-translatable-string="Password"/>
 		<div class="checkbox">
-		   <label><input type="checkbox" class="isAdminCafee" name="isAdminCafee" value="${false}">Зарегестриваться как администратор заведения</label>
+		   <label>
+		   	<g:checkBox class="isAdminCafee" name="isAdminCafee" value="${false}"/>Зарегестриваться как администратор заведения
+		   </label>
 		</div>
 		<div class="adminFields">
 		  <label for="cafee" class="sr-only">Название заведения</label>
 	      <g:textField id="cafee" class="form-control" name="cafeeName" value="" placeholder="Название заведения" type="text"/>
 	      <label for="innName" class="sr-only">ИНН</label>
-	      <g:textField id="innName" class="form-control" name="inn" value="" placeholder="ИНН" type="text"/>
+	      <g:textField id="innName" class="form-control" name="inn" value="" placeholder="ИНН" type="text"/>	      
+	      <label for="cafeeRegion" class="sr-only">Регион</label>
+	      <g:textField id="cafeeRegion" class="form-control" name="region" value="" placeholder="Регион" type="text"/>
+	      <label for="cafeeCity" class="sr-only">Город</label>
+	      <g:textField id="cafeeCity" class="form-control" name="city" value="" placeholder="Город" type="text"/>
 		</div>
         <g:actionSubmit value="Зарегестрироваться"  action="saveUser" class="btn btn-lg btn-primary btn-block">Зарегестрироваться</g:actionSubmit>
       </g:form>

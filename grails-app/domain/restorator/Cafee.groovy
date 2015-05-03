@@ -17,7 +17,9 @@ class Cafee {
 	LocalTime startTimeLimit = new LocalTime()
 	LocalTime endTimeLimit = new LocalTime()
 	Date startDateLimit = new Date()
-	Date endDateLimit = new Date()	
+	Date endDateLimit = new Date()
+	String region = ""
+	String city = ""	
 	
 	static hasMany = [admin: Person]
 	

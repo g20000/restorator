@@ -4,7 +4,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 	<meta name="layout" content="userSpace"/>
-    <!-- Custom styles for this template -->
 	<title>Ресторатор</title>
 </head>
 <body>

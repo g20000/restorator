@@ -135,6 +135,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/fonts/**':                   ['permitAll'],
 	'/**/favicon.ico':                ['permitAll'],
 	'/startPage':					  ['permitAll'],
-	'/dbconsole/**':                  ['permitAll']
+	'/dbconsole/**':                  ['permitAll'],
+	'/publicCafeeView':				  ['permitAll'],
+	'/publicCafeeInfo':				  ['permitAll']
 ]
 

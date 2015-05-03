@@ -10,7 +10,7 @@ class BootStrap {
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
 		 		 
-		 def newCafe = new Cafee(cafeeName: "Tarelka").addToAdmin(new Person(username: 'testerAndrewRes', password:'password',
+		 def newCafe = new Cafee(cafeeName: "Tarelka", region: "Mari El", city: "Yoshkar Ola").addToAdmin(new Person(username: 'testerAndrewRes', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false, 
 			 firstName:'Andrew', lastName:'Bobkov', email:'pragmus2@gmail.com', isAdminCafee: true,
 			 inn: '1234567890')).save()
@@ -22,7 +22,7 @@ class BootStrap {
 			 PersonAuthority.create(user, adminRole, true)
 		 }
 		 
-		 newCafe = new Cafee(cafeeName: "U Petrovicha").addToAdmin(new Person(username: 'testerAdmin', password:'password',
+		 newCafe = new Cafee(cafeeName: "U Petrovicha", region: "Mari El", city: "Kozmodemyansk").addToAdmin(new Person(username: 'testerAdmin', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false,
 			 firstName:'Sidr', lastName:'Sidorov', email:'sidr@gmail.com', isAdminCafee: true,
 			 inn: '9876543210')).save()
