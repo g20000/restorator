@@ -62,32 +62,36 @@ invokeTag('passwordField','g',60,['id':("inputPassword"),'class':("form-control"
 printHtmlPart(17)
 invokeTag('passwordField','g',63,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'required':(""),'data-translatable-string':("Password")],-1)
 printHtmlPart(18)
-expressionOut.print(false)
+invokeTag('checkBox','g',66,['class':("isAdminCafee"),'name':("isAdminCafee"),'value':(false)],-1)
 printHtmlPart(19)
-invokeTag('textField','g',69,['id':("cafee"),'class':("form-control"),'name':("cafeeName"),'value':(""),'placeholder':("Название заведения"),'type':("text")],-1)
+invokeTag('textField','g',71,['id':("cafee"),'class':("form-control"),'name':("cafeeName"),'value':(""),'placeholder':("Название заведения"),'type':("text")],-1)
 printHtmlPart(20)
-invokeTag('textField','g',71,['id':("innName"),'class':("form-control"),'name':("inn"),'value':(""),'placeholder':("ИНН"),'type':("text")],-1)
+invokeTag('textField','g',73,['id':("innName"),'class':("form-control"),'name':("inn"),'value':(""),'placeholder':("ИНН"),'type':("text")],-1)
 printHtmlPart(21)
-createClosureForHtmlPart(22, 3)
-invokeTag('actionSubmit','g',73,['value':("Зарегестрироваться"),'action':("saveUser"),'class':("btn btn-lg btn-primary btn-block")],3)
+invokeTag('textField','g',75,['id':("cafeeRegion"),'class':("form-control"),'name':("region"),'value':(""),'placeholder':("Регион"),'type':("text")],-1)
+printHtmlPart(22)
+invokeTag('textField','g',77,['id':("cafeeCity"),'class':("form-control"),'name':("city"),'value':(""),'placeholder':("Город"),'type':("text")],-1)
 printHtmlPart(23)
-})
-invokeTag('form','g',74,['class':("form-signin"),'controller':("Registration")],2)
-printHtmlPart(24)
-invokeTag('javascript','g',80,['library':("reg_page_files/ie10-viewport-bug-workaround")],-1)
+createClosureForHtmlPart(24, 3)
+invokeTag('actionSubmit','g',79,['value':("Зарегестрироваться"),'action':("saveUser"),'class':("btn btn-lg btn-primary btn-block")],3)
 printHtmlPart(25)
-invokeTag('javascript','g',82,['library':("reg_page_files/loader")],-1)
+})
+invokeTag('form','g',80,['class':("form-signin"),'controller':("Registration")],2)
 printHtmlPart(26)
+invokeTag('javascript','g',86,['library':("reg_page_files/ie10-viewport-bug-workaround")],-1)
+printHtmlPart(27)
+invokeTag('javascript','g',88,['library':("reg_page_files/loader")],-1)
+printHtmlPart(28)
 })
 invokeTag('captureBody','sitemesh',1,[:],1)
-printHtmlPart(27)
+printHtmlPart(29)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1428242097801L
+public static final long LAST_MODIFIED = 1430427330914L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

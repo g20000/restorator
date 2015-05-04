@@ -3,15 +3,27 @@ package restorator
 import grails.plugin.springsecurity.annotation.Secured
 import restoratorUserSpace.VisitorSpaceController
 
+
+
 @Secured(['permitAll'])
 class StartPageController {
 		
     def index() { 
-		println "Hello"
 	}
 	
 	def searchCafee(params){
-		def goalCafee = Cafee.findAllByCity(params['city'])
+		def goalCafee
+		String cityCafee = new String(params['city']).trim()
+		String regionCafee = new String(params['region']).trim()
+		if((cityCafee == "") && (regionCafee == "")){
+			render "Заполните поля!"
+		}else if(((cityCafee != "") && (regionCafee == ""))){
+			goalCafee = Cafee.findAllByCity(cityCafee)
+		}else if(((cityCafee == "") && (regionCafee != ""))){
+			goalCafee = Cafee.findAllByRegion(regionCafee)
+		}else{
+			goalCafee = Cafee.findAllByCityAndRegion(cityCafee, regionCafee)
+		}
 		render (view:'publicCafeeView.gsp', model: [goalCafee: goalCafee])
 	}
 	

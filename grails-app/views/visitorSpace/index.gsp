@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 	<meta name="layout" content="userSpace"/>
     <!-- Custom styles for this template -->
 	<title>Ресторатор</title>
@@ -11,19 +10,42 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-	            <li role="presentation">Welcome <sec:loggedInUserInfo field="username"/></li>
+	            <li role="presentation">Добро пожаловать, <sec:loggedInUserInfo field="username"/></li>
 	            <li role="presentation"><g:link controller="Logout" action="index">Выход</g:link></li>
           </ul>
         </nav>
         <h3 class="text-muted">Olumn</h3>
       </div>
-
+	  
+	  <div>
+	  	<g:form class="form-inline">
+		  <div class="form-group">
+		    <label class="sr-only">Поиск заведения по городам</label>
+		    <p class="form-control-static">Поиск заведения по городам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Город заведения</label>
+		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск заведения по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		  </div>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		</g:form>
+	  </div>
+	  
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Бронирование<span class="sr-only">(current)</span></a></li>
             <li><g:link controller="VisitorSpace" action="editPrivateData">Редактирование личных данных</g:link></li>
           </ul>
        </div>
+              
 	  <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">

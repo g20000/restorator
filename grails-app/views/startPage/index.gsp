@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 	<meta name="layout" content="wrapBody"/>
 <title>Insert title here</title>
 </head>
@@ -26,6 +25,14 @@
 		  <div class="form-group">
 		    <label for="city" class="sr-only">Город заведения</label>
 		    <g:textField class="form-control" name="city" placeholder="Город заведения"/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск заведения по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
 		  </div>
 		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
 		</g:form>

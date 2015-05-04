@@ -43,24 +43,24 @@ expressionOut.print(resource(dir:'css', file:'popularCitiesList.css'))
 printHtmlPart(5)
 expressionOut.print(resource(dir:'css', file:'popularCitiesListItem.css'))
 printHtmlPart(6)
-invokeTag('captureMeta','sitemesh',25,['gsp_sm_xmlClosingForEmptyTag':(""),'name':("description"),'content':("")],-1)
+invokeTag('captureMeta','sitemesh',26,['gsp_sm_xmlClosingForEmptyTag':(""),'name':("description"),'content':("")],-1)
 printHtmlPart(2)
-invokeTag('captureMeta','sitemesh',26,['gsp_sm_xmlClosingForEmptyTag':(""),'name':("author"),'content':("")],-1)
+invokeTag('captureMeta','sitemesh',27,['gsp_sm_xmlClosingForEmptyTag':(""),'name':("author"),'content':("")],-1)
 printHtmlPart(7)
 createTagBody(2, {->
 createClosureForHtmlPart(8, 3)
-invokeTag('captureTitle','sitemesh',29,[:],3)
+invokeTag('captureTitle','sitemesh',30,[:],3)
 })
-invokeTag('wrapTitleTag','sitemesh',29,[:],2)
+invokeTag('wrapTitleTag','sitemesh',30,[:],2)
 printHtmlPart(9)
-invokeTag('javascript','g',33,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+invokeTag('javascript','g',34,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(10)
 })
-invokeTag('captureHead','sitemesh',40,[:],1)
+invokeTag('captureHead','sitemesh',41,[:],1)
 printHtmlPart(11)
 createTagBody(1, {->
 printHtmlPart(12)
-invokeTag('layoutBody','g',43,[:],-1)
+invokeTag('layoutBody','g',44,[:],-1)
 printHtmlPart(0)
 })
 invokeTag('captureBody','sitemesh',1,[:],1)
@@ -71,7 +71,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1427814206782L
+public static final long LAST_MODIFIED = 1430504214312L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

@@ -35,30 +35,40 @@ printHtmlPart(6)
 createClosureForHtmlPart(7, 2)
 invokeTag('link','g',14,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(8)
-invokeTag('img','g',24,['dir':("images"),'file':("moscow3_w_200.png")],-1)
+createTagBody(2, {->
 printHtmlPart(9)
-invokeTag('img','g',27,['dir':("images"),'file':("piter.png")],-1)
-printHtmlPart(9)
-invokeTag('img','g',30,['dir':("images"),'file':("novosibirsk_web.png")],-1)
+invokeTag('textField','g',28,['class':("form-control"),'name':("city"),'placeholder':("Город заведения")],-1)
 printHtmlPart(10)
-invokeTag('img','g',35,['dir':("images"),'file':("novgorod_web.png")],-1)
-printHtmlPart(9)
-invokeTag('img','g',38,['dir':("images"),'file':("Yekaterinburg_web.png")],-1)
-printHtmlPart(9)
-invokeTag('img','g',41,['dir':("images"),'file':("Samara01_web.png")],-1)
-printHtmlPart(11)
-invokeTag('javascript','g',100,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+createClosureForHtmlPart(11, 3)
+invokeTag('actionSubmit','g',30,['value':("Поиск заведений"),'action':("searchCafee"),'class':("btn btn-default")],3)
+printHtmlPart(12)
+})
+invokeTag('form','g',31,['class':("form-inline")],2)
+printHtmlPart(13)
+invokeTag('img','g',38,['dir':("images"),'file':("moscow3_w_200.png")],-1)
+printHtmlPart(14)
+invokeTag('img','g',41,['dir':("images"),'file':("piter.png")],-1)
+printHtmlPart(14)
+invokeTag('img','g',44,['dir':("images"),'file':("novosibirsk_web.png")],-1)
+printHtmlPart(15)
+invokeTag('img','g',49,['dir':("images"),'file':("novgorod_web.png")],-1)
+printHtmlPart(14)
+invokeTag('img','g',52,['dir':("images"),'file':("Yekaterinburg_web.png")],-1)
+printHtmlPart(14)
+invokeTag('img','g',55,['dir':("images"),'file':("Samara01_web.png")],-1)
+printHtmlPart(16)
+invokeTag('javascript','g',114,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(2)
 })
-invokeTag('captureBody','sitemesh',101,[:],1)
-printHtmlPart(12)
+invokeTag('captureBody','sitemesh',115,[:],1)
+printHtmlPart(17)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1427813944477L
+public static final long LAST_MODIFIED = 1430496380192L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

@@ -19,7 +19,7 @@
       </div>
 		
 	  <div>
-	  	<g:form class="form-inline" controller="VisitorSpace">
+	  	<g:form class="form-inline">
 		  <div class="form-group">
 		    <label class="sr-only">Поиск заведения по городам</label>
 		    <p class="form-control-static">Поиск заведения по городам</p>
@@ -27,6 +27,14 @@
 		  <div class="form-group">
 		    <label for="city" class="sr-only">Город заведения</label>
 		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск заведения по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
 		  </div>
 		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
 		</g:form>
