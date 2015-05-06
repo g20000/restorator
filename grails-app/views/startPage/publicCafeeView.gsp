@@ -20,6 +20,9 @@
             </sec:ifLoggedIn>
           </ul>
         </nav>
+        <div class="img-rounded">
+            <g:link controller="StartPage" action="index"><g:img dir="images" file="Olumn64.png"/></g:link>
+        </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
 		

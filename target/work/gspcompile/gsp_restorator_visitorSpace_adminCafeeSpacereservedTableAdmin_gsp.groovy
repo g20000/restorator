@@ -29,42 +29,50 @@ invokeTag('captureHead','sitemesh',8,[:],1)
 printHtmlPart(4)
 createTagBody(1, {->
 printHtmlPart(5)
-invokeTag('loggedInUserInfo','sec',14,['field':("username")],-1)
+createTagBody(2, {->
+invokeTag('loggedInUserInfo','sec',15,['field':("username")],-1)
+})
+invokeTag('link','g',15,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(6)
 createClosureForHtmlPart(7, 2)
-invokeTag('link','g',15,['controller':("Logout"),'action':("index")],2)
+invokeTag('link','g',16,['controller':("Logout"),'action':("index")],2)
 printHtmlPart(8)
-createClosureForHtmlPart(9, 2)
-invokeTag('link','g',24,['controller':("VisitorSpace"),'action':("setReservation")],2)
-printHtmlPart(10)
-createClosureForHtmlPart(11, 2)
-invokeTag('link','g',26,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
-printHtmlPart(12)
-createClosureForHtmlPart(13, 2)
-invokeTag('link','g',33,['action':("index")],2)
-printHtmlPart(14)
-for( table in (tableInfo) ) {
-printHtmlPart(15)
-expressionOut.print(table.visitor.username)
-printHtmlPart(16)
-expressionOut.print(table.reservationDate)
-printHtmlPart(16)
-expressionOut.print(table.startTimeLimit)
-printHtmlPart(16)
-expressionOut.print(table.endTimeLimit)
-printHtmlPart(17)
-}
-printHtmlPart(18)
+createTagBody(2, {->
+invokeTag('img','g',20,['dir':("images"),'file':("Olumn64.png")],-1)
 })
-invokeTag('captureBody','sitemesh',82,[:],1)
+invokeTag('link','g',20,['controller':("StartPage"),'action':("index")],2)
+printHtmlPart(9)
+createClosureForHtmlPart(10, 2)
+invokeTag('link','g',28,['controller':("VisitorSpace"),'action':("setReservation")],2)
+printHtmlPart(11)
+createClosureForHtmlPart(12, 2)
+invokeTag('link','g',30,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
+printHtmlPart(13)
+createClosureForHtmlPart(14, 2)
+invokeTag('link','g',37,['action':("index")],2)
+printHtmlPart(15)
+for( table in (tableInfo) ) {
+printHtmlPart(16)
+expressionOut.print(table.visitor.username)
+printHtmlPart(17)
+expressionOut.print(table.reservationDate)
+printHtmlPart(17)
+expressionOut.print(table.startTimeLimit)
+printHtmlPart(17)
+expressionOut.print(table.endTimeLimit)
+printHtmlPart(18)
+}
 printHtmlPart(19)
+})
+invokeTag('captureBody','sitemesh',86,[:],1)
+printHtmlPart(20)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430311355175L
+public static final long LAST_MODIFIED = 1430935573619L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

@@ -240,17 +240,7 @@ class VisitorSpaceController {
 		oldCafeeInfo.endTimeLimit = endTimePoint
 		oldCafeeInfo.startDateLimit = params['startDateReservation']
 		oldCafeeInfo.endDateLimit = params['endDateReservation']
-		
-		/*if(Integer.parseInt(params['endTimeReservation_hour']) - Integer.parseInt(params['startTimeReservation_hour']) < 1){
-			render "Difference between end reservation time point and start reservation time point must be a hour minimum!"
-			return
-		}
-		
-		if((presentDate - params['startDateReservation'] < TimeUnit.DAYS.toDays(1)) || (presentDate - params['endDateReservation'] > TimeUnit.DAYS.toDays(1))){
-			render "Start date point reservation and end date point reservation must be more than the present date"
-			return
-		}*/
-		
+				
 		if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
 			render "Amount places for reservation can't be more than total places amount!"
 			return

@@ -13,8 +13,13 @@ class StartPageController {
 	
 	def searchCafee(params){
 		def goalCafee
+		String regionCafee
 		String cityCafee = new String(params['city']).trim()
-		String regionCafee = new String(params['region']).trim()
+		if(params.containsKey('region')){
+			regionCafee = new String(params['region']).trim()
+		}else{
+			regionCafee = ""
+		}
 		if((cityCafee == "") && (regionCafee == "")){
 			render "Заполните поля!"
 		}else if(((cityCafee != "") && (regionCafee == ""))){

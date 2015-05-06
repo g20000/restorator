@@ -19,6 +19,9 @@
             </sec:ifLoggedIn>
           </ul>
         </nav>
+        <div class="img-rounded">
+            <g:link controller="StartPage" action="index"><g:img dir="images" file="Olumn64.png"/></g:link>
+        </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
 		
@@ -48,24 +51,24 @@
        <div class="imageTable">
         <div class="imageRow">	
               <div class="pictureItem">
-              	<g:img dir="images" file="moscow3_w_200.png"/>
+              	<g:link action="searchCafee" params="[city: "Москва"]"><g:img dir="images" file="moscow3_w_200.png"/></g:link>
             </div>
               <div class="pictureItem">
-              	<g:img dir="images" file="piter.png"/>
+              	<g:link action="searchCafee" params="[city: "Санкт Петербург"]"><g:img dir="images" file="piter.png"/></g:link>
             </div>
               <div class="pictureItem">
-              	<g:img dir="images" file="novosibirsk_web.png"/>
+              	<g:link action="searchCafee" params="[city: "Новосибирск"]"><g:img dir="images" file="novosibirsk_web.png"/></g:link>
             </div>
         </div>
           <div class="imageRow">
            	  <div class="pictureItem">
-              	<g:img dir="images" file="novgorod_web.png"/>
+              	<g:link action="searchCafee" params="[city: "Нижний Новгород"]"><g:img dir="images" file="novgorod_web.png"/></g:link>
             </div>
               <div class="pictureItem">
-              	<g:img dir="images" file="Yekaterinburg_web.png"/>
+              	<g:link action="searchCafee" params="[city: "Екатеринбург"]"><g:img dir="images" file="Yekaterinburg_web.png"/></g:link>
             </div>
               <div class="pictureItem">
-              	<g:img dir="images" file="Samara01_web.png"/>
+              	<g:link action="searchCafee" params="[city: "Самара"]"><g:img dir="images" file="Samara01_web.png"/></g:link>
             </div>	
            </div>
         </div>
@@ -75,7 +78,7 @@
         <div id="popularCitiesList">
           <div class="popularCitiesListItem">
           	<ul>
-            	<li>Архангельск</li>
+            	<li><g:link action="searchCafee" params="[city: "Нижний Новгород"]">Архангельск</g:link></li>
                 <li>Белгород</li>
                 <li>Брянск</li>
                 <li>Владимир</li>
@@ -98,7 +101,7 @@
             	<li>Киров</li>
                 <li>Липецк</li>
                 <li>Лазаревское</li>
-                <li>Москва</li>
+                <li><g:link action="searchCafee" params="[city: "Москва"]">Москва</g:link></li>
                 <li>Мурманск</li>
                 <li>Нижний Новгород</li>
             </ul
@@ -117,7 +120,7 @@
       </div>
 
       <div class="footer">
-        <p>© Olumn 2014</p>
+        <p>© Olumn 2015</p>
       </div>
 
     </div> <!-- /container -->

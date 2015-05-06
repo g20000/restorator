@@ -14,10 +14,14 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-             <li role="presentation">Welcome <sec:loggedInUserInfo field="username"/></li>
+             	<li role="presentation">Добро пожаловать в личный кабинет, </li>
+	            <li role="presentation"><g:link controller="VisitorSpace" action="index"><sec:loggedInUserInfo field="username"/></g:link></li>
 	            <li role="presentation"><g:link controller="Logout" action="index">Выход</g:link></li>
           </ul>
         </nav>
+        <div class="img-rounded">
+            <g:link controller="StartPage" action="index"><g:img dir="images" file="Olumn64.png"/></g:link>
+        </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
 

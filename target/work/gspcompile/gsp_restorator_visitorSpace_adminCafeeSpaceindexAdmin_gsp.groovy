@@ -29,75 +29,83 @@ invokeTag('captureHead','sitemesh',8,[:],1)
 printHtmlPart(4)
 createTagBody(1, {->
 printHtmlPart(5)
-invokeTag('loggedInUserInfo','sec',14,['field':("username")],-1)
+createTagBody(2, {->
+invokeTag('loggedInUserInfo','sec',15,['field':("username")],-1)
+})
+invokeTag('link','g',15,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(6)
 createClosureForHtmlPart(7, 2)
-invokeTag('link','g',15,['controller':("Logout"),'action':("index")],2)
+invokeTag('link','g',16,['controller':("Logout"),'action':("index")],2)
 printHtmlPart(8)
-createClosureForHtmlPart(9, 2)
-invokeTag('link','g',24,['controller':("VisitorSpace"),'action':("setReservation")],2)
-printHtmlPart(10)
-createClosureForHtmlPart(11, 2)
-invokeTag('link','g',26,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
-printHtmlPart(12)
-createClosureForHtmlPart(13, 2)
-invokeTag('link','g',34,['action':("showReservedTableForAdmin")],2)
-printHtmlPart(14)
-for( cafeeInfo in (placeinfo) ) {
+createTagBody(2, {->
+invokeTag('img','g',20,['dir':("images"),'file':("Olumn64.png")],-1)
+})
+invokeTag('link','g',20,['controller':("StartPage"),'action':("index")],2)
+printHtmlPart(9)
+createClosureForHtmlPart(10, 2)
+invokeTag('link','g',28,['controller':("VisitorSpace"),'action':("setReservation")],2)
+printHtmlPart(11)
+createClosureForHtmlPart(12, 2)
+invokeTag('link','g',30,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
+printHtmlPart(13)
+createClosureForHtmlPart(14, 2)
+invokeTag('link','g',38,['action':("showReservedTableForAdmin")],2)
 printHtmlPart(15)
-expressionOut.print(cafeeInfo.cafeeName)
+for( cafeeInfo in (placeinfo) ) {
 printHtmlPart(16)
-expressionOut.print(cafeeInfo.totalPlaces)
+expressionOut.print(cafeeInfo.cafeeName)
 printHtmlPart(17)
-expressionOut.print(cafeeInfo.totalReservationPlaces)
+expressionOut.print(cafeeInfo.totalPlaces)
 printHtmlPart(18)
-expressionOut.print(cafeeInfo.placeCost)
+expressionOut.print(cafeeInfo.totalReservationPlaces)
 printHtmlPart(19)
-expressionOut.print(cafeeInfo.currencyType)
+expressionOut.print(cafeeInfo.placeCost)
 printHtmlPart(20)
-if(true && (cafeeInfo.isReservationAvailable)) {
+expressionOut.print(cafeeInfo.currencyType)
 printHtmlPart(21)
-if(true && (cafeeInfo.reservationTimeLimit)) {
+if(true && (cafeeInfo.isReservationAvailable)) {
 printHtmlPart(22)
-}
-printHtmlPart(23)
-if(true && (cafeeInfo.reservationDateLimit)) {
-printHtmlPart(24)
-}
-printHtmlPart(25)
 if(true && (cafeeInfo.reservationTimeLimit)) {
-printHtmlPart(26)
-expressionOut.print(cafeeInfo.startTimeLimit)
-printHtmlPart(27)
-expressionOut.print(cafeeInfo.endTimeLimit)
-printHtmlPart(28)
+printHtmlPart(23)
 }
-printHtmlPart(25)
+printHtmlPart(24)
 if(true && (cafeeInfo.reservationDateLimit)) {
-printHtmlPart(29)
-expressionOut.print(cafeeInfo.startDateLimit)
-printHtmlPart(30)
-expressionOut.print(cafeeInfo.endDateLimit)
+printHtmlPart(25)
+}
+printHtmlPart(26)
+if(true && (cafeeInfo.reservationTimeLimit)) {
+printHtmlPart(27)
+expressionOut.print(cafeeInfo.startTimeLimit)
 printHtmlPart(28)
+expressionOut.print(cafeeInfo.endTimeLimit)
+printHtmlPart(29)
 }
+printHtmlPart(26)
+if(true && (cafeeInfo.reservationDateLimit)) {
+printHtmlPart(30)
+expressionOut.print(cafeeInfo.startDateLimit)
 printHtmlPart(31)
+expressionOut.print(cafeeInfo.endDateLimit)
+printHtmlPart(29)
 }
-else {
 printHtmlPart(32)
 }
+else {
 printHtmlPart(33)
 }
 printHtmlPart(34)
-})
-invokeTag('captureBody','sitemesh',89,[:],1)
+}
 printHtmlPart(35)
+})
+invokeTag('captureBody','sitemesh',93,[:],1)
+printHtmlPart(36)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430257840462L
+public static final long LAST_MODIFIED = 1430935573647L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

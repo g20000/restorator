@@ -29,47 +29,72 @@ invokeTag('captureHead','sitemesh',7,[:],1)
 printHtmlPart(2)
 createTagBody(1, {->
 printHtmlPart(4)
-createClosureForHtmlPart(5, 2)
-invokeTag('link','g',13,['controller':("Registration"),'action':("index")],2)
-printHtmlPart(6)
-createClosureForHtmlPart(7, 2)
-invokeTag('link','g',14,['controller':("VisitorSpace"),'action':("index")],2)
-printHtmlPart(8)
 createTagBody(2, {->
+printHtmlPart(5)
+createClosureForHtmlPart(6, 3)
+invokeTag('link','g',14,['controller':("Registration"),'action':("index")],3)
+printHtmlPart(7)
+createClosureForHtmlPart(8, 3)
+invokeTag('link','g',15,['controller':("VisitorSpace"),'action':("index")],3)
 printHtmlPart(9)
-invokeTag('textField','g',28,['class':("form-control"),'name':("city"),'placeholder':("Город заведения"),'value':("")],-1)
-printHtmlPart(10)
-createClosureForHtmlPart(11, 3)
-invokeTag('actionSubmit','g',30,['value':("Поиск заведений"),'action':("searchCafee"),'class':("btn btn-default")],3)
-printHtmlPart(12)
 })
-invokeTag('form','g',31,['class':("form-inline"),'controller':("StartPageController")],2)
-printHtmlPart(13)
-for( cafeeInfo in (goalCafee) ) {
+invokeTag('ifNotLoggedIn','sec',16,[:],2)
+printHtmlPart(10)
+createTagBody(2, {->
+printHtmlPart(11)
+createTagBody(3, {->
+invokeTag('loggedInUserInfo','sec',18,['field':("username")],-1)
+})
+invokeTag('link','g',18,['controller':("VisitorSpace"),'action':("index")],3)
+printHtmlPart(12)
+createClosureForHtmlPart(13, 3)
+invokeTag('link','g',19,['controller':("Logout"),'action':("index")],3)
+printHtmlPart(9)
+})
+invokeTag('ifLoggedIn','sec',20,[:],2)
 printHtmlPart(14)
+createTagBody(2, {->
+invokeTag('img','g',24,['dir':("images"),'file':("Olumn64.png")],-1)
+})
+invokeTag('link','g',24,['controller':("StartPage"),'action':("index")],2)
+printHtmlPart(15)
+createTagBody(2, {->
+printHtmlPart(16)
+invokeTag('textField','g',37,['class':("form-control"),'name':("city"),'placeholder':("Город заведения"),'value':("")],-1)
+printHtmlPart(17)
+invokeTag('textField','g',45,['class':("form-control"),'name':("region"),'placeholder':("Регион заведения")],-1)
+printHtmlPart(18)
+createClosureForHtmlPart(19, 3)
+invokeTag('actionSubmit','g',47,['value':("Поиск заведений"),'action':("searchCafee"),'class':("btn btn-default")],3)
+printHtmlPart(20)
+})
+invokeTag('form','g',48,['class':("form-inline")],2)
+printHtmlPart(21)
+for( cafeeInfo in (goalCafee) ) {
+printHtmlPart(22)
 createTagBody(3, {->
 expressionOut.print(cafeeInfo.cafeeName)
 })
-invokeTag('link','g',53,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}"])],3)
-printHtmlPart(15)
+invokeTag('link','g',70,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}"])],3)
+printHtmlPart(23)
 expressionOut.print(cafeeInfo.placeCost)
-printHtmlPart(15)
+printHtmlPart(23)
 expressionOut.print(cafeeInfo.currencyType)
-printHtmlPart(16)
+printHtmlPart(24)
 }
-printHtmlPart(17)
-invokeTag('javascript','g',71,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+printHtmlPart(25)
+invokeTag('javascript','g',88,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(2)
 })
-invokeTag('captureBody','sitemesh',72,[:],1)
-printHtmlPart(18)
+invokeTag('captureBody','sitemesh',89,[:],1)
+printHtmlPart(26)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430503197310L
+public static final long LAST_MODIFIED = 1430935573759L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'
