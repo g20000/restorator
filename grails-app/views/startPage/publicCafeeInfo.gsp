@@ -2,7 +2,6 @@
 <%@ page import="org.joda.time.LocalTime" %>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 	<meta name="layout" content="wrapBody"/>
 <title>Insert title here</title>
 </head>
@@ -11,11 +10,17 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегестрироваться</g:link></li>
-            <li role="presentation"><g:link controller="VisitorSpace" action="index">Войти</g:link></li>
+            <sec:ifNotLoggedIn>
+            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегестрироваться</g:link></li>
+            	<li role="presentation"><g:link controller="VisitorSpace" action="index">Войти</g:link></li>
+            </sec:ifNotLoggedIn>
+            <sec:ifLoggedIn>
+            	<li role="presentation"><g:link controller="VisitorSpace" action="index"><sec:loggedInUserInfo field="username"/></g:link></li>
+	            <li role="presentation"><g:link controller="Logout" action="index">Выход</g:link></li>
+            </sec:ifLoggedIn>
           </ul>
         </nav>
-        <h3 class="text-muted">Olumn</h3>
+        <h3 class="text-muted"><g:link controller="StartPage" action="index">Olumn</g:link></h3>
       </div>
 		
 	  <div>

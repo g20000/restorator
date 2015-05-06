@@ -15,7 +15,7 @@
 	            <li role="presentation"><g:link controller="Logout" action="index">Выход</g:link></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Olumn</h3>
+        <h3 class="text-muted"><g:link controller="StartPage" action="index">Olumn</g:link></h3>
       </div>
 
       <div class="col-sm-3 col-md-2 sidebar">
