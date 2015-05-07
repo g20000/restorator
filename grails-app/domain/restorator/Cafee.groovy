@@ -19,7 +19,8 @@ class Cafee {
 	Date startDateLimit = new Date()
 	Date endDateLimit = new Date()
 	String region = ""
-	String city = ""	
+	String city = ""
+	String apiInit = ""	
 	
 	static hasMany = [admin: Person]
 	

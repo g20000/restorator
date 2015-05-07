@@ -205,54 +205,59 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def editReservation(params){
 		def MINUTE_ZERO = 0
+		def initApiInfo = new String(params['apiInit']).trim()
 		def presentDate = new Date()
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		Cafee oldCafeeInfo = user.cafee
 		
-		def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
-		def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
-		
-		oldCafeeInfo.cafeeName = params['cafee']
-		oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
-		oldCafeeInfo.currencyType = params['currencyType']
-		oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
-		oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
-		
-		if(params['reservationAvailable'] == 'on'){
-			oldCafeeInfo.isReservationAvailable = true
+		if(initApiInfo == ""){
+			def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+			def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
+			
+			oldCafeeInfo.cafeeName = params['cafee']
+			oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
+			oldCafeeInfo.currencyType = params['currencyType']
+			oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
+			oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
+			
+			if(params['reservationAvailable'] == 'on'){
+				oldCafeeInfo.isReservationAvailable = true
+			}else{
+				oldCafeeInfo.isReservationAvailable = false
+			}
+			
+			if(params['timeLimitReservation'] == 'on'){
+				oldCafeeInfo.reservationTimeLimit = true
+			}else{
+				oldCafeeInfo.reservationTimeLimit = false
+			}
+			
+			if(params['dateLimitReservation'] == 'on'){
+				oldCafeeInfo.reservationDateLimit = true
+			}else{
+				oldCafeeInfo.reservationDateLimit = false
+			}
+			
+			oldCafeeInfo.startTimeLimit = startTimePoint
+			oldCafeeInfo.endTimeLimit = endTimePoint
+			oldCafeeInfo.startDateLimit = params['startDateReservation']
+			oldCafeeInfo.endDateLimit = params['endDateReservation']
+					
+			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
+				render "Amount places for reservation can't be more than total places amount!"
+				return
+			}
+			
+			if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
+				render "Start date point can not be more than end date point!"
+				return
+			}
+			
+			if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
+				render "Start time point can not be more than end time point!"
+			}
 		}else{
-			oldCafeeInfo.isReservationAvailable = false
-		}
-		
-		if(params['timeLimitReservation'] == 'on'){
-			oldCafeeInfo.reservationTimeLimit = true
-		}else{
-			oldCafeeInfo.reservationTimeLimit = false
-		}
-		
-		if(params['dateLimitReservation'] == 'on'){
-			oldCafeeInfo.reservationDateLimit = true
-		}else{
-			oldCafeeInfo.reservationDateLimit = false
-		}
-		
-		oldCafeeInfo.startTimeLimit = startTimePoint
-		oldCafeeInfo.endTimeLimit = endTimePoint
-		oldCafeeInfo.startDateLimit = params['startDateReservation']
-		oldCafeeInfo.endDateLimit = params['endDateReservation']
-				
-		if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
-			render "Amount places for reservation can't be more than total places amount!"
-			return
-		}
-		
-		if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
-			render "Start date point can not be more than end date point!"
-			return
-		}
-		
-		if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
-			render "Start time point can not be more than end time point!"
+			oldCafeeInfo.apiInit = initApiInfo
 		}
 		
 		if(!oldCafeeInfo.save(flush: true)){

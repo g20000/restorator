@@ -29,16 +29,6 @@
 			});
 		});
 	</script>
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<g:javascript library="reg_page_files/analytics"/>
-    <g:javascript library="reg_page_files/ie-emulation-modes-warning"/>-->
-    
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-30526439-1', 'oneskyapp.com');ga('send', 'pageview');</script><meta class="os-tdn" http-equiv="Content-Language" content="ru"><meta class="os-tdn" property="og:locale" content="ru"><link href="index2_files/onesky-client.css" type="text/css" rel="stylesheet"><link href="index2_files/bootstrap_in-context.css" type="text/css" rel="stylesheet"><link href="index2_files/onesky-editor-theme.css" type="text/css" rel="stylesheet">
   </head>
 
