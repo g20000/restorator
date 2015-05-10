@@ -1,7 +1,10 @@
+import org.joda.time.LocalTime
+
 import restorator.Cafee
 import restorator.auth.Authority
 import restorator.auth.Person
 import restorator.auth.PersonAuthority
+import extApiMock.ApiRequest
 
 class BootStrap {
 	def springSecurityService
@@ -44,6 +47,12 @@ class BootStrap {
 		 {
 			 PersonAuthority.create(visitor, visitorRole, true)
 		 }
+		 
+		 double cost1 = 4.0
+		 def extApiRequest = ApiRequest.findOrSaveWhere(apiInit: "carlson_api", cafeeName: "Carlson", totalReservationPlaces: 10, placeCost: cost1, currencyType: "RUB",
+			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 20, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
+			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
+		 def extCafee = Cafee.findOrSaveWhere(apiInit: "carlson_api", region: "Moscow region", city: "Moscow")
     }
     def destroy = {
     }

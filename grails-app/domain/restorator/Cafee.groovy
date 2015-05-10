@@ -25,7 +25,7 @@ class Cafee {
 	static hasMany = [admin: Person]
 	
     static constraints = {
-		cafeeName blank: false, unique: true
+		admin nullable: true
     }
 			
 	String getCafeeName(){

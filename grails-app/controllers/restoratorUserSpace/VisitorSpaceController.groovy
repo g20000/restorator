@@ -1,14 +1,15 @@
 package restoratorUserSpace
 
-import grails.plugin.springsecurity.SpringSecurityService
-import grails.plugin.springsecurity.annotation.Secured
-
 import org.joda.time.LocalTime
 
 import restorator.Cafee
 import restorator.ReservedTable
 import restorator.auth.Authority
 import restorator.auth.Person
+import extApiHandler.ApiHandlerController
+import extApiMock.ApiRequest
+import grails.plugin.springsecurity.SpringSecurityService
+import grails.plugin.springsecurity.annotation.Secured
 
 class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
@@ -60,12 +61,22 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def showVisitorSpace(){
-		def availableCafee = Cafee.list()
+		ArrayList<Cafee>allCafees = Cafee.list()
+		ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()		
+		ApiRequest apiRequest
+		for(Cafee cafee : allCafees){
+			if(cafee.apiInit != ""){
+				apiRequest = ApiHandlerController.request(cafee.apiInit)
+				availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType))
+			}else{
+				availableCafee.add(cafee)
+			}
+		}
 		
 		render (view:'index.gsp', model: [availableCafee: availableCafee])
 	}
 	
-	@Secured(['ROLE_ADMIN'])//fixed
+	@Secured(['ROLE_ADMIN'])
 	def showAdminSpace(){
 		println springSecurityService.currentUser.username
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
@@ -83,7 +94,7 @@ class VisitorSpaceController {
 		}
 	}
 	
-	@Secured(['ROLE_VISITOR'])
+	@Secured(['ROLE_VISITOR'])//Переделать с учетом API
 	def goToCafeePage(params){
 		def goalCafee = Cafee.findByCafeeName(params['cafeeName'])
 		render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee])
