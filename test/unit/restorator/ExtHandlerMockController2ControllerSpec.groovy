@@ -1,0 +1,21 @@
+package restorator
+
+import extApiHandler.ExtHandlerMock2Controller;
+import grails.test.mixin.TestFor
+import spock.lang.Specification
+
+/**
+ * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
+ */
+@TestFor(ExtHandlerMock2Controller)
+class ExtHandlerMockController2ControllerSpec extends Specification {
+
+    def setup() {
+    }
+
+    def cleanup() {
+    }
+
+    void "test something"() {
+    }
+}

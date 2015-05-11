@@ -1,6 +1,5 @@
 package extApiHandler
 
-import restorator.ExtHandlerMockController
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -14,17 +13,17 @@ class ApiHandlerController {
 	
     def index() { }
 	
-	static def request(def api){//сделать проверку на верный результат
+	/*def static request(api){//сделать проверку на верный результат
 		def cafee = ApiRequest.findByApiInit(api)
 		return cafee
 	}
 	
-	static def request(def api, def opt){//сделать проверку на верный результат
+	def static request(def api, def opt){//сделать проверку на верный результат
 		def cafee = ExtHandlerMockController.deleteReservedTable(api)
 		return cafee
 	}
 	
-	static def request(def api, def opt, def param){//сделать проверку на верный результат
+	def static request(def api, def opt, def param){//сделать проверку на верный результат
 		if(opt == TO_RESERVE){
 			def cafee = ExtHandlerMockController.makeReserve(api, param)
 			return cafee
@@ -37,11 +36,35 @@ class ApiHandlerController {
 		}
 	}
 	
-	static def request(def api, def opt, def param1, def param2){//сделать проверку на верный результат
+	def static request(def api, def opt, def param1, def param2){//сделать проверку на верный результат
 		def cafee = ApiRequest.findByApiInitAndCityAndRegion(api, param1, param2)
 		return cafee
+	}*/
+	
+	def static request(...api){//сделать проверку на верный результат
+		if(api.size() == 1){
+			def cafee = ApiRequest.findByApiInit(api[0])
+			return cafee
+		}else if(api.size() == 2){
+			def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
+			return cafee
+		}else if(api.size() == 3){
+			if(api[1] == TO_RESERVE){
+				def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
+				return cafee
+			}else if(api[1] == REG){
+				def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+				return cafee
+			}else if(api[1] == CITY){
+				def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+				return cafee
+			}
+		}else if(api.size() == 4){
+			def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
+			return cafee
+		}
 	}
-		
+			
 	def response(){
 	}
 	

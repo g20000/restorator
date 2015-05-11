@@ -1,5 +1,6 @@
 package restorator
 
+import extApiHandler.ExtHandlerMockController;
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

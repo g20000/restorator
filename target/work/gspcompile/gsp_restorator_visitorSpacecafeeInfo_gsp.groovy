@@ -63,14 +63,16 @@ invokeTag('timePicker','joda',67,['name':("endTimeReservation"),'value':(new Loc
 printHtmlPart(17)
 invokeTag('hiddenField','g',70,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
 printHtmlPart(18)
+invokeTag('hiddenField','g',71,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
+printHtmlPart(18)
 createClosureForHtmlPart(19, 3)
-invokeTag('actionSubmit','g',71,['value':("Забронировать"),'action':("makeReserve"),'class':("btn btn-lg btn-primary btn-block")],3)
+invokeTag('actionSubmit','g',72,['value':("Забронировать"),'action':("makeReserve"),'class':("btn btn-primary")],3)
 printHtmlPart(20)
 })
-invokeTag('form','g',72,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('form','g',73,['class':("form-signin"),'controller':("VisitorSpace")],2)
 printHtmlPart(21)
 })
-invokeTag('captureBody','sitemesh',85,[:],1)
+invokeTag('captureBody','sitemesh',86,[:],1)
 printHtmlPart(22)
 }
 public static final Map JSP_TAGS = new HashMap()
@@ -78,7 +80,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430935162854L
+public static final long LAST_MODIFIED = 1431279633591L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

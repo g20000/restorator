@@ -258,12 +258,12 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def editReservation(params){
 		def MINUTE_ZERO = 0
-		def initApiInfo = new String(params['apiInit']).trim()
+		//def initApiInfo = new String(params['apiInit']).trim()
 		def presentDate = new Date()
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		Cafee oldCafeeInfo = user.cafee
 		
-		if(initApiInfo == ""){
+		//if(initApiInfo == ""){
 			def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
 			def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
 			
@@ -309,9 +309,9 @@ class VisitorSpaceController {
 			if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
 				render "Start time point can not be more than end time point!"
 			}
-		}else{
+		/*}else{
 			oldCafeeInfo.apiInit = initApiInfo
-		}
+		}*/
 		
 		if(!oldCafeeInfo.save(flush: true)){
 			oldCafeeInfo.errors.each{

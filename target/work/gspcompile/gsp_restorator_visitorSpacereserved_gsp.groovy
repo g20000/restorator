@@ -59,7 +59,7 @@ printHtmlPart(15)
 expressionOut.print(table.endTimeLimit)
 printHtmlPart(15)
 createClosureForHtmlPart(16, 3)
-invokeTag('link','g',68,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}"])],3)
+invokeTag('link','g',68,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}"])],3)
 printHtmlPart(17)
 }
 printHtmlPart(18)
@@ -72,7 +72,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430935162716L
+public static final long LAST_MODIFIED = 1431284305846L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

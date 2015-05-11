@@ -45,7 +45,7 @@
       <div class="jumbotron">
         <h3>Редактирование информации о заведении</h3>
         <g:form class="form-signin" controller="VisitorSpace">
-       		<script type="text/javascript">
+       		<%--<script type="text/javascript">
 				$(document).ready(function(){
 					$(".apiFields").hide();
 					$(".cafeeFields").show();
@@ -60,17 +60,17 @@
 					    }
 					});
 				});
-			</script>
-			<div class="checkboxSetApi">
+			</script> --%>
+			<%--<div class="checkboxSetApi">
 	        	<label>
 	        		<g:checkBox name="hasOwnSite" value="${false}"/>
 	        		Имеется собственный сайт?
         		</label>
-	        </div>
-	        <div class="apiFields">
+	        </div> --%>
+	        <%-- <div class="apiFields">
 	        	<label for="apiInit" class="sr-only">Инициализируйте API</label>
 	        	<g:textField id="apiInit" class="form-control" name="apiInit" placeholder="Инициализируйте API" value="" autofocus=""/>
-	        </div>			
+	        </div>--%>			
 			<div class="cafeeFields">			        
 		        <label for="cafee" class="sr-only">Имя заведения</label>
 		        <g:textField id="cafee" class="form-control" name="cafee" placeholder="Название заведения" value="${cafeeInfo.cafeeName}" required="" autofocus=""/>

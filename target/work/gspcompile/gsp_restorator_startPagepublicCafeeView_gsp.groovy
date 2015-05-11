@@ -75,7 +75,7 @@ printHtmlPart(22)
 createTagBody(3, {->
 expressionOut.print(cafeeInfo.cafeeName)
 })
-invokeTag('link','g',70,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}"])],3)
+invokeTag('link','g',70,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"])],3)
 printHtmlPart(23)
 expressionOut.print(cafeeInfo.placeCost)
 printHtmlPart(23)
@@ -94,7 +94,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430935573759L
+public static final long LAST_MODIFIED = 1431353288079L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'
