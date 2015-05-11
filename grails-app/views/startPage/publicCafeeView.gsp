@@ -67,7 +67,7 @@
 			<tbody>
 				<g:each in="${goalCafee}" var="cafeeInfo">
 					<tr>
-						<td><g:link action="goToCafeePage" params="[cafeeName: "${cafeeInfo.cafeeName}"]">${cafeeInfo.cafeeName}</g:link></td>
+						<td><g:link action="goToCafeePage" params="[cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"]">${cafeeInfo.cafeeName}</g:link></td>
 						<td>${cafeeInfo.placeCost}</td>
 						<td>${cafeeInfo.currencyType}</td>
 					</tr>

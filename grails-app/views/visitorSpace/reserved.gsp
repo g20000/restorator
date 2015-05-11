@@ -65,7 +65,7 @@
 							<td>${table.reservationDate}</td>
 							<td>${table.startTimeLimit}</td>
 							<td>${table.endTimeLimit}</td>
-							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}"]">Отменить бронирование</g:link></td>
+							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}"]">Отменить бронирование</g:link></td>
 						</tr>
 					</g:each>
 				</tbody>

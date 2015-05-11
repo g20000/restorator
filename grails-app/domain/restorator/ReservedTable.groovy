@@ -14,7 +14,7 @@ class ReservedTable {
 
     static constraints = {
 		visitor blank: false
-		owner blank: false
+		owner nullable: true
 		cafeeName blank: false
     }
 }

@@ -1,7 +1,9 @@
 package restorator
 
-import grails.plugin.springsecurity.annotation.Secured
 import restoratorUserSpace.VisitorSpaceController
+import extApiHandler.ApiHandlerController
+import extApiMock.ApiRequest
+import grails.plugin.springsecurity.annotation.Secured
 
 
 
@@ -13,6 +15,8 @@ class StartPageController {
 	
 	def searchCafee(params){
 		def goalCafee
+		List<Cafee> availableCafees = new ArrayList<Cafee>()
+		ApiRequest apiRequest
 		String regionCafee
 		String cityCafee = new String(params['city']).trim()
 		if(params.containsKey('region')){
@@ -24,16 +28,47 @@ class StartPageController {
 			render "Заполните поля!"
 		}else if(((cityCafee != "") && (regionCafee == ""))){
 			goalCafee = Cafee.findAllByCity(cityCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
 		}else if(((cityCafee == "") && (regionCafee != ""))){
 			goalCafee = Cafee.findAllByRegion(regionCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
 		}else{
 			goalCafee = Cafee.findAllByCityAndRegion(cityCafee, regionCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
 		}
-		render (view:'publicCafeeView.gsp', model: [goalCafee: goalCafee])
+		render (view:'publicCafeeView.gsp', model: [goalCafee: availableCafees])
 	}
 	
 	def goToCafeePage(params){
-		def goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+		ApiRequest apiRequest
+		def goalCafee
+		if(params['cafeeApiInit'] != ""){
+			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
+			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
+		}else{
+			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+		}
 		render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee])
 	}
 	

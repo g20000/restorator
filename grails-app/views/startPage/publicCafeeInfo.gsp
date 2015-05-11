@@ -79,7 +79,8 @@
 	        	</label>
 	        </div>
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
-	        <g:actionSubmit value="Забронировать"  action="index" class="btn btn-lg btn-primary btn-block">Забронировать</g:actionSubmit>
+	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
+	        <g:actionSubmit value="Забронировать"  action="index" class="btn btn-primary">Забронировать</g:actionSubmit>
       	</g:form>
       </div>
 
