@@ -55,6 +55,8 @@
 						<th>Дата бронирования</th>
 						<th>Время бронирования с</th>
 						<th>Время бронирования до</th>
+						<th>Мест за столиком</th>
+						<th>Оплачено</th>
 						<th></th>
 					</tr>	
 				</thead>
@@ -65,6 +67,8 @@
 							<td>${table.reservationDate}</td>
 							<td>${table.startTimeLimit}</td>
 							<td>${table.endTimeLimit}</td>
+							<td>${table.places}</td>
+							<td>${table.cost}</td>
 							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}"]">Отменить бронирование</g:link></td>
 						</tr>
 					</g:each>

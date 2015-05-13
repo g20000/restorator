@@ -99,20 +99,21 @@ class VisitorSpaceController {
 	def goToCafeePage(params){
 		ApiRequest apiRequest
 		def goalCafee
+		def tablePlaces
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+			tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
 		}
-		render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee])
+		render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
 	}
 	
-	@Secured(['ROLE_VISITOR'])//переделать с учетом api
+	@Secured(['ROLE_VISITOR'])
 	def makeReserve(params){
 		ApiRequest apiRequest
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
-		println params['cafeeApiInit']
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
@@ -127,7 +128,6 @@ class VisitorSpaceController {
 			}
 		}else{
 			Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
-			println params
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
 			def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
 			
@@ -135,8 +135,7 @@ class VisitorSpaceController {
 				render "Start time reservation can not be more than end time reservation!"
 				return
 			}
-					
-			println "hello from makeReserve"		
+							
 			if(!cafee.isReservationAvailable){
 				render "Sorry, this cafee closed for reservation at the moment!"
 				return
@@ -151,24 +150,40 @@ class VisitorSpaceController {
 				&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
 				render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
 				return
-			}
-						
+			}	
+							
 			if(cafee.totalReservationPlaces < 1){
 				render "Sorry, no more free places in this cafee for reservation"
 				return
 			}
-				
-			println cafee
+							
 			Person owner = Person.findByCafee(cafee)
-			println params['reservationDate']
+			println "!!!"
+			println cafee
+			println "!!!"
+			println Integer.parseInt(params['tablePlacesAvailable'])
+			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
+			if(table.tableForReservationAmount < 1){
+				render "Sorry, no more such tables for reservation"
+				return
+			}
 			cafee.totalReservationPlaces -= 1
+			table.tableForReservationAmount -= 1
+			if(!table.save()){
+				table.errors.each {
+					println it
+				}
+			}
+			
 			if(!cafee.save()){
 				cafee.errors.each {
 					println it
 				}
 			}
+			
+			double cost = Integer.parseInt(params['tablePlacesAvailable']) * Double.parseDouble(params['cafeePlaceCost'])
 			ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
-				reservationDate: params['reservationDate'])
+				reservationDate: params['reservationDate'], places: Integer.parseInt(params['tablePlacesAvailable']), cost: cost)
 			if(!myPlace.save(flush: true)){
 				myPlace.errors.each {
 					println it
@@ -335,18 +350,21 @@ class VisitorSpaceController {
 	def addTable(params){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
-		println params
+		cafee.totalReservationPlaces += Integer.parseInt(params['availableForReservation'])
+		cafee.totalPlaces += Integer.parseInt(params['defTableAmount'])
 		cafee.addToPlacesInTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'])).save(flush: true)
 		tableAcounting()
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def deleteTableAdmin(params){
-		println params
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
+		cafee.totalReservationPlaces -= Integer.parseInt(params['tablesForReservation'])
+		cafee.totalPlaces -= Integer.parseInt(params['totalTables'])
 		def tableToDelete = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesInTable']))
 		tableToDelete.delete(flush: true)
+		cafee.save()
 		tableAcounting()
 	}
 }

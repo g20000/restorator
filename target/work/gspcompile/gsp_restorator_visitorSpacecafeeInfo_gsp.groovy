@@ -55,32 +55,36 @@ expressionOut.print(cafeeName.placeCost)
 printHtmlPart(13)
 expressionOut.print(cafeeName.currencyType)
 printHtmlPart(14)
-invokeTag('datePicker','g',55,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
+invokeTag('select','g',55,['name':("tablePlacesAvailable"),'from':(tableInfo),'optionValue':({it.placesInTableAmount}),'optionKey':("placesInTableAmount"),'value':("")],-1)
 printHtmlPart(15)
-invokeTag('timePicker','joda',61,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('datePicker','g',61,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
 printHtmlPart(16)
-invokeTag('timePicker','joda',67,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('timePicker','joda',67,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
 printHtmlPart(17)
-invokeTag('hiddenField','g',70,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+invokeTag('timePicker','joda',73,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
 printHtmlPart(18)
-invokeTag('hiddenField','g',71,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
-printHtmlPart(18)
-createClosureForHtmlPart(19, 3)
-invokeTag('actionSubmit','g',72,['value':("Забронировать"),'action':("makeReserve"),'class':("btn btn-primary")],3)
-printHtmlPart(20)
-})
-invokeTag('form','g',73,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('hiddenField','g',76,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+printHtmlPart(19)
+invokeTag('hiddenField','g',77,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
+printHtmlPart(19)
+invokeTag('hiddenField','g',78,['name':("cafeePlaceCost"),'value':(cafeeName.placeCost)],-1)
+printHtmlPart(19)
+createClosureForHtmlPart(20, 3)
+invokeTag('actionSubmit','g',79,['value':("Забронировать"),'action':("makeReserve"),'class':("btn btn-primary")],3)
 printHtmlPart(21)
 })
-invokeTag('captureBody','sitemesh',86,[:],1)
+invokeTag('form','g',80,['class':("form-signin"),'controller':("VisitorSpace")],2)
 printHtmlPart(22)
+})
+invokeTag('captureBody','sitemesh',93,[:],1)
+printHtmlPart(23)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431279633591L
+public static final long LAST_MODIFIED = 1431541596409L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

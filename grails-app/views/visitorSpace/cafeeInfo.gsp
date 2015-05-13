@@ -50,6 +50,12 @@
       		<p>Цена за место: ${cafeeName.placeCost}</p>
       		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
       		<div>
+      			<label>
+      				Выберите подходящее для вас количество мест:
+      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
+      			</label>
+      		</div>
+      		<div>
 	        	<label>
 	        		Выберите день бронирования:
 	        		<g:datePicker name="reservationDate" value="${new Date()}" precision="day"/>
@@ -69,6 +75,7 @@
 	        </div>
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
+	        <g:hiddenField name="cafeePlaceCost" value="${cafeeName.placeCost}" />
 	        <g:actionSubmit value="Забронировать"  action="makeReserve" class="btn btn-primary">Забронировать</g:actionSubmit>
       	</g:form> 
        </div>

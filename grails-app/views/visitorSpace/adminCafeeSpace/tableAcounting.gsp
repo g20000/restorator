@@ -61,7 +61,7 @@
 							<td>${table.placesInTableAmount}</td>
 							<td>${table.tableForReservationAmount}</td>
 							<td>${table.tableAmount}</td>
-							<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}"]">Удалить столик</g:link></td>
+							<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}"]">Удалить столик</g:link></td>
 						</tr>
 					</g:each>
 				</tbody>
