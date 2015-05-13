@@ -22,10 +22,11 @@ class Cafee {
 	String city = ""
 	String apiInit = ""	
 	
-	static hasMany = [admin: Person]
+	static hasMany = [admin: Person, placesInTable: TablePlacesInfo]
 	
     static constraints = {
 		admin nullable: true
+		placesInTable nullable: true
     }
 			
 	String getCafeeName(){

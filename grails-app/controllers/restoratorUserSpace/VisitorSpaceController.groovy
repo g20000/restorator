@@ -4,6 +4,7 @@ import org.joda.time.LocalTime
 
 import restorator.Cafee
 import restorator.ReservedTable
+import restorator.TablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
 import extApiHandler.ApiHandlerController
@@ -320,5 +321,22 @@ class VisitorSpaceController {
 		}
 		
 		render "Cafee data has been successfully updated!"
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def tableAcounting(){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def tables = cafee.placesInTable.findAll()
+		render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables]) 
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def addTable(params){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		println params
+		cafee.addToPlacesInTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'])).save()
+		tableAcounting()
 	}
 }
