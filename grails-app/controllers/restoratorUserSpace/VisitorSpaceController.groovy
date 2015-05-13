@@ -327,7 +327,7 @@ class VisitorSpaceController {
 	def tableAcounting(){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
-		def tables = cafee.placesInTable.findAll()
+		def tables = cafee.placesInTable
 		render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables]) 
 	}
 	
@@ -336,7 +336,17 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		println params
-		cafee.addToPlacesInTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'])).save()
+		cafee.addToPlacesInTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'])).save(flush: true)
+		tableAcounting()
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def deleteTableAdmin(params){
+		println params
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def tableToDelete = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesInTable']))
+		tableToDelete.delete(flush: true)
 		tableAcounting()
 	}
 }

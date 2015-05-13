@@ -52,6 +52,7 @@
 						<th>Мест за столом</th>
 						<th>Из них доступно для бронирования</th>
 						<th>Всего столов</th>
+						<th></th>
 					</tr>	
 				</thead>
 				<tbody>
@@ -60,6 +61,7 @@
 							<td>${table.placesInTableAmount}</td>
 							<td>${table.tableForReservationAmount}</td>
 							<td>${table.tableAmount}</td>
+							<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}"]">Удалить столик</g:link></td>
 						</tr>
 					</g:each>
 				</tbody>
