@@ -63,13 +63,15 @@ class StartPageController {
 	def goToCafeePage(params){
 		ApiRequest apiRequest
 		def goalCafee
+		def tablePlaces
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+			tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
 		}
-		render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee])
+		render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
 	}
 	
 	@Secured(['ROLE_VISITOR'])
