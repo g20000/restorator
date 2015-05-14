@@ -69,7 +69,9 @@
 							<td>${table.endTimeLimit}</td>
 							<td>${table.places}</td>
 							<td>${table.cost}</td>
-							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}"]">Отменить бронирование</g:link></td>
+							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
+							date: "${table.reservationDate }", startTime: "${table.startTimeLimit }", endTime: "${table.endTimeLimit }",
+							placesAmount: "${table.places }", cost: "${table.cost }"]">Отменить бронирование</g:link></td>
 						</tr>
 					</g:each>
 				</tbody>

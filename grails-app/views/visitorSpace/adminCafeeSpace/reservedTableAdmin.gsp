@@ -57,6 +57,7 @@
 						<th>Дата бронирования</th>
 						<th>Время бронирования с</th>
 						<th>Время бронирования до</th>
+						<th>Мест за столом</th>
 					</tr>	
 				</thead>
 				<tbody>
@@ -66,6 +67,7 @@
 							<td>${table.reservationDate}</td>
 							<td>${table.startTimeLimit}</td>
 							<td>${table.endTimeLimit}</td>
+							<td>${table.places }</td>
 						</tr>
 					</g:each>
 				</tbody>

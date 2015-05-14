@@ -1,5 +1,7 @@
 package restoratorUserSpace
 
+import java.text.SimpleDateFormat
+
 import org.joda.time.LocalTime
 
 import restorator.Cafee
@@ -11,6 +13,7 @@ import extApiHandler.ApiHandlerController
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
+
 
 class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
@@ -158,9 +161,6 @@ class VisitorSpaceController {
 			}
 							
 			Person owner = Person.findByCafee(cafee)
-			println "!!!"
-			println cafee
-			println "!!!"
 			println Integer.parseInt(params['tablePlacesAvailable'])
 			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
 			if(table.tableForReservationAmount < 1){
@@ -216,6 +216,7 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])//переделать с учетом api
 	def deleteReservedTable(params){
+		println params
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		ApiRequest apiRequest
 		if(params['cafeeAPI'] != ""){
@@ -223,10 +224,26 @@ class VisitorSpaceController {
 			def myPlace = ReservedTable.findByVisitorAndCafeeName(user, Cafee.findByApiInit(params['cafeeAPI']))
 			myPlace.delete(flush: true)
 		}else{
-			def myPlace = ReservedTable.findByVisitorAndCafeeName(user, Cafee.findByCafeeName(params['cafeeName']))
+			/*SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S")
+			Date reservDate = df.parse(params['date'])*/
+			def myPlace = ReservedTable.findByVisitorAndCafeeNameAndPlaces(user, Cafee.findByCafeeName(params['cafeeName']), Integer.parseInt(params['placesAmount']))
 			def cafee = Cafee.findByCafeeName(params['cafeeName'])
-			cafee.totalReservationPlaces += 1
+			
+			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesAmount']))
+
 			myPlace.delete(flush: true)
+			table.tableForReservationAmount += 1
+			cafee.totalReservationPlaces += 1
+			if(!table.save(flush: true)){
+				table.errors.each{
+					println it
+				}
+			}
+			if(!cafee.save(flush: true)){
+				cafee.errors.each{
+					println it
+				}
+			}
 		}
 		showReservedTableForVisitor()
 	}
