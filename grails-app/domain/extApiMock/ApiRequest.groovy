@@ -1,8 +1,8 @@
 package extApiMock
 
-import java.util.Date;
+import org.joda.time.LocalTime
 
-import org.joda.time.LocalTime;
+import restorator.ExtTablePlacesInfo
 
 class ApiRequest {
 	String apiInit = ""
@@ -19,10 +19,15 @@ class ApiRequest {
 	Date startDateLimit = new Date()
 	Date endDateLimit = new Date()
 	String region = ""
-	String city = ""	
+	String city = ""
+	ArrayList<Integer> places	
+		
+	static hasMany = [placesInTable: ExtTablePlacesInfo]
 		
     static constraints = {
 		apiInit blank: false, unique: true
+		placesInTable nullable: true
+		places nullable: true
     }
 			
 	String getCafeeName(){

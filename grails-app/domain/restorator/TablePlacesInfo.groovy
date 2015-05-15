@@ -8,8 +8,8 @@ class TablePlacesInfo {
 	static belongsTo = [cafee: Cafee]
 
     static constraints = {
-		placesInTableAmount blank: false
-		tableAmount blank: false
-		tableForReservationAmount blank: false
+		placesInTableAmount blank: true
+		tableAmount blank: true
+		tableForReservationAmount blank: true
     }
 }

@@ -102,15 +102,19 @@ class VisitorSpaceController {
 	def goToCafeePage(params){
 		ApiRequest apiRequest
 		def goalCafee
-		def tablePlaces
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
+			ArrayList<TablePlacesInfo>tablePlaces = new ArrayList<TablePlacesInfo>()
+			for(int places : apiRequest.places){
+				tablePlaces.add(new TablePlacesInfo(placesInTableAmount : places))
+			}
+			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
-			tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
+			def tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
+			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
 		}
-		render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
 	}
 	
 	@Secured(['ROLE_VISITOR'])
@@ -161,7 +165,6 @@ class VisitorSpaceController {
 			}
 							
 			Person owner = Person.findByCafee(cafee)
-			println Integer.parseInt(params['tablePlacesAvailable'])
 			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
 			if(table.tableForReservationAmount < 1){
 				render "Sorry, no more such tables for reservation"

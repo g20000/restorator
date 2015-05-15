@@ -1,5 +1,6 @@
 package extApiHandler
 
+import restorator.ExtTablePlacesInfo
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -10,64 +11,69 @@ class ApiHandlerController {
 	static def REG = "REG"
 	static def CITY = "CITY"
 	static def CITY_REG = "CITY_REG"
+	static def CARLSON_API = "carlson_api"
+	static def IN_THE_DARKNESS = "in_the_darkness"
 	
     def index() { }
-	
-	/*def static request(api){//сделать проверку на верный результат
-		def cafee = ApiRequest.findByApiInit(api)
-		return cafee
-	}
-	
-	def static request(def api, def opt){//сделать проверку на верный результат
-		def cafee = ExtHandlerMockController.deleteReservedTable(api)
-		return cafee
-	}
-	
-	def static request(def api, def opt, def param){//сделать проверку на верный результат
-		if(opt == TO_RESERVE){
-			def cafee = ExtHandlerMockController.makeReserve(api, param)
-			return cafee
-		}else if(opt == REG){
-			def cafee = ApiRequest.findByApiInitAndRegion(api, param)
-			return cafee
-		}else if(opt == CITY){
-			def cafee = ApiRequest.findByApiInitAndCity(api, param)
-			return cafee
-		}
-	}
-	
-	def static request(def api, def opt, def param1, def param2){//сделать проверку на верный результат
-		def cafee = ApiRequest.findByApiInitAndCityAndRegion(api, param1, param2)
-		return cafee
-	}*/
-	
+		
 	def static request(...api){//сделать проверку на верный результат
-		if(api.size() == 1){
-			def cafee = ApiRequest.findByApiInit(api[0])
-			return cafee
-		}else if(api.size() == 2){
-			def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
-			return cafee
-		}else if(api.size() == 3){
-			if(api[1] == TO_RESERVE){
-				def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
-				return cafee
-			}else if(api[1] == REG){
-				def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
-				return cafee
-			}else if(api[1] == CITY){
-				def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
-				return cafee
-			}
-		}else if(api.size() == 4){
-			def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
-			return cafee
+		switch(api[0]){
+			case CARLSON_API : requestCarlsonAPI(api)
+							   break
+			case IN_THE_DARKNESS : requestInTheDarkness(api)
+							   break
+		    default : break
 		}
 	}
-			
-	def response(){
+		
+	def static requestCarlsonAPI(...api){
+		switch(api.size()){
+			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
+					 return cafee
+			case 2 : def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
+					 return cafee
+			case 3 : switch(api[1]){
+				case TO_RESERVE : def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
+								  return cafee
+			    case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+						   return cafee
+			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+							return cafee
+				default : break
+			}
+			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
+					 return cafee
+			default : break 
+		}
 	}
 	
-	def processor(){
+	def static requestInTheDarkness(...api){
+		switch(api.size()){
+			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
+					 def availableTablesByPlaces = ExtTablePlacesInfo.findAllWhere(request : cafee)
+					 ArrayList<Integer>placesInTable = new ArrayList<Integer>()
+					 ApiRequest request = new ApiRequest()
+					 request = cafee
+					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
+						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
+					 }
+					 request.places = placesInTable
+					 println availableTablesByPlaces
+					 return cafee
+			case 2 : def cafee = ExtHandlerMock2Controller.deleteReservedTable(api[0])
+					 return cafee
+			case 3 : switch(api[1]){
+				case TO_RESERVE : def cafee = ExtHandlerMock2Controller.makeReserve(api[0], api[2])
+								  return cafee
+			    case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+						   return cafee
+			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+							return cafee
+				default : break
+			}
+			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
+					 return cafee
+			default : break
+		}
 	}
 }

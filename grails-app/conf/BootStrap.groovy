@@ -1,6 +1,7 @@
 import org.joda.time.LocalTime
 
 import restorator.Cafee
+import restorator.ExtTablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
 import restorator.auth.PersonAuthority
@@ -53,6 +54,14 @@ class BootStrap {
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 20, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee = Cafee.findOrSaveWhere(apiInit: "carlson_api", region: "Moscow region", city: "Moscow")
+		 
+		 double cost2 = 8.0
+		 def extApiRequest2 = ApiRequest.findOrSaveWhere(apiInit: "in_the_darkness", cafeeName: "In the darkness", totalReservationPlaces: 15, placeCost: cost2, currencyType: "USD",
+			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
+			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
+		 def extCafee2 = Cafee.findOrSaveWhere(apiInit: "in_the_darkness", region: "Moscow region", city: "Moscow")
+		 def extTableInfoForCafee2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
+		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save() 
     }
     def destroy = {
     }

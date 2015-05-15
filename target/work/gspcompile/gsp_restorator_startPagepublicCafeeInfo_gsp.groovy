@@ -78,34 +78,38 @@ expressionOut.print(cafeeName.placeCost)
 printHtmlPart(24)
 expressionOut.print(cafeeName.currencyType)
 printHtmlPart(25)
-invokeTag('datePicker','g',66,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
+invokeTag('select','g',65,['name':("tablePlacesAvailable"),'from':(tableInfo),'optionValue':({it.placesInTableAmount}),'optionKey':("placesInTableAmount"),'value':("")],-1)
 printHtmlPart(26)
-invokeTag('timePicker','joda',72,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('datePicker','g',71,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
 printHtmlPart(27)
-invokeTag('timePicker','joda',78,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+invokeTag('timePicker','joda',77,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
 printHtmlPart(28)
-invokeTag('hiddenField','g',81,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+invokeTag('timePicker','joda',83,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
 printHtmlPart(29)
-invokeTag('hiddenField','g',82,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
-printHtmlPart(29)
-createClosureForHtmlPart(30, 3)
-invokeTag('actionSubmit','g',83,['value':("Забронировать"),'action':("index"),'class':("btn btn-primary")],3)
-printHtmlPart(31)
-})
-invokeTag('form','g',84,['class':("form-signin"),'controller':("RedirectorToVisitorSpace")],2)
+invokeTag('hiddenField','g',86,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',87,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',88,['name':("cafeePlaceCost"),'value':(cafeeName.placeCost)],-1)
+printHtmlPart(30)
+createClosureForHtmlPart(31, 3)
+invokeTag('actionSubmit','g',89,['value':("Забронировать"),'action':("index"),'class':("btn btn-primary")],3)
 printHtmlPart(32)
-invokeTag('javascript','g',95,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+})
+invokeTag('form','g',90,['class':("form-signin"),'controller':("RedirectorToVisitorSpace")],2)
+printHtmlPart(33)
+invokeTag('javascript','g',101,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(0)
 })
-invokeTag('captureBody','sitemesh',96,[:],1)
-printHtmlPart(33)
+invokeTag('captureBody','sitemesh',102,[:],1)
+printHtmlPart(34)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431356094028L
+public static final long LAST_MODIFIED = 1431626034368L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'
