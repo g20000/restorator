@@ -2,6 +2,7 @@ package extApiHandler
 
 import org.joda.time.LocalTime
 
+import restorator.ExtTablePlacesInfo
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -42,8 +43,20 @@ class ExtHandlerMock2Controller {
 			return
 		}
 			
-		println param['reservationDate']
+		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(param['tablePlacesAvailable']))
+		if(table.tableForReservationAmount < 1){
+			render "Sorry, no more such tables for reservation"
+			return
+		}
+		table.tableForReservationAmount -= 1
 		cafee.totalReservationPlaces -= 1
+		
+		if(!table.save()){
+			table.errors.each {
+				println it
+			}
+		}
+		
 		if(!cafee.save()){
 			cafee.errors.each {
 				println it
@@ -52,9 +65,18 @@ class ExtHandlerMock2Controller {
 		return cafee
 	}
 	
-	static def deleteReservedTable(api){
+	static def deleteReservedTable(api, places){
 		def cafee = ApiRequest.findByApiInit(api)
+		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(places['placesAmount']))
+		table.tableForReservationAmount += 1
 		cafee.totalReservationPlaces += 1
+		
+		if(!table.save()){
+			table.errors.each {
+				println it
+			}
+		}
+		
 		if(!cafee.save()){
 			cafee.errors.each {
 				println it

@@ -1,5 +1,7 @@
 package extApiHandler
 
+import java.awt.TexturePaintContext.Int;
+
 import restorator.ExtTablePlacesInfo
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
@@ -39,6 +41,8 @@ class ApiHandlerController {
 						   return cafee
 			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
 							return cafee
+				case TO_DELETE : def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
+								 return cafee
 				default : break
 			}
 			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
@@ -64,11 +68,18 @@ class ApiHandlerController {
 					 return cafee
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = ExtHandlerMock2Controller.makeReserve(api[0], api[2])
-								  return cafee
+								  double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
+								  ApiRequest request = new ApiRequest()
+								  request = cafee
+								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
+								  request.totalCost = totalCost
+								  return request
 			    case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
 						   return cafee
 			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
 							return cafee
+				case TO_DELETE : def cafee = ExtHandlerMock2Controller.deleteReservedTable(api[0], api[2])
+								 return cafee 
 				default : break
 			}
 			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])

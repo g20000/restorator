@@ -9,6 +9,7 @@ class ApiRequest {
     String cafeeName = ""
 	int totalReservationPlaces = 0
 	double placeCost = 0
+	double totalCost
 	String currencyType = ""
 	boolean isReservationAvailable = false
 	boolean reservationTimeLimit = false
@@ -20,7 +21,8 @@ class ApiRequest {
 	Date endDateLimit = new Date()
 	String region = ""
 	String city = ""
-	ArrayList<Integer> places	
+	ArrayList<Integer> places
+	int placesInSelectedTable	
 		
 	static hasMany = [placesInTable: ExtTablePlacesInfo]
 		
@@ -28,6 +30,8 @@ class ApiRequest {
 		apiInit blank: false, unique: true
 		placesInTable nullable: true
 		places nullable: true
+		totalCost nullable: true
+		placesInSelectedTable nullable: true
     }
 			
 	String getCafeeName(){

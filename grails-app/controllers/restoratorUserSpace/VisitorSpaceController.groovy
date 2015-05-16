@@ -127,7 +127,7 @@ class VisitorSpaceController {
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
 			def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
 			ReservedTable myPlace = new ReservedTable(visitor: user, cafeeName: extCafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
-				reservationDate: params['reservationDate'])
+				reservationDate: params['reservationDate'], places: apiRequest.placesInSelectedTable, cost: apiRequest.totalCost)
 			if(!myPlace.save(flush: true)){
 				myPlace.errors.each {
 					println it
@@ -223,12 +223,10 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		ApiRequest apiRequest
 		if(params['cafeeAPI'] != ""){
-			apiRequest = ApiHandlerController.request(params['cafeeAPI'], "TO_DELETE")
+			apiRequest = ApiHandlerController.request(params['cafeeAPI'], "TO_DELETE", params)
 			def myPlace = ReservedTable.findByVisitorAndCafeeName(user, Cafee.findByApiInit(params['cafeeAPI']))
 			myPlace.delete(flush: true)
 		}else{
-			/*SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S")
-			Date reservDate = df.parse(params['date'])*/
 			def myPlace = ReservedTable.findByVisitorAndCafeeNameAndPlaces(user, Cafee.findByCafeeName(params['cafeeName']), Integer.parseInt(params['placesAmount']))
 			def cafee = Cafee.findByCafeeName(params['cafeeName'])
 			
