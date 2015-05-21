@@ -25,9 +25,12 @@ class StartPageController {
 			regionCafee = ""
 		}
 		if((cityCafee == "") && (regionCafee == "")){
-			render "Заполните поля!"
+			def error = "Заполните поля!"
+			println error
+			render (view:'error.gsp')
+			return
 		}else if(((cityCafee != "") && (regionCafee == ""))){
-			goalCafee = Cafee.findAllByCity(cityCafee)
+			goalCafee = Cafee.findAllByCityIlike(cityCafee)
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
@@ -37,7 +40,7 @@ class StartPageController {
 				}
 			}
 		}else if(((cityCafee == "") && (regionCafee != ""))){
-			goalCafee = Cafee.findAllByRegion(regionCafee)
+			goalCafee = Cafee.findAllByRegionIlike(regionCafee)
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
@@ -47,7 +50,7 @@ class StartPageController {
 				}
 			}
 		}else{
-			goalCafee = Cafee.findAllByCityAndRegion(cityCafee, regionCafee)
+			goalCafee = Cafee.findAllByCityAndRegionIlike(cityCafee, regionCafee)
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
@@ -65,7 +68,8 @@ class StartPageController {
 		def goalCafee
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
-			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
+			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+				hall: apiRequest.hall)
 			ArrayList<TablePlacesInfo>tablePlaces = new ArrayList<TablePlacesInfo>()
 			for(int places : apiRequest.places){
 				tablePlaces.add(new TablePlacesInfo(placesInTableAmount : places))

@@ -1,7 +1,5 @@
 package restoratorUserSpace
 
-import java.text.SimpleDateFormat
-
 import org.joda.time.LocalTime
 
 import restorator.Cafee
@@ -105,15 +103,23 @@ class VisitorSpaceController {
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
-			ArrayList<TablePlacesInfo>tablePlaces = new ArrayList<TablePlacesInfo>()
+			
+			ArrayList<Integer>tablePlaces = new ArrayList<Integer>()
 			for(int places : apiRequest.places){
 				tablePlaces.add(new TablePlacesInfo(placesInTableAmount : places))
 			}
-			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
+			
+			ArrayList<String>hallNames = new ArrayList<String>()
+			for(String hall : apiRequest.halls){
+				hallNames.add(hall)
+			}
+						
+			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+			ArrayList<String>hallsMock = new ArrayList<String>()
 			def tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
-			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
+			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallsMock])
 		}
 	}
 	
@@ -122,6 +128,7 @@ class VisitorSpaceController {
 		ApiRequest apiRequest
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
 		if(params['cafeeApiInit'] != ""){
+			println params
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
@@ -139,35 +146,50 @@ class VisitorSpaceController {
 			def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
 			
 			if(startTimeReservation >= endTimeReservation){
-				render "Start time reservation can not be more than end time reservation!"
+				def errorCode = 4
+				render (view:'error.gsp', model: [error: errorCode])
+				//render "Start time reservation can not be more than end time reservation!"
 				return
 			}
 							
 			if(!cafee.isReservationAvailable){
-				render "Sorry, this cafee closed for reservation at the moment!"
+				def errorCode = 1
+				render (view:'error.gsp', model: [error: errorCode])
 				return
 			}
 			
-			if(cafee.reservationDateLimit && (cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])){
-				render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
+			if(cafee.reservationDateLimit && (!((cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])))){
+				def errorCode = 5
+				def stDateLimit = cafee.startDateLimit
+				def endDateLimit = cafee.endDateLimit
+				render (view:'error.gsp', model: [error: errorCode, stDate: stDateLimit, endDate: endDateLimit])
+				//render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
 				return
 			}
-			
-			if(cafee.reservationTimeLimit && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
-				&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
-				render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
+						
+			if(cafee.reservationTimeLimit && (!((cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
+				&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)))){
+				def errorCode = 6
+				def stTimeLimit = cafee.startTimeLimit
+				def endTimeLimit = cafee.endTimeLimit
+				render (view:'error.gsp', model: [error: errorCode, stTime: stTimeLimit, endTime: endTimeLimit])
+				//render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
 				return
 			}	
 							
 			if(cafee.totalReservationPlaces < 1){
-				render "Sorry, no more free places in this cafee for reservation"
+				def errorCode = 2
+				//render "Sorry, no more free places in this cafee for reservation"
+				render (view:'error.gsp', model: [error: errorCode])
 				return
 			}
 							
 			Person owner = Person.findByCafee(cafee)
 			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
 			if(table.tableForReservationAmount < 1){
-				render "Sorry, no more such tables for reservation"
+				def errorCode = 3
+				render (view:'error.gsp', model: [error: errorCode])
+				//render "Sorry, no more such tables for reservation"
 				return
 			}
 			cafee.totalReservationPlaces -= 1
@@ -258,7 +280,8 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
-	def updateUserData(params){		
+	def updateUserData(params){
+		def successUpdatedCode = 8		
 		Authority userAdminAuthority = Authority.findByAuthority('ROLE_ADMIN')
 		Person oldUserRecord = Person.findByUsername(springSecurityService.currentUser.username)
 		oldUserRecord.username = params['login']
@@ -267,18 +290,21 @@ class VisitorSpaceController {
 		oldUserRecord.email = params['email']
 		oldUserRecord.password = params['password']
 				
-		if(oldUserRecord.getAuthorities().contains(userAuthority)){
+		if(oldUserRecord.getAuthorities().contains(userAdminAuthority)){
 			oldUserRecord.inn = params['inn']
 		}
 		
 		if(!params['password'].equals(params['controlPassword'])){
-			render "Enter your password correctly!"
+			def errorCode = 7
+			render (view:'error.gsp', model: [error: errorCode])
+			return
+			//render "Enter your password correctly!"
 		}else{
 			oldUserRecord.save()
-		}
-								
-		render "Updated!"
-		
+		}		
+		//render "Updated!"
+		render (view:'error.gsp', model: [error: successUpdatedCode])
+		return
 	}
 	
 	@Secured(['ROLE_ADMIN'])
@@ -331,17 +357,24 @@ class VisitorSpaceController {
 			oldCafeeInfo.endDateLimit = params['endDateReservation']
 					
 			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
-				render "Amount places for reservation can't be more than total places amount!"
+				def errorCode = 9
+				render (view:'error.gsp', model: [error: errorCode])
+				//render "Amount places for reservation can't be more than total places amount!"
 				return
 			}
 			
 			if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
-				render "Start date point can not be more than end date point!"
+				def errorCode = 10
+				render (view:'error.gsp', model: [error: errorCode])
+				//render "Start date point can not be more than end date point!"
 				return
 			}
 			
 			if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
-				render "Start time point can not be more than end time point!"
+				def errorCode = 11
+				render (view:'error.gsp', model: [error: errorCode])
+				//render "Start time point can not be more than end time point!"
+				return
 			}
 		/*}else{
 			oldCafeeInfo.apiInit = initApiInfo
@@ -352,8 +385,9 @@ class VisitorSpaceController {
 				println it
 			}
 		}
-		
-		render "Cafee data has been successfully updated!"
+		def errorCode = 12
+		render (view:'error.gsp', model: [error: errorCode])
+		//render "Cafee data has been successfully updated!"
 	}
 	
 	@Secured(['ROLE_ADMIN'])

@@ -1,8 +1,8 @@
 package extApiHandler
 
-import java.awt.TexturePaintContext.Int;
-
+import restorator.ExtHallinfo
 import restorator.ExtTablePlacesInfo
+import restorator.NovikovService
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -15,6 +15,7 @@ class ApiHandlerController {
 	static def CITY_REG = "CITY_REG"
 	static def CARLSON_API = "carlson_api"
 	static def IN_THE_DARKNESS = "in_the_darkness"
+	static def NOVIKOV = "novikov_api"
 	
     def index() { }
 		
@@ -24,6 +25,8 @@ class ApiHandlerController {
 							   break
 			case IN_THE_DARKNESS : requestInTheDarkness(api)
 							   break
+		    case NOVIKOV : requestNovikovApi(api)
+		    			   break
 		    default : break
 		}
 	}
@@ -80,6 +83,49 @@ class ApiHandlerController {
 							return cafee
 				case TO_DELETE : def cafee = ExtHandlerMock2Controller.deleteReservedTable(api[0], api[2])
 								 return cafee 
+				default : break
+			}
+			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
+					 return cafee
+			default : break
+		}
+	}
+	
+	def static requestNovikovApi(...api){
+		switch(api.size()){
+			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
+					 def availableTablesByPlaces = ExtTablePlacesInfo.findAllWhere(request : cafee)
+					 def availableHalls = ExtHallinfo.findAllWhere(request : cafee)
+					 ArrayList<Integer>placesInTable = new ArrayList<Integer>()
+					 ArrayList<String>hallNames = new ArrayList<String>()
+					 ApiRequest request = new ApiRequest()
+					 request = cafee
+					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
+						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
+					 }
+					 println placesInTable
+					 for(ExtHallinfo availableHall : availableHalls){
+						 hallNames.add(availableHall.hallName)
+					 }
+					 request.places = placesInTable
+					 request.halls = hallNames
+					 return request
+			case 2 : def cafee = NovikovService.deleteReservedTable(api[0])
+					 return cafee
+			case 3 : switch(api[1]){
+				case TO_RESERVE : def cafee = NovikovService.makeReserve(api[0], api[2])
+								  double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
+								  ApiRequest request = new ApiRequest()
+								  request = cafee
+								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
+								  request.totalCost = totalCost
+								  return request
+				case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+						   return cafee
+				case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+							return cafee
+				case TO_DELETE : def cafee = NovikovService.deleteReservedTable(api[0], api[2])
+								 return cafee
 				default : break
 			}
 			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])

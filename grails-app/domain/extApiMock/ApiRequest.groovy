@@ -2,6 +2,7 @@ package extApiMock
 
 import org.joda.time.LocalTime
 
+import restorator.ExtHallinfo
 import restorator.ExtTablePlacesInfo
 
 class ApiRequest {
@@ -22,9 +23,10 @@ class ApiRequest {
 	String region = ""
 	String city = ""
 	ArrayList<Integer> places
-	int placesInSelectedTable	
+	ArrayList<String> halls
+	int placesInSelectedTable
 		
-	static hasMany = [placesInTable: ExtTablePlacesInfo]
+	static hasMany = [placesInTable: ExtTablePlacesInfo, hall: ExtHallinfo]
 		
     static constraints = {
 		apiInit blank: false, unique: true
@@ -32,6 +34,8 @@ class ApiRequest {
 		places nullable: true
 		totalCost nullable: true
 		placesInSelectedTable nullable: true
+		hall nullable: true
+		halls nullable: true
     }
 			
 	String getCafeeName(){

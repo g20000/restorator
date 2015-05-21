@@ -1,6 +1,7 @@
 import org.joda.time.LocalTime
 
 import restorator.Cafee
+import restorator.ExtHallinfo
 import restorator.ExtTablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
@@ -61,7 +62,23 @@ class BootStrap {
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee2 = Cafee.findOrSaveWhere(apiInit: "in_the_darkness", region: "Moscow region", city: "Moscow")
 		 def extTableInfoForCafee2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
-		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save() 
+		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save()
+		 
+		 double cost3 = 6.0
+		 def extApiRequest3 = ApiRequest.findOrSaveWhere(apiInit: "novikov_api", cafeeName: "Novikov", totalReservationPlaces: 14, placeCost: cost2, currencyType: "USD",
+			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
+			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
+		 def extCafee3 = Cafee.findOrSaveWhere(apiInit: "novikov_api", region: "Moscow region", city: "Moscow")
+		 def extTableInfoForCafee3 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
+		 def extTableInfoForCafee3_2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 2, tableAmount: 6, tableForReservationAmount: 8)
+		 def firstHall = ExtHallinfo.findOrSaveWhere(hallName: "First hall")
+		 def secondHall = ExtHallinfo.findOrSaveWhere(hallName: "Second hall")		 
+		 firstHall.addToTables(extTableInfoForCafee3).save(flush: true)
+		 secondHall.addToTables(extTableInfoForCafee3_2).save(flush: true)
+		 extApiRequest3.addToPlacesInTable(extTableInfoForCafee3).save(flush: true)
+		 extApiRequest3.addToPlacesInTable(extTableInfoForCafee3_2).save(flush: true)
+		 extApiRequest3.addToHall(firstHall).save(flush: true)
+		 extApiRequest3.addToHall(secondHall).save(flush: true)
     }
     def destroy = {
     }

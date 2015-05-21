@@ -47,6 +47,14 @@
       <div class="jumbotron">
       	<g:form class="form-signin" controller="VisitorSpace">
       		<p>Название заведения: ${cafeeName.cafeeName}</p>
+      		<g:if test="${halls.size() != 0}">
+	        	<div>
+	      			<label>
+	      				Выберите желаемый зал:
+	      				<g:select name="hallsAvailable" from="${halls}"/>
+	      			</label>
+      			</div>
+	        </g:if>
       		<p>Цена за место: ${cafeeName.placeCost}</p>
       		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
       		<div>
@@ -72,7 +80,8 @@
 	        		до:
 	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
 	        	</label>
-	        </div>
+	        </div>      
+	        <%--<g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" /> --%>
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
 	        <g:hiddenField name="cafeePlaceCost" value="${cafeeName.placeCost}" />

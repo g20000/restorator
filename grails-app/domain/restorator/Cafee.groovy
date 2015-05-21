@@ -20,13 +20,15 @@ class Cafee {
 	Date endDateLimit = new Date()
 	String region = ""
 	String city = ""
-	String apiInit = ""	
+	String apiInit = ""
+	String hall	
 	
 	static hasMany = [admin: Person, placesInTable: TablePlacesInfo]
 	
     static constraints = {
 		admin nullable: true
 		placesInTable nullable: true
+		hall nullable: true
     }
 			
 	String getCafeeName(){
