@@ -69,8 +69,8 @@ class BootStrap {
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee3 = Cafee.findOrSaveWhere(apiInit: "novikov_api", region: "Moscow region", city: "Moscow")
-		 def extTableInfoForCafee3 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
-		 def extTableInfoForCafee3_2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 2, tableAmount: 6, tableForReservationAmount: 8)
+		 def extTableInfoForCafee3 = new ExtTablePlacesInfo(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6).save(flush:true)
+		 def extTableInfoForCafee3_2 = new ExtTablePlacesInfo(placesInTableAmount: 2, tableAmount: 6, tableForReservationAmount: 8).save(flush:true)
 		 def firstHall = ExtHallinfo.findOrSaveWhere(hallName: "First hall")
 		 def secondHall = ExtHallinfo.findOrSaveWhere(hallName: "Second hall")		 
 		 firstHall.addToTables(extTableInfoForCafee3).save(flush: true)

@@ -40,9 +40,9 @@ class ApiHandlerController {
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
 								  return cafee
-			    case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+			    case REG : def cafee = ApiRequest.findByApiInitAndRegionIlike(api[0], api[2])
 						   return cafee
-			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+			    case CITY : def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
 							return cafee
 				case TO_DELETE : def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
 								 return cafee
@@ -77,9 +77,9 @@ class ApiHandlerController {
 								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
 								  request.totalCost = totalCost
 								  return request
-			    case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+			    case REG : def cafee = ApiRequest.findByApiInitAndRegionIlike(api[0], api[2])
 						   return cafee
-			    case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+			    case CITY : def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
 							return cafee
 				case TO_DELETE : def cafee = ExtHandlerMock2Controller.deleteReservedTable(api[0], api[2])
 								 return cafee 
@@ -119,10 +119,11 @@ class ApiHandlerController {
 								  request = cafee
 								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
 								  request.totalCost = totalCost
+								  request.selectedHall = api[2]['hallsAvailable']
 								  return request
-				case REG : def cafee = ApiRequest.findByApiInitAndRegion(api[0], api[2])
+				case REG : def cafee = ApiRequest.findByApiInitAndRegionIlike(api[0], api[2])
 						   return cafee
-				case CITY : def cafee = ApiRequest.findByApiInitAndCity(api[0], api[2])
+				case CITY : def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
 							return cafee
 				case TO_DELETE : def cafee = NovikovService.deleteReservedTable(api[0], api[2])
 								 return cafee

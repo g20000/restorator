@@ -25,6 +25,7 @@ class ApiRequest {
 	ArrayList<Integer> places
 	ArrayList<String> halls
 	int placesInSelectedTable
+	String selectedHall
 		
 	static hasMany = [placesInTable: ExtTablePlacesInfo, hall: ExtHallinfo]
 		
@@ -36,6 +37,7 @@ class ApiRequest {
 		placesInSelectedTable nullable: true
 		hall nullable: true
 		halls nullable: true
+		selectedHall nullable: true
     }
 			
 	String getCafeeName(){

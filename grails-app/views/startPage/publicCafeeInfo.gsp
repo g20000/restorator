@@ -57,6 +57,14 @@
       <div class="jumbotron">
        <g:form class="form-signin" controller="RedirectorToVisitorSpace">
       		<p>Название заведения: ${cafeeName.cafeeName}</p>
+      		<g:if test="${halls.size() != 0}">
+	        	<div>
+	      			<label>
+	      				Выберите желаемый зал:
+	      				<g:select name="hallsAvailable" from="${halls}"/>
+	      			</label>
+      			</div>
+	        </g:if>
       		<p>Цена за место: ${cafeeName.placeCost}</p>
       		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
 			<div>

@@ -74,11 +74,17 @@ class StartPageController {
 			for(int places : apiRequest.places){
 				tablePlaces.add(new TablePlacesInfo(placesInTableAmount : places))
 			}
-			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
+			
+			ArrayList<String>hallNames = new ArrayList<String>()
+			for(String hall : apiRequest.halls){
+				hallNames.add(hall)
+			}
+			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+			ArrayList<String>hallsMock = new ArrayList<String>()
 			def tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
-			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces])
+			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallsMock])
 		}
 	}
 	

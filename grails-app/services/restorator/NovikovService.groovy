@@ -93,8 +93,9 @@ class NovikovService {
 			render "Sorry, no more free places in this cafee for reservation"
 			return
 		}
-			
-		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(param['tablePlacesAvailable']), hall: param['hallsAvailable'])
+		
+		def hall = ExtHallinfo.findWhere(hallName: param['hallsAvailable'])	
+		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(param['tablePlacesAvailable']), hall: hall)
 		if(table == null){
 			render "Sorry, no such table for reservation in this hall, select another table or hall"
 			return
@@ -124,7 +125,8 @@ class NovikovService {
 	
 	static def deleteReservedTable(api, places){
 		def cafee = ApiRequest.findByApiInit(api)
-		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(places['placesAmount']))
+		def hall = ExtHallinfo.findByHallName(places['hall'])
+		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(places['placesAmount']), hall: hall)
 		table.tableForReservationAmount += 1
 		cafee.totalReservationPlaces += 1
 		

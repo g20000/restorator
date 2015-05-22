@@ -13,6 +13,7 @@ class ReservedTable {
 	Date reservationDate = new Date()
 	int places
 	double cost
+	String hall
 
     static constraints = {
 		visitor blank: false
@@ -20,5 +21,6 @@ class ReservedTable {
 		cafeeName blank: false
 		places nullable: true
 		cost nullable: true
+		hall nullable: true
     }
 }
