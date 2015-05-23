@@ -21,7 +21,31 @@
         </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
-
+	  
+	  <div>
+	  	<g:form class="form-inline">
+		  <div class="form-group">
+		    <label class="sr-only">Поиск заведения по городам</label>
+		    <p class="form-control-static">Поиск заведения по городам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Город заведения</label>
+		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск заведения по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		  </div>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		</g:form>
+	  </div>
+	  
+	  <hr>
+	  
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Бронирование<span class="sr-only">(current)</span></a></li>
@@ -48,36 +72,41 @@
 	  </script>	
       <div class="jumbotron">
       	<div>
-	      	<table class="table">
-				<thead>
-					<tr>
-						<th>Название заведения</th>
-						<th>Дата бронирования</th>
-						<th>Время бронирования с</th>
-						<th>Время бронирования до</th>
-						<th>Зал</th>
-						<th>Мест за столиком</th>
-						<th>Оплачено</th>
-						<th></th>
-					</tr>	
-				</thead>
-				<tbody>
-					<g:each in="${tableInfo}" var="table">
+      		<g:if test="${tableInfo.size != 0}">
+		      	<table class="table">
+					<thead>
 						<tr>
-							<td>${table.cafeeName.cafeeName}</td>
-							<td>${table.reservationDate}</td>
-							<td>${table.startTimeLimit}</td>
-							<td>${table.endTimeLimit}</td>
-							<td>${table.hall}</td>
-							<td>${table.places}</td>
-							<td>${table.cost}</td>
-							<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
-							date: "${table.reservationDate }", startTime: "${table.startTimeLimit }", endTime: "${table.endTimeLimit }",
-							placesAmount: "${table.places }", cost: "${table.cost }", hall: "${table.hall}"]">Отменить бронирование</g:link></td>
-						</tr>
-					</g:each>
-				</tbody>
-			</table>
+							<th>Название заведения</th>
+							<th>Дата бронирования</th>
+							<th>Время бронирования с</th>
+							<th>Время бронирования до</th>
+							<th>Зал</th>
+							<th>Мест за столиком</th>
+							<th>Оплачено</th>
+							<th></th>
+						</tr>	
+					</thead>
+					<tbody>
+						<g:each in="${tableInfo}" var="table">
+							<tr>
+								<td>${table.cafeeName.cafeeName}</td>
+								<td>${table.reservationDate}</td>
+								<td>${table.startTimeLimit}</td>
+								<td>${table.endTimeLimit}</td>
+								<td>${table.hall}</td>
+								<td>${table.places}</td>
+								<td>${table.cost}</td>
+								<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
+								date: "${table.reservationDate }", startTime: "${table.startTimeLimit }", endTime: "${table.endTimeLimit }",
+								placesAmount: "${table.places }", cost: "${table.cost }", hall: "${table.hall}"]">Отменить бронирование</g:link></td>
+							</tr>
+						</g:each>
+					</tbody>
+				</table>
+			</g:if>
+			<g:else>
+				У вас не забронированного ни одного столика!
+			</g:else>
       	</div> 
        </div>
 		<div class="row marketing">

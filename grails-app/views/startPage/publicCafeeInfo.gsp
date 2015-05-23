@@ -67,12 +67,14 @@
 	        </g:if>
       		<p>Цена за место: ${cafeeName.placeCost}</p>
       		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
-			<div>
-      			<label>
-      				Выберите подходящее для вас количество мест:
-      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
-      			</label>
-      		</div>
+      		<g:if test="${tableInfo.size() != 0}">
+				<div>
+	      			<label>
+	      				Выберите подходящее для вас количество мест:
+	      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
+	      			</label>
+	      		</div>
+      		</g:if>
       		<div>
 	        	<label>
 	        		Выберите день бронирования:

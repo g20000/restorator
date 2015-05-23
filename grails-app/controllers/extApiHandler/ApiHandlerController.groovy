@@ -65,7 +65,6 @@ class ApiHandlerController {
 						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
 					 }
 					 request.places = placesInTable
-					 println availableTablesByPlaces
 					 return cafee
 			case 2 : def cafee = ExtHandlerMock2Controller.deleteReservedTable(api[0])
 					 return cafee
@@ -103,7 +102,6 @@ class ApiHandlerController {
 					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
 						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
 					 }
-					 println placesInTable
 					 for(ExtHallinfo availableHall : availableHalls){
 						 hallNames.add(availableHall.hallName)
 					 }

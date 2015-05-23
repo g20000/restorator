@@ -34,9 +34,7 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Бронировать столик</a></li>
-              <li><a href="#">Отменить броню столика</a></li>
-              <li><a href="#">Редактировать бронирование</a></li>
+              <li class="active"><a href="#">Редактирование личных данных</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -45,20 +43,37 @@
         <h3>Редактирование личных данных</h3>
         <g:form class="form-signin" controller="VisitorSpace">
 	        <label for="login" class="sr-only">Логин</label>
-	        <g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
-	        <label for="firstName" class="sr-only">Ваше имя</label>
-	        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
-	        <label for="lastName" class="sr-only">Вашa фамилия</label>
-	        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
-	        
-	        <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
-	        <g:textField id="inputEmail" class="form-control" name="email" placeholder="Адрес эл. почты" var = "user" value="${user.email}" autofocus="" data-translatable-string="Email address" type="email"/>
-	        <label for="inputPassword" class="sr-only">Пароль</label>
-	        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-	        
-	        <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
-	        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" required="" data-translatable-string="Password"/>
-	        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <div class="col-xs-4">
+	        	<div class="text-left">
+	        		<small>Ваш логин</small>
+	        	</div>
+	        	<g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
+	        	<div class="text-left">	        
+		        	<small>Ваше имя</small>
+		        </div>
+		        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
+		        
+		        <div class="text-left">
+		        	<small>Вашa фамилия</small>
+		        </div>
+		        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
+		        
+		        <div class="text-left">
+		        	<small>Адрес эл. почты</small>
+		        </div>
+		        <g:textField id="inputEmail" class="form-control" name="email" placeholder="Адрес эл. почты" var = "user" value="${user.email}" autofocus="" data-translatable-string="Email address" type="email"/>
+		        
+		        <div class="text-left">
+		        	<small>Пароль</small>
+		        </div>
+		        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
+		        
+		        <div class="text-left">
+		        	<small>Подтвердите пароль</small>
+		        </div>
+		        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" required="" data-translatable-string="Password"/>
+		        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData"/>
+	        </div>
       	</g:form>	
        </div>
 		<div class="row marketing">

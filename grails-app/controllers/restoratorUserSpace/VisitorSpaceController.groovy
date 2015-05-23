@@ -300,7 +300,7 @@ class VisitorSpaceController {
 			return
 			//render "Enter your password correctly!"
 		}else{
-			oldUserRecord.save()
+			oldUserRecord.save(flush:true)
 		}		
 		//render "Updated!"
 		render (view:'error.gsp', model: [error: successUpdatedCode])
@@ -418,5 +418,56 @@ class VisitorSpaceController {
 		tableToDelete.delete(flush: true)
 		cafee.save()
 		tableAcounting()
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def searchCafee(params){
+		def goalCafee
+		List<Cafee> availableCafees = new ArrayList<Cafee>()
+		ApiRequest apiRequest
+		String regionCafee
+		String cityCafee = new String(params['city']).trim()
+		if(params.containsKey('region')){
+			regionCafee = new String(params['region']).trim()
+		}else{
+			regionCafee = ""
+		}
+		if((cityCafee == "") && (regionCafee == "")){
+			def error = "Заполните поля!"
+			println error
+			render (view:'error.gsp')
+			return
+		}else if(((cityCafee != "") && (regionCafee == ""))){
+			goalCafee = Cafee.findAllByCityIlike(cityCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
+		}else if(((cityCafee == "") && (regionCafee != ""))){
+			goalCafee = Cafee.findAllByRegionIlike(regionCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
+		}else{
+			goalCafee = Cafee.findAllByCityAndRegionIlike(cityCafee, regionCafee)
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
+		}
+		render (view:'index.gsp', model: [availableCafee: availableCafees])
 	}
 }

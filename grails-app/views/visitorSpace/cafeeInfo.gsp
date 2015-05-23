@@ -21,7 +21,30 @@
         </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
-
+	  
+	  <div>
+	  	<g:form class="form-inline">
+		  <div class="form-group">
+		    <label class="sr-only">Поиск заведения по городам</label>
+		    <p class="form-control-static">Поиск заведения по городам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Город заведения</label>
+		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск заведения по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		  </div>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		</g:form>
+	  </div>
+	  
+	  <hr>
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Бронирование<span class="sr-only">(current)</span></a></li>
@@ -57,12 +80,14 @@
 	        </g:if>
       		<p>Цена за место: ${cafeeName.placeCost}</p>
       		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
-      		<div>
-      			<label>
-      				Выберите подходящее для вас количество мест:
-      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
-      			</label>
-      		</div>
+      		<g:if test="${tableInfo.size() != 0}">
+	      		<div>
+	      			<label>
+	      				Выберите подходящее для вас количество мест:
+	      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
+	      			</label>
+	      		</div>
+      		</g:if>
       		<div>
 	        	<label>
 	        		Выберите день бронирования:
