@@ -65,7 +65,7 @@ class BootStrap {
 		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save()
 		 
 		 double cost3 = 6.0
-		 def extApiRequest3 = ApiRequest.findOrSaveWhere(apiInit: "novikov_api", cafeeName: "Novikov", totalReservationPlaces: 14, placeCost: cost2, currencyType: "USD",
+		 def extApiRequest3 = ApiRequest.findOrSaveWhere(apiInit: "novikov_api", cafeeName: "Novikov", totalReservationPlaces: 14, placeCost: cost3, currencyType: "USD",
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee3 = Cafee.findOrSaveWhere(apiInit: "novikov_api", region: "Moscow region", city: "Moscow")
@@ -79,6 +79,42 @@ class BootStrap {
 		 extApiRequest3.addToPlacesInTable(extTableInfoForCafee3_2).save(flush: true)
 		 extApiRequest3.addToHall(firstHall).save(flush: true)
 		 extApiRequest3.addToHall(secondHall).save(flush: true)
+		 
+		 double cost4 = 7.2
+		 def extApiRequest4 = ApiRequest.findOrSaveWhere(apiInit: "piter_api", cafeeName: "Piter", totalReservationPlaces: 15, placeCost: cost4, currencyType: "EUR",
+			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
+			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def extTableInfoForCafee4 = new ExtTablePlacesInfo(tableAmount: 8, tableForReservationAmount: 7).save(flush:true)
+		 def extTableInfoForCafee4_2 = new ExtTablePlacesInfo(tableAmount: 6, tableForReservationAmount: 8).save(flush:true)
+		 def extCafee4 = Cafee.findOrSaveWhere(apiInit: "piter_api", region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def grandHall = ExtHallinfo.findOrSaveWhere(hallName: "Grand hall")
+		 def smokingHall = ExtHallinfo.findOrSaveWhere(hallName: "Smoking hall")
+		 
+		 grandHall.addToTables(extTableInfoForCafee4).save(flush: true)
+		 smokingHall.addToTables(extTableInfoForCafee4_2).save(flush: true)
+		 extApiRequest4.addToPlacesInTable(extTableInfoForCafee4).save(flush: true)
+		 extApiRequest4.addToPlacesInTable(extTableInfoForCafee4_2).save(flush: true)
+		 		 
+		 extApiRequest4.addToHall(grandHall).save(flush: true)
+		 extApiRequest4.addToHall(smokingHall).save(flush: true)
+		 
+		 double cost5 = 8.2
+		 def extApiRequest5 = ApiRequest.findOrSaveWhere(apiInit: "trizet_api", cafeeName: "Trizet", totalReservationPlaces: 10, placeCost: cost5, currencyType: "EUR",
+			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 14, startTimeLimit: new LocalTime(),
+			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def extTableInfoForCafee5 = new ExtTablePlacesInfo(tableAmount: 8, tableForReservationAmount: 5).save(flush:true)
+		 def extTableInfoForCafee5_2 = new ExtTablePlacesInfo(tableAmount: 6, tableForReservationAmount: 5).save(flush:true)
+		 def extCafee5 = Cafee.findOrSaveWhere(apiInit: "trizet_api", region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def darkHall = ExtHallinfo.findOrSaveWhere(hallName: "Dark hall")
+		 def openHall = ExtHallinfo.findOrSaveWhere(hallName: "Open hall")
+		 
+		 darkHall.addToTables(extTableInfoForCafee5).save(flush: true)
+		 openHall.addToTables(extTableInfoForCafee5_2).save(flush: true)
+		 extApiRequest5.addToPlacesInTable(extTableInfoForCafee5).save(flush: true)
+		 extApiRequest5.addToPlacesInTable(extTableInfoForCafee5_2).save(flush: true)
+				  
+		 extApiRequest5.addToHall(darkHall).save(flush: true)
+		 extApiRequest5.addToHall(openHall).save(flush: true)
     }
     def destroy = {
     }

@@ -100,12 +100,14 @@
 	        		<joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute"/>
 	        	</label>
 	        </div>
-	        <div>
-	        	<label>
-	        		до:
-	        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
-	        	</label>
-	        </div>      
+	        <g:if test="${cafeeName.endTimeLimit != null}">
+		        <div>
+		        	<label>
+		        		до:
+		        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
+		        	</label>
+		        </div>
+	        </g:if>      
 	        <%--<g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" /> --%>
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />

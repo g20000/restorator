@@ -102,7 +102,8 @@ class VisitorSpaceController {
 		def goalCafee
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
-			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit)
+			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
+				endTimeLimit : apiRequest.endTimeLimit)
 			
 			ArrayList<Integer>tablePlaces = new ArrayList<Integer>()
 			for(int places : apiRequest.places){
@@ -126,13 +127,18 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])
 	def makeReserve(params){
 		ApiRequest apiRequest
+		def endTimeReservation
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
 		if(params['cafeeApiInit'] != ""){
 			println params
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
-			def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+			if((params.containsKey('endTimeReservation_hour'))&&(params.containsKey('endTimeReservation_minute'))){
+			  endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+			}else{
+				//endTimeReservation = null
+			}
 			ReservedTable myPlace = new ReservedTable(visitor: user, cafeeName: extCafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
 				reservationDate: params['reservationDate'], places: apiRequest.placesInSelectedTable, cost: apiRequest.totalCost, hall: apiRequest.selectedHall)
 			if(!myPlace.save(flush: true)){
@@ -143,7 +149,7 @@ class VisitorSpaceController {
 		}else{
 			Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
-			def endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+			endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
 			
 			if(startTimeReservation >= endTimeReservation){
 				def errorCode = 4
@@ -236,7 +242,7 @@ class VisitorSpaceController {
 			}
 		}
 		
-		render (view:'reserved.gsp', model: [tableInfo: myTables])
+		render (view:'reserved.gsp', model: [tableInfo: reservedTables])
 	}
 	
 	@Secured(['ROLE_VISITOR'])//переделать с учетом api
@@ -284,17 +290,19 @@ class VisitorSpaceController {
 		def successUpdatedCode = 8		
 		Authority userAdminAuthority = Authority.findByAuthority('ROLE_ADMIN')
 		Person oldUserRecord = Person.findByUsername(springSecurityService.currentUser.username)
-		oldUserRecord.username = params['login']
-		oldUserRecord.firstName = params['firstName']
-		oldUserRecord.lastName = params['lastName']
-		oldUserRecord.email = params['email']
-		oldUserRecord.password = params['password']
+		oldUserRecord.username = new String(params['login']).trim()
+		oldUserRecord.firstName = new String(params['firstName']).trim()
+		oldUserRecord.lastName = new String(params['lastName']).trim()
+		oldUserRecord.email = new String(params['email']).trim()
+		if(new String(params['password']) != ""){
+			oldUserRecord.password = new String(params['password']).trim()
+		}
 				
 		if(oldUserRecord.getAuthorities().contains(userAdminAuthority)){
-			oldUserRecord.inn = params['inn']
+			oldUserRecord.inn = new String(params['inn']).trim()
 		}
-		
-		if(!params['password'].equals(params['controlPassword'])){
+				
+		if((!(new String(params['password']).trim().equals(new String(params['controlPassword']).trim())))&&(new String(params['password']) != "")){
 			def errorCode = 7
 			render (view:'error.gsp', model: [error: errorCode])
 			return

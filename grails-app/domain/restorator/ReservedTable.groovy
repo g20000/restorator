@@ -22,5 +22,6 @@ class ReservedTable {
 		places nullable: true
 		cost nullable: true
 		hall nullable: true
+		endTimeLimit nullable: true
     }
 }

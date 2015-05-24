@@ -3,6 +3,8 @@ package extApiHandler
 import restorator.ExtHallinfo
 import restorator.ExtTablePlacesInfo
 import restorator.NovikovService
+import restorator.PiterService
+import restorator.TrizetService
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -16,6 +18,8 @@ class ApiHandlerController {
 	static def CARLSON_API = "carlson_api"
 	static def IN_THE_DARKNESS = "in_the_darkness"
 	static def NOVIKOV = "novikov_api"
+	static def PITER_API = "piter_api"
+	static def TRIZET_API = "trizet_api"
 	
     def index() { }
 		
@@ -27,6 +31,10 @@ class ApiHandlerController {
 							   break
 		    case NOVIKOV : requestNovikovApi(api)
 		    			   break
+			case PITER_API : requestPiterApi(api)
+							 break
+			case TRIZET_API : requestTrizetApi(api)
+							  break
 		    default : break
 		}
 	}
@@ -129,6 +137,69 @@ class ApiHandlerController {
 			}
 			case 4 : def cafee = ApiRequest.findByApiInitAndCityAndRegion(api[0], api[2], api[3])
 					 return cafee
+			default : break
+		}
+	}
+	
+	def static requestPiterApi(...api){
+		switch(api.size()){
+			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
+					 def availableHalls = ExtHallinfo.findAllWhere(request : cafee)
+					 ArrayList<String>hallNames = new ArrayList<String>()
+					 ApiRequest request = new ApiRequest()
+					 request = cafee
+					 for(ExtHallinfo availableHall : availableHalls){
+						 hallNames.add(availableHall.hallName)
+					 }
+					 request.halls = hallNames
+					 return request
+			 case 3 : switch(api[1]){
+				 case TO_RESERVE : def cafee = PiterService.makeReserve(api[0], api[2])
+								   ApiRequest request = new ApiRequest()
+								   request = cafee
+								   request.totalCost = cafee.placeCost
+								   request.selectedHall = api[2]['hallsAvailable']
+								   return request
+				 case REG : def cafee = ApiRequest.findByApiInitAndRegionIlike(api[0], api[2])
+							return cafee
+				 case CITY : def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
+							 return cafee
+				 case TO_DELETE : def cafee = PiterService.deleteReservedTable(api[0], api[2])
+								  return cafee
+				 default : break
+			 }
+			default : break
+		}
+	}
+	
+	def static requestTrizetApi(...api){
+		switch(api.size()){
+			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
+					 def availableHalls = ExtHallinfo.findAllWhere(request : cafee)
+					 ArrayList<String>hallNames = new ArrayList<String>()
+					 ApiRequest request = new ApiRequest()
+					 request = cafee
+					 request.endTimeLimit = null
+					 for(ExtHallinfo availableHall : availableHalls){
+						 hallNames.add(availableHall.hallName)
+					 }
+					 request.halls = hallNames
+					 return request
+			 case 3 : switch(api[1]){
+				 case TO_RESERVE : def cafee = TrizetService.makeReserve(api[0], api[2])
+								   ApiRequest request = new ApiRequest()
+								   request = cafee
+								   request.totalCost = cafee.placeCost
+								   request.selectedHall = api[2]['hallsAvailable']
+								   return request
+				 case REG : def cafee = ApiRequest.findByApiInitAndRegionIlike(api[0], api[2])
+							return cafee
+				 case CITY : def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
+							 return cafee
+				 case TO_DELETE : def cafee = TrizetService.deleteReservedTable(api[0], api[2])
+								  return cafee
+				 default : break
+			 }
 			default : break
 		}
 	}

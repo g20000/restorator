@@ -34,7 +34,8 @@ class StartPageController {
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
-					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+						endTimeLimit : apiRequest.endTimeLimit))
 				}else{
 					availableCafees.add(cafee)
 				}
@@ -44,7 +45,8 @@ class StartPageController {
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
-					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+						endTimeLimit : apiRequest.endTimeLimit))
 				}else{
 					availableCafees.add(cafee)
 				}
@@ -54,7 +56,8 @@ class StartPageController {
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
-					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+						endTimeLimit : apiRequest.endTimeLimit))
 				}else{
 					availableCafees.add(cafee)
 				}
@@ -69,7 +72,7 @@ class StartPageController {
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-				hall: apiRequest.hall)
+				hall: apiRequest.hall, endTimeLimit : apiRequest.endTimeLimit)
 			ArrayList<TablePlacesInfo>tablePlaces = new ArrayList<TablePlacesInfo>()
 			for(int places : apiRequest.places){
 				tablePlaces.add(new TablePlacesInfo(placesInTableAmount : places))

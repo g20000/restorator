@@ -9,7 +9,7 @@ class ApiRequest {
 	String apiInit = ""
     String cafeeName = ""
 	int totalReservationPlaces = 0
-	double placeCost = 0
+	double placeCost
 	double totalCost
 	String currencyType = ""
 	boolean isReservationAvailable = false

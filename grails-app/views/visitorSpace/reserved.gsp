@@ -92,7 +92,14 @@
 								<td>${table.cafeeName.cafeeName}</td>
 								<td>${table.reservationDate}</td>
 								<td>${table.startTimeLimit}</td>
-								<td>${table.endTimeLimit}</td>
+								<td>
+									<g:if test="${table.endTimeLimit != null}">
+										${table.endTimeLimit}
+									</g:if>
+									<g:else>
+										<p>-</p>
+									</g:else>	
+								</td>
 								<td>${table.hall}</td>
 								<td>${table.places}</td>
 								<td>${table.cost}</td>

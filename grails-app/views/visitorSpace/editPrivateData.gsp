@@ -62,16 +62,35 @@
 		        	<small>Адрес эл. почты</small>
 		        </div>
 		        <g:textField id="inputEmail" class="form-control" name="email" placeholder="Адрес эл. почты" var = "user" value="${user.email}" autofocus="" data-translatable-string="Email address" type="email"/>
-		        
-		        <div class="text-left">
-		        	<small>Пароль</small>
+		        <div class="checkbox">
+				   <label>
+				   	<g:checkBox class="isChangePasswordRequired" name="isChangePasswordRequired" value="${false}"/>Требуется смена пароля
+				   </label>
+				</div>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$(".passwordFields").hide();
+						$('.checkbox input:checkbox').click(function() {
+						    var $this = $(this);
+						    if ($this.is(':checked')) {
+						        $(".passwordFields").show();
+						    } else {
+						        $(".passwordFields").hide();
+						    }
+						});
+					});
+				</script>
+				<div class="passwordFields">
+			        <div class="text-left">
+			        	<small>Пароль</small>
+			        </div>
+			        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="" data-translatable-string="Password"/>
+			        
+			        <div class="text-left">
+			        	<small>Подтвердите пароль</small>
+			        </div>
+			        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="" data-translatable-string="Password"/>
 		        </div>
-		        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-		        
-		        <div class="text-left">
-		        	<small>Подтвердите пароль</small>
-		        </div>
-		        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" required="" data-translatable-string="Password"/>
 		        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData"/>
 	        </div>
       	</g:form>	
