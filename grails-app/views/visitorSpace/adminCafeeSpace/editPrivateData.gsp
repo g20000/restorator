@@ -44,23 +44,65 @@
       <div class="jumbotron">
         <h3>Редактирование личных данных</h3>
         <g:form class="form-signin" controller="VisitorSpace">
-	        <label for="login" class="sr-only">Логин</label>
-	        <g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
-	        <label for="firstName" class="sr-only">Ваше имя</label>
-	        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
-	        <label for="lastName" class="sr-only">Вашa фамилия</label>
-	        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
-	        
-	        <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
-	        <g:textField id="inputEmail" class="form-control" name="email" placeholder="E-mail" var = "user" value="${user.email}" autofocus="" data-translatable-string="" type="email"/>
-	        <label for="inputINN" class="sr-only">ИНН</label>
-	        <g:textField id="inputINN" class="form-control" name="inn" placeholder="ИНН" var = "user" value="${user.inn}" autofocus="" data-translatable-string="INN" type="number"/>
-	        <label for="inputPassword" class="sr-only">Пароль</label>
-	        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-	        
-	        <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
-	        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="${user.password}" data-translatable-string="Password"/>
-	        <g:actionSubmit value="Подтвердить изменения"  action="updateUserData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+        	<div class="col-xs-4">
+		        <label for="login" class="sr-only">Логин</label>
+		        <div class="text-left">
+	        		<small>Ваш логин</small>
+	        	</div>
+		        <g:textField id="login" class="form-control" name="login" placeholder="Логин" value="${applicationContext.springSecurityService.principal.username}" required="" autofocus=""/>
+		        <div class="text-left">
+	        		<small>Ваше имя</small>
+	        	</div>
+		        <label for="firstName" class="sr-only">Ваше имя</label>
+		        <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" var = "user" value="${user.firstName}" type="text"/>
+		        <div class="text-left">
+	        		<small>Ваша фамилия</small>
+	        	</div>
+		        <label for="lastName" class="sr-only">Вашa фамилия</label>
+		        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" var = "user" value="${user.lastName}" type="text"/>
+		        <div class="text-left">
+	        		<small>Адрес эл. почты</small>
+	        	</div>
+		        <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
+		        <g:textField id="inputEmail" class="form-control" name="email" placeholder="E-mail" var = "user" value="${user.email}" autofocus="" data-translatable-string="" type="email"/>
+		        <div class="text-left">
+	        		<small>ИНН</small>
+	        	</div>
+		        <label for="inputINN" class="sr-only">ИНН</label>
+		        <g:textField id="inputINN" class="form-control" name="inn" placeholder="ИНН" var = "user" value="${user.inn}" autofocus="" data-translatable-string="INN" type="number"/>
+		        <div class="checkbox">
+				   <label>
+				   	<g:checkBox class="isChangePasswordRequired" name="isChangePasswordRequired" value="${false}"/>Требуется смена пароля
+				   </label>
+				</div>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$(".passwordFields").hide();
+						$('.checkbox input:checkbox').click(function() {
+						    var $this = $(this);
+						    if ($this.is(':checked')) {
+						        $(".passwordFields").show();
+						    } else {
+						        $(".passwordFields").hide();
+						    }
+						});
+					});
+				</script>
+				<div class="passwordFields">
+			        <label for="inputPassword" class="sr-only">Пароль</label>
+			        <div class="text-left">
+		        		<small>Пароль</small>
+		        	</div>
+			        <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" var = "user" value="" data-translatable-string="Password"/>
+			        
+			        <div class="text-left">
+		        		<small>Подтвердите пароль</small>
+		        	</div>
+			        <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
+			        <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" var = "user" value="" data-translatable-string="Password"/>
+		        </div>
+	        	<g:actionSubmit value="Подтвердить изменения"  action="updateUserData"/>
+	        </div>
       	</g:form>	
        </div>
 		<div class="row marketing">
