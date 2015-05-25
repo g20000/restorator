@@ -72,7 +72,7 @@
 	  </script>	
       <div class="jumbotron">
       	<div>
-      		<g:if test="${tableInfo.size != 0}">
+      		<g:if test="${tableInfo.size() != 0}">
 		      	<table class="table">
 					<thead>
 						<tr>

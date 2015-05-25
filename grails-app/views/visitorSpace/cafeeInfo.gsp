@@ -25,22 +25,22 @@
 	  <div>
 	  	<g:form class="form-inline">
 		  <div class="form-group">
-		    <label class="sr-only">Поиск заведения по городам</label>
-		    <p class="form-control-static">Поиск заведения по городам</p>
+		    <label class="sr-only">Поиск ресторана по городам</label>
+		    <p class="form-control-static">Поиск ресторана по городам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Город заведения</label>
-		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		    <label for="city" class="sr-only">Город ресторана</label>
+		    <g:textField class="form-control" name="city" placeholder="Город ресторана" value=""/>
 		  </div>
 		  <div class="form-group">
 		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск заведения по регионам</p>
+		    <p class="form-control-static">Поиск ресторана по регионам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион заведения</label>
+		    <label for="city" class="sr-only">Регион ресторана</label>
 		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
 		  </div>
-		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск ресторана</g:actionSubmit>
 		</g:form>
 	  </div>
 	  
@@ -55,7 +55,7 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Информация о заведении</a></li>
+              <li class="active"><a href="#">Информация о ресторане</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -69,46 +69,41 @@
 	  </script>	
       <div class="jumbotron">
       	<g:form class="form-signin" controller="VisitorSpace">
-      		<p>Название заведения: ${cafeeName.cafeeName}</p>
-      		<g:if test="${halls.size() != 0}">
-	        	<div>
-	      			<label>
-	      				Выберите желаемый зал:
-	      				<g:select name="hallsAvailable" from="${halls}"/>
-	      			</label>
-      			</div>
-	        </g:if>
-      		<p>Цена за место: ${cafeeName.placeCost}</p>
-      		<p>Тип принимаемой валюты: ${cafeeName.currencyType}</p>
-      		<g:if test="${tableInfo.size() != 0}">
-	      		<div>
-	      			<label>
-	      				Выберите подходящее для вас количество мест:
-	      				<g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/>
-	      			</label>
-	      		</div>
-      		</g:if>
-      		<div>
-	        	<label>
-	        		Выберите день бронирования:
-	        		<g:datePicker name="reservationDate" value="${new Date()}" precision="day"/>
-	        	</label>
-	        </div>
-	        <div>
-	        	<label>
-	        		Забронировать с:
-	        		<joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute"/>
-	        	</label>
-	        </div>
-	        <g:if test="${cafeeName.endTimeLimit != null}">
-		        <div>
-		        	<label>
-		        		до:
-		        		<joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" />
-		        	</label>
-		        </div>
-	        </g:if>      
-	        <%--<g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" /> --%>
+      		<table class="table">
+      			<tbody>
+      				<tr>
+		      			<td>Название заведения</td><td>${cafeeName.cafeeName}</td>
+		      		</tr>
+		      		<g:if test="${halls.size() != 0}">
+		      			<tr>
+	      					<td>Выберите желаемый зал</td><td><g:select name="hallsAvailable" from="${halls}"/></td>
+	      				</tr>	      				
+			        </g:if>
+		      		<tr>
+	      				<td>Цена за место</td><td>${cafeeName.placeCost}</td>
+	      			</tr>
+		      		<tr>
+	      				<td>Тип принимаемой валюты</td><td>${cafeeName.currencyType}</td>
+	      			</tr>
+		      		<g:if test="${tableInfo.size() != 0}">
+	      				<tr>
+	      					<td>Выберите подходящее для вас количество мест</td><td><g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/></td>
+	      				</tr>
+		      		</g:if>
+			        <tr>
+	      				<td>Выберите день бронирования</td><td><g:datePicker name="reservationDate" value="${new Date()}" precision="day"/></td>
+	      			</tr>
+			        <tr>
+	      				<td>Забронировать с</td><td><joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute"/></td>
+	      			</tr>
+			        <g:if test="${cafeeName.endTimeLimit != null}">
+				        <tr>
+	      					<td>до</td><td><joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" /></td>
+	      				</tr>
+			        </g:if>
+		        </tbody>      
+		        <%--<g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" /> --%>
+	        </table>
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
 	        <g:hiddenField name="cafeePlaceCost" value="${cafeeName.placeCost}" />

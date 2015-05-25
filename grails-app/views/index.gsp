@@ -28,22 +28,22 @@
 	  <div>
 	  	<g:form class="form-inline" controller="StartPage" >
 		  <div class="form-group">
-		    <label class="sr-only">Поиск заведения по городам</label>
-		    <p class="form-control-static">Поиск заведения по городам</p>
+		    <label class="sr-only">Поиск ресторана по городам</label>
+		    <p class="form-control-static">Поиск ресторана по городам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Город заведения</label>
-		    <g:textField class="form-control" name="city" placeholder="Город заведения"/>
+		    <label for="city" class="sr-only">Город ресторана</label>
+		    <g:textField class="form-control" name="city" placeholder="Город ресторана"/>
 		  </div>
 		  <div class="form-group">
 		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск заведения по регионам</p>
+		    <p class="form-control-static">Поиск ресторана по регионам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион заведения</label>
+		    <label for="city" class="sr-only">Регион ресторана</label>
 		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
 		  </div>
-		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Начать поиск</g:actionSubmit>
 		</g:form>
 	  </div>	
 		
@@ -78,44 +78,46 @@
         <div id="popularCitiesList">
           <div class="popularCitiesListItem">
           	<ul>
-            	<li><g:link controller="StartPage" action="searchCafee" params="[city: "Нижний Новгород"]">Архангельск</g:link></li>
-                <li>Белгород</li>
-                <li>Брянск</li>
-                <li>Владимир</li>
-                <li>Геленджик</li>
-                <li>Дмитров</li>
+            	<li><g:link controller="StartPage" action="searchCafee" params="[city: "Архангельск"]">Архангельск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Белгород"]">Белгород</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Брянск"]">Брянск</g:link></li>
+                
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Владимир"]">Владимир</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Геленджик"]">Геленджик</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Дмитров"]"></g:link></li>
             </ul>
           </div>
           <div class="popularCitiesListItem">
           	<ul>
-            	<li>Екатеринбург</li>
-                <li>Зарайск</li>
-                <li>Звенигород</li>
-                <li>Ижевск</li>
-                <li>Йошкар-Ола</li>
-                <li>Казань</li>
+            	<li><g:link controller="StartPage" action="searchCafee" params="[city: "Екатеринбург"]">Екатеринбург</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Зарайск"]">Зарайск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Звенигород"]">Звенигород</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Ижевск"]">Ижевск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Йошкар-Ола"]">Йошкар-Ола</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Казань"]">Казань</g:link></li>
             </ul
           ></div>
           <div class="popularCitiesListItem">
           	<ul>
-            	<li>Киров</li>
-                <li>Липецк</li>
-                <li>Лазаревское</li>
+            	<li><g:link controller="StartPage" action="searchCafee" params="[city: "Киров"]">Киров</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Липецк"]">Липецк</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Лазаревское"]">Лазаревское</g:link></li>
                 <li><g:link controller="StartPage" action="searchCafee" params="[city: "Москва"]">Москва</g:link></li>
-                <li>Мурманск</li>
-                <li>Нижний Новгород</li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Мурманск"]">Мурманск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Нижний Новгород"]">Нижний Новгород</g:link></li>
             </ul
           ></div>
           <div class="popularCitiesListItem">
           	<ul>
-            	<li>Новосибирск</li>
-                <li>Новороссийск</li>
-                <li>Омск</li>
-                <li>Петрозаводск</li>
-                <li>Самара</li>
-                <li>Санкт-Петербург</li>
+            	<li><g:link controller="StartPage" action="searchCafee" params="[city: "Новосибирск"]">Новосибирск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Новороссийск"]">Новороссийск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Омск"]">Омск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Петрозаводск"]">Петрозаводск</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Самара"]">Самара</g:link></li>
+                <li><g:link controller="StartPage" action="searchCafee" params="[city: "Санкт-Петербург"]">Санкт-Петербург</g:link></li>
             </ul>
           </div>
+        </div>
         </div>
       </div>
 
@@ -127,6 +129,6 @@
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <g:javascript library="start_page_bootstrap_files/ie-emulation-modes-warning"/>
+    <%--<g:javascript library="start_page_bootstrap_files/ie-emulation-modes-warning"/> --%>
 </body>
 </html>

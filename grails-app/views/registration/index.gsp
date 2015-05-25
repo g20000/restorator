@@ -38,31 +38,60 @@
 
       <g:form class="form-signin" controller="Registration">
         <h2 class="form-signin-heading">Регистрация</h2>
+        <div class="text-left">
+   			<small>Логин</small>
+   		</div>
         <label for="login" class="sr-only">Логин</label>
         <g:textField id="login" class="form-control" name="login" placeholder="Логин" required="" autofocus=""/>
+        <div class="text-left">
+   			<small>Ваше имя</small>
+   		</div>
         <label for="firstName" class="sr-only">Ваше имя</label>
         <g:textField id="firstName" class="form-control" name="firstName" placeholder="Ваше имя" required="" type="text"/>
+        <div class="text-left">
+   			<small>Ваша фамилия</small>
+   		</div>
         <label for="lastName" class="sr-only">Вашa фамилия</label>
-        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" required=""  type="text"/>        
+        <g:textField id="lastName" class="form-control" name="lastName" placeholder="Вашa фамилия" required=""  type="text"/>
+        <div class="text-left">
+   			<small>Адрес эл. почты</small>
+   		</div>        
         <label for="inputEmail" class="sr-only">Адрес эл. почты</label>
         <g:textField id="inputEmail" class="form-control" name="email" placeholder="Адрес эл. почты" required="" autofocus="" data-translatable-string="Email address" type="email"/>
+        <div class="text-left">
+   			<small>Пароль</small>
+   		</div>
         <label for="inputPassword" class="sr-only">Пароль</label>
         <g:passwordField id="inputPassword" class="form-control" name="password" placeholder="Пароль" required="" data-translatable-string="Password"/>
-        
+        <div class="text-left">
+   			<small>Подтвердите пароль</small>
+   		</div>
         <label for="confirmPassword" class="sr-only">Подтвердите пароль</label>
         <g:passwordField id="confirmPassword" class="form-control" name="controlPassword" placeholder="Подтвердите пароль" required="" data-translatable-string="Password"/>
 		<div class="checkbox">
 		   <label>
-		   	<g:checkBox class="isAdminCafee" name="isAdminCafee" value="${false}"/>Зарегестриваться как администратор заведения
+		   	<g:checkBox class="isAdminCafee" name="isAdminCafee" value="${false}"/>Зарегестриваться как администратор ресторана
 		   </label>
 		</div>
 		<div class="adminFields">
-		  <label for="cafee" class="sr-only">Название заведения</label>
+		  <div class="text-left">
+   			<small>Название ресторана</small>
+   		  </div>
+		  <label for="cafee" class="sr-only">Название ресторана</label>
 	      <g:textField id="cafee" class="form-control" name="cafeeName" value="" placeholder="Название заведения" type="text"/>
+	      <div class="text-left">
+     		<small>ИНН</small>
+     	  </div>
 	      <label for="innName" class="sr-only">ИНН</label>
-	      <g:textField id="innName" class="form-control" name="inn" value="" placeholder="ИНН" type="text"/>	      
+	      <g:textField id="innName" class="form-control" name="inn" value="" placeholder="ИНН" type="text"/>
+	      <div class="text-left">
+      		<small>Регион</small>
+      	  </div>	      
 	      <label for="cafeeRegion" class="sr-only">Регион</label>
 	      <g:textField id="cafeeRegion" class="form-control" name="region" value="" placeholder="Регион" type="text"/>
+	      <div class="text-left">
+   			<small>Город</small>
+   		  </div>
 	      <label for="cafeeCity" class="sr-only">Город</label>
 	      <g:textField id="cafeeCity" class="form-control" name="city" value="" placeholder="Город" type="text"/>
 		</div>

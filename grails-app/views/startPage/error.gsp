@@ -6,5 +6,6 @@
 </head>
 <body>
   	<p>Заполните хотя бы одно поле для поиска!</p>
+	<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 
 </body>
 </html>

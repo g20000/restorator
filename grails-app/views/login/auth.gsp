@@ -33,9 +33,15 @@
     <div class="container">
 
       <form class="form-signin" action='/restorator/j_spring_security_check' method='POST' id='loginForm'>
-        <h2 class="form-signin-heading">Вход</h2>        
+        <h2 class="form-signin-heading">Вход</h2>
+        <div class="text-left">
+   			<small>Логин</small>
+   		</div>        
         <label for="username" class="sr-only">Логин</os-p></label>
         <input id="username" name='j_username' class="form-control" placeholder="Логин" required="" autofocus="" type="text">
+        <div class="text-left">
+   			<small>Пароль</small>
+   		</div>
         <label for="password" class="sr-only">Пароль</label>
         <input id="password" class="form-control" name='j_password' data-translatable-string="Password" type="password">
         <div class="checkbox">

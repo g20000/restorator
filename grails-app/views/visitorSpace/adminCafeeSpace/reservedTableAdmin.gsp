@@ -48,8 +48,9 @@
 		});
 	  </script>
       <div class="jumbotron">
+      <g:if test="${tableInfo.size() != 0 }">
      	<h3>Информация о бронировании</h3>
-     	<div>
+     	<div>    		
 	      	<table class="table">
 				<thead>
 					<tr>
@@ -72,7 +73,11 @@
 					</g:each>
 				</tbody>
 			</table>			
-     	</div> 
+     	  </div>
+     	</g:if>
+		<g:else>
+			В вашем ресторане пока нет забронированных столиков!
+		</g:else> 
       </div>
 		<div class="row marketing">
         </div>

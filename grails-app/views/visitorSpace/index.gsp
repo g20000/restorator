@@ -24,22 +24,22 @@
 	  <div>
 	  	<g:form class="form-inline">
 		  <div class="form-group">
-		    <label class="sr-only">Поиск заведения по городам</label>
-		    <p class="form-control-static">Поиск заведения по городам</p>
+		    <label class="sr-only">Поиск ресторана по городам</label>
+		    <p class="form-control-static">Поиск ресторана по городам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Город заведения</label>
-		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		    <label for="city" class="sr-only">Город ресторана</label>
+		    <g:textField class="form-control" name="city" placeholder="Город ресторана" value=""/>
 		  </div>
 		  <div class="form-group">
 		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск заведения по регионам</p>
+		    <p class="form-control-static">Поиск ресторана по регионам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион заведения</label>
-		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		    <label for="city" class="sr-only">Регион ресторана</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион ресторана"/>
 		  </div>
-		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		  <g:actionSubmit value="Начать поиск" action="searchCafee" class="btn btn-default">Начать поиск</g:actionSubmit>
 		</g:form>
 	  </div>
 	  
@@ -75,7 +75,7 @@
 	      	<table class="table">
 				<thead>
 					<tr>
-						<th>Название заведения</th>
+						<th>Название ресторана</th>
 						<th>Цена за место</th>
 						<th>Тип принимаемой валюты</th>
 					</tr>	

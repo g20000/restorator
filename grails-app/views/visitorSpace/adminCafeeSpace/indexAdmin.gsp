@@ -51,31 +51,62 @@
      	<h3>Информация о заведении</h3>
      	<div>
       	<g:each in="${placeinfo}" var="cafeeInfo">
-	      	<p>Название заведения: ${cafeeInfo.cafeeName}</p>
-	      	<p>Мест в заведении: ${cafeeInfo.totalPlaces}</p>
-	      	<p>Доступно мест для бронирования: ${cafeeInfo.totalReservationPlaces}</p>
-	      	<p>Цена за место: ${cafeeInfo.placeCost}</p>
-	      	<p>Тип принимаемой валюты: ${cafeeInfo.currencyType}</p>
-	      	<g:if test="${cafeeInfo.isReservationAvailable}">
-	      		<p>Бронирование включено</p>
-	      		<g:if test="${cafeeInfo.reservationTimeLimit}">
-	      			<p>Ограничение бронирования по времени включено</p>
-	      		</g:if>
-	      		<g:if test="${cafeeInfo.reservationDateLimit}">
-		      		<p>Ограничение бронирования по дате включено</p>
-		      	</g:if>
-		      	<g:if test="${cafeeInfo.reservationTimeLimit}">
-		      		<p>Начало ограничения бронирования по времени: ${cafeeInfo.startTimeLimit}</p>
-		      		<p>Конец ограничения бронирования по времени: ${cafeeInfo.endTimeLimit}</p>
-		      	</g:if>
-		      	<g:if test="${cafeeInfo.reservationDateLimit}">		      	
-			      	<p>Начало ограничения бронирования по дате: ${cafeeInfo.startDateLimit}</p>
-			      	<p>Конец ограничения бронирования по дате: ${cafeeInfo.endDateLimit}</p>
-		      	</g:if>
-	      	</g:if>
-	      	<g:else>
-		    	<p>Бронирование отключено</p>
-		    </g:else>	      	
+      		<table class="table">
+	      		<tbody>
+	      			<tr>
+			      		<td>Название заведения</td><td>${cafeeInfo.cafeeName}</td>
+			      	</tr>
+			      	<tr>
+			      		<td>Мест в заведении</td><td>${cafeeInfo.totalPlaces}</td>
+			      	</tr>
+			      	<tr>
+			      		<td>Доступно мест для бронирования</td><td>${cafeeInfo.totalReservationPlaces}</td>
+			      	</tr>
+			      	<tr>
+			      		<td>Цена за место</td><td>${cafeeInfo.placeCost}</td>
+			      	</tr>
+			      	<tr>
+			      		<td>Тип принимаемой валюты</td><td>${cafeeInfo.currencyType}</td>
+			      	</tr>
+		      	
+			      	<g:if test="${cafeeInfo.isReservationAvailable}">
+			      		<tr>
+			      			<td>Бронирование</td><td>включено</td>
+			      		</tr>
+			      		<g:if test="${cafeeInfo.reservationTimeLimit}">
+			      			<tr>
+					      		<td>Ограничение бронирования по времени</td><td>включено</td>
+					      	</tr>
+			      		</g:if>
+			      		<g:if test="${cafeeInfo.reservationDateLimit}">
+				      		<tr>
+					      		<td>Ограничение бронирования по дате</td><td>включено</td>
+					      	</tr>
+				      	</g:if>
+				      	<g:if test="${cafeeInfo.reservationTimeLimit}">
+				      		<tr>
+					      		<td>Начало ограничения бронирования по времени</td><td>${cafeeInfo.startTimeLimit}</td>
+					      	</tr>
+					      	<tr>
+					      		<td>Конец ограничения бронирования по времени</td><td>${cafeeInfo.endTimeLimit}</td>
+					      	</tr>
+				      	</g:if>
+				      	<g:if test="${cafeeInfo.reservationDateLimit}">		      	
+					      	<tr>
+					      		<td>Начало ограничения бронирования по дате</td><td>${cafeeInfo.startDateLimit}</td>
+					      	</tr>
+					      	<tr>
+					      		<td>Конец ограничения бронирования по дате</td><td>${cafeeInfo.endDateLimit}</td>
+					      	</tr>
+				      	</g:if>
+			      	</g:if>
+			      	<g:else>
+				    	<tr>
+			      			<td>Бронирование</td><td>отключено</td>
+			      		</tr>
+				    </g:else>
+		    </tbody>
+	      	</table>	      	
       	</g:each>
      	</div> 
       </div>

@@ -55,7 +55,8 @@
 		});
 	  </script>
       <div class="jumbotron">
-       <div>   	
+       <div>
+       	<g:if test="${goalCafee.size() != 0 }">   	
       	<table class="table">
 			<thead>
 				<tr>
@@ -73,7 +74,11 @@
 					</tr>
 				</g:each>
 			</tbody>
-		</table>			
+		</table>
+		</g:if>
+		<g:else>
+			Не найдено ресторанов по вашему запросу!
+		</g:else>			
       	</div>
       </div>
 

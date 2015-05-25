@@ -281,7 +281,7 @@ class VisitorSpaceController {
 	def showReservedTableForAdmin(){		
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myTable = ReservedTable.findAllByOwner(user)
-		
+		println myTable
 		render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
 	}
 	
