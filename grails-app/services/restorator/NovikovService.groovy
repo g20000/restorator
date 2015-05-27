@@ -3,6 +3,8 @@ package restorator
 import org.joda.time.LocalTime
 
 import extApiMock.ApiRequest
+import extApiMock.ExtHallinfo;
+import extApiMock.ExtTablePlacesInfo;
 import grails.transaction.Transactional
 
 @Transactional

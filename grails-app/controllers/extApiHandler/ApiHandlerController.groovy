@@ -1,11 +1,11 @@
 package extApiHandler
 
-import restorator.ExtHallinfo
-import restorator.ExtTablePlacesInfo
 import restorator.NovikovService
 import restorator.PiterService
 import restorator.TrizetService
 import extApiMock.ApiRequest
+import extApiMock.ExtHallinfo;
+import extApiMock.ExtTablePlacesInfo;
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])

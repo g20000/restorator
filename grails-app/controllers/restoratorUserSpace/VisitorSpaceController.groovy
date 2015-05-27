@@ -3,6 +3,7 @@ package restoratorUserSpace
 import org.joda.time.LocalTime
 
 import restorator.Cafee
+import restorator.PaymentSystemsHandler
 import restorator.ReservedTable
 import restorator.TablePlacesInfo
 import restorator.auth.Authority
@@ -130,7 +131,6 @@ class VisitorSpaceController {
 		def endTimeReservation
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
 		if(params['cafeeApiInit'] != ""){
-			println params
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
@@ -477,5 +477,52 @@ class VisitorSpaceController {
 			}
 		}
 		render (view:'index.gsp', model: [availableCafee: availableCafees])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def setupBillingSystem(){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def paymentHandler = new PaymentSystemsHandler()
+		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+		def paymentSystems = paymentHandler.getAllPaymentSystems()
+		for(def paymentSystem : paymentSystems){
+			if(cafee.availablePaymentSystems.contains(paymentSystem)){
+				paymentSystemsStatus.put(paymentSystem, true)
+			}else{
+				paymentSystemsStatus.put(paymentSystem, false)
+			}
+		}
+		render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def saveSetupBillingSystems(params){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def paymentHandler = new PaymentSystemsHandler()
+		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+		def paymentSystems = paymentHandler.getAllPaymentSystems()
+		for(def paymentSystem : paymentSystems){
+			if((params.containsKey(paymentSystem))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
+				cafee.availablePaymentSystems.add(paymentSystem)
+			}else if((!params.containsKey(paymentSystem))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
+				cafee.availablePaymentSystems.remove(paymentSystem)
+			}
+		}
+		if(!cafee.save(flush:true)){
+			cafee.errors.each{
+				println it
+			}
+		}
+		setupBillingSystem()
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def goToPaymentPage(params){
+		println params
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = Cafee.findByCafeeName(params['cafeeName'])
+		render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
 	}
 }

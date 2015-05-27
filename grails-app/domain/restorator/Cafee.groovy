@@ -22,6 +22,7 @@ class Cafee {
 	String city = ""
 	String apiInit = ""
 	String hall	
+	ArrayList<String> availablePaymentSystems = new ArrayList<String>()
 	
 	static hasMany = [admin: Person, placesInTable: TablePlacesInfo]
 	
@@ -29,6 +30,7 @@ class Cafee {
 		admin nullable: true
 		placesInTable nullable: true
 		hall nullable: true
+		availablePaymentSystems nullable: true
     }
 			
 	String getCafeeName(){

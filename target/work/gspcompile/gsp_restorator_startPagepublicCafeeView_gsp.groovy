@@ -70,31 +70,38 @@ printHtmlPart(20)
 })
 invokeTag('form','g',48,['class':("form-inline")],2)
 printHtmlPart(21)
-for( cafeeInfo in (goalCafee) ) {
+if(true && (goalCafee.size() != 0)) {
 printHtmlPart(22)
-createTagBody(3, {->
+for( cafeeInfo in (goalCafee) ) {
+printHtmlPart(23)
+createTagBody(4, {->
 expressionOut.print(cafeeInfo.cafeeName)
 })
-invokeTag('link','g',70,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"])],3)
-printHtmlPart(23)
-expressionOut.print(cafeeInfo.placeCost)
-printHtmlPart(23)
-expressionOut.print(cafeeInfo.currencyType)
+invokeTag('link','g',71,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"])],4)
 printHtmlPart(24)
-}
+expressionOut.print(cafeeInfo.placeCost)
+printHtmlPart(24)
+expressionOut.print(cafeeInfo.currencyType)
 printHtmlPart(25)
-invokeTag('javascript','g',88,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+}
+printHtmlPart(26)
+}
+else {
+printHtmlPart(27)
+}
+printHtmlPart(28)
+invokeTag('javascript','g',93,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(2)
 })
-invokeTag('captureBody','sitemesh',89,[:],1)
-printHtmlPart(26)
+invokeTag('captureBody','sitemesh',94,[:],1)
+printHtmlPart(29)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431353288079L
+public static final long LAST_MODIFIED = 1432580976455L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

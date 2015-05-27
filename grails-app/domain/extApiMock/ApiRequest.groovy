@@ -2,9 +2,6 @@ package extApiMock
 
 import org.joda.time.LocalTime
 
-import restorator.ExtHallinfo
-import restorator.ExtTablePlacesInfo
-
 class ApiRequest {
 	String apiInit = ""
     String cafeeName = ""

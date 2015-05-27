@@ -2,8 +2,8 @@ package extApiHandler
 
 import org.joda.time.LocalTime
 
-import restorator.ExtTablePlacesInfo
 import extApiMock.ApiRequest
+import extApiMock.ExtTablePlacesInfo;
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])

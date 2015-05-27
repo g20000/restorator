@@ -51,30 +51,37 @@ printHtmlPart(13)
 createClosureForHtmlPart(14, 2)
 invokeTag('link','g',37,['action':("index")],2)
 printHtmlPart(15)
-for( table in (tableInfo) ) {
+if(true && (tableInfo.size() != 0)) {
 printHtmlPart(16)
+for( table in (tableInfo) ) {
+printHtmlPart(17)
 expressionOut.print(table.visitor.username)
-printHtmlPart(17)
-expressionOut.print(table.reservationDate)
-printHtmlPart(17)
-expressionOut.print(table.startTimeLimit)
-printHtmlPart(17)
-expressionOut.print(table.endTimeLimit)
-printHtmlPart(17)
-expressionOut.print(table.places)
 printHtmlPart(18)
-}
+expressionOut.print(table.reservationDate)
+printHtmlPart(18)
+expressionOut.print(table.startTimeLimit)
+printHtmlPart(18)
+expressionOut.print(table.endTimeLimit)
+printHtmlPart(18)
+expressionOut.print(table.places)
 printHtmlPart(19)
-})
-invokeTag('captureBody','sitemesh',88,[:],1)
+}
 printHtmlPart(20)
+}
+else {
+printHtmlPart(21)
+}
+printHtmlPart(22)
+})
+invokeTag('captureBody','sitemesh',93,[:],1)
+printHtmlPart(23)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431619221963L
+public static final long LAST_MODIFIED = 1432585138961L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

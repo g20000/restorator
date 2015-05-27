@@ -62,43 +62,50 @@ printHtmlPart(14)
 createClosureForHtmlPart(15, 2)
 invokeTag('link','g',40,['controller':("VisitorSpace"),'action':("setReservation")],2)
 printHtmlPart(16)
-for( table in (tableInfo) ) {
+if(true && (tableInfo.size() != 0)) {
 printHtmlPart(17)
+for( table in (tableInfo) ) {
+printHtmlPart(18)
 expressionOut.print(table.placesInTableAmount)
-printHtmlPart(18)
+printHtmlPart(19)
 expressionOut.print(table.tableForReservationAmount)
-printHtmlPart(18)
+printHtmlPart(19)
 expressionOut.print(table.tableAmount)
-printHtmlPart(18)
-createClosureForHtmlPart(19, 3)
-invokeTag('link','g',64,['controller':("VisitorSpace"),'action':("deleteTableAdmin"),'params':([placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}"])],3)
-printHtmlPart(20)
-}
+printHtmlPart(19)
+createClosureForHtmlPart(20, 4)
+invokeTag('link','g',65,['controller':("VisitorSpace"),'action':("deleteTableAdmin"),'params':([placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}"])],4)
 printHtmlPart(21)
-createTagBody(2, {->
+}
 printHtmlPart(22)
-invokeTag('textField','g',72,['id':("placesInTable"),'class':("form-control"),'name':("placesInTable"),'placeholder':("Сколько мест за столом?"),'value':(""),'type':("number")],-1)
+}
+else {
 printHtmlPart(23)
-invokeTag('textField','g',74,['id':("availableForReservation"),'class':("form-control"),'name':("availableForReservation"),'placeholder':("Из них доступно для бронирования"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
+}
 printHtmlPart(24)
-invokeTag('textField','g',76,['id':("defTableAmount"),'class':("form-control"),'name':("defTableAmount"),'placeholder':("Всего столов"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
+createTagBody(2, {->
 printHtmlPart(25)
-createClosureForHtmlPart(26, 3)
-invokeTag('actionSubmit','g',77,['value':("Добавить столик"),'action':("addTable"),'class':("btn btn-lg btn-primary btn-block")],3)
+invokeTag('textField','g',81,['id':("placesInTable"),'class':("form-control"),'name':("placesInTable"),'placeholder':("Сколько мест за столом?"),'value':(""),'type':("number")],-1)
+printHtmlPart(26)
+invokeTag('textField','g',86,['id':("availableForReservation"),'class':("form-control"),'name':("availableForReservation"),'placeholder':("Из них доступно для бронирования"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
 printHtmlPart(27)
-})
-invokeTag('form','g',78,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('textField','g',91,['id':("defTableAmount"),'class':("form-control"),'name':("defTableAmount"),'placeholder':("Всего столов"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
 printHtmlPart(28)
+createClosureForHtmlPart(29, 3)
+invokeTag('actionSubmit','g',92,['value':("Добавить столик"),'action':("addTable"),'class':("btn btn-lg btn-primary btn-block")],3)
+printHtmlPart(30)
 })
-invokeTag('captureBody','sitemesh',91,[:],1)
-printHtmlPart(29)
+invokeTag('form','g',94,['class':("form-signin"),'controller':("VisitorSpace")],2)
+printHtmlPart(31)
+})
+invokeTag('captureBody','sitemesh',107,[:],1)
+printHtmlPart(32)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431527343578L
+public static final long LAST_MODIFIED = 1432585536269L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

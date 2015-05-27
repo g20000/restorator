@@ -53,26 +53,27 @@ invokeTag('link','g',29,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(10)
 createTagBody(2, {->
 printHtmlPart(11)
-invokeTag('textField','g',48,['id':("login"),'class':("form-control"),'name':("login"),'placeholder':("Логин"),'value':(applicationContext.springSecurityService.principal.username),'required':(""),'autofocus':("")],-1)
+invokeTag('textField','g',50,['id':("login"),'class':("form-control"),'name':("login"),'placeholder':("Логин"),'value':(applicationContext.springSecurityService.principal.username),'required':(""),'autofocus':("")],-1)
 printHtmlPart(12)
-invokeTag('textField','g',50,['id':("firstName"),'class':("form-control"),'name':("firstName"),'placeholder':("Ваше имя"),'var':("user"),'value':(user.firstName),'type':("text")],-1)
+invokeTag('textField','g',54,['id':("firstName"),'class':("form-control"),'name':("firstName"),'placeholder':("Ваше имя"),'var':("user"),'value':(user.firstName),'type':("text")],-1)
 printHtmlPart(13)
-invokeTag('textField','g',52,['id':("lastName"),'class':("form-control"),'name':("lastName"),'placeholder':("Вашa фамилия"),'var':("user"),'value':(user.lastName),'type':("text")],-1)
+invokeTag('textField','g',59,['id':("lastName"),'class':("form-control"),'name':("lastName"),'placeholder':("Вашa фамилия"),'var':("user"),'value':(user.lastName),'type':("text")],-1)
 printHtmlPart(14)
-invokeTag('textField','g',55,['id':("inputEmail"),'class':("form-control"),'name':("email"),'placeholder':("Адрес эл. почты"),'var':("user"),'value':(user.email),'autofocus':(""),'data-translatable-string':("Email address"),'type':("email")],-1)
+invokeTag('textField','g',64,['id':("inputEmail"),'class':("form-control"),'name':("email"),'placeholder':("Адрес эл. почты"),'var':("user"),'value':(user.email),'autofocus':(""),'data-translatable-string':("Email address"),'type':("email")],-1)
 printHtmlPart(15)
-invokeTag('passwordField','g',57,['id':("inputPassword"),'class':("form-control"),'name':("password"),'placeholder':("Пароль"),'var':("user"),'value':(user.password),'data-translatable-string':("Password")],-1)
+invokeTag('checkBox','g',67,['class':("isChangePasswordRequired"),'name':("isChangePasswordRequired"),'value':(false)],-1)
 printHtmlPart(16)
-invokeTag('passwordField','g',60,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'var':("user"),'value':(user.password),'required':(""),'data-translatable-string':("Password")],-1)
+invokeTag('passwordField','g',87,['id':("inputPassword"),'class':("form-control"),'name':("password"),'placeholder':("Пароль"),'var':("user"),'value':(""),'data-translatable-string':("Password")],-1)
 printHtmlPart(17)
-createClosureForHtmlPart(18, 3)
-invokeTag('actionSubmit','g',61,['value':("Подтвердить изменения"),'action':("updateUserData"),'class':("btn btn-lg btn-primary btn-block")],3)
+invokeTag('passwordField','g',92,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'var':("user"),'value':(""),'data-translatable-string':("Password")],-1)
+printHtmlPart(18)
+invokeTag('actionSubmit','g',94,['value':("Подтвердить изменения"),'action':("updateUserData")],-1)
 printHtmlPart(19)
 })
-invokeTag('form','g',62,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('form','g',96,['class':("form-signin"),'controller':("VisitorSpace")],2)
 printHtmlPart(20)
 })
-invokeTag('captureBody','sitemesh',75,[:],1)
+invokeTag('captureBody','sitemesh',109,[:],1)
 printHtmlPart(21)
 }
 public static final Map JSP_TAGS = new HashMap()
@@ -80,7 +81,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430935162762L
+public static final long LAST_MODIFIED = 1432497500600L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

@@ -56,28 +56,29 @@ invokeTag('link','g',30,['controller':("VisitorSpace"),'action':("setReservation
 printHtmlPart(12)
 createTagBody(2, {->
 printHtmlPart(13)
-invokeTag('textField','g',48,['id':("login"),'class':("form-control"),'name':("login"),'placeholder':("Логин"),'value':(applicationContext.springSecurityService.principal.username),'required':(""),'autofocus':("")],-1)
+invokeTag('textField','g',52,['id':("login"),'class':("form-control"),'name':("login"),'placeholder':("Логин"),'value':(applicationContext.springSecurityService.principal.username),'required':(""),'autofocus':("")],-1)
 printHtmlPart(14)
-invokeTag('textField','g',50,['id':("firstName"),'class':("form-control"),'name':("firstName"),'placeholder':("Ваше имя"),'var':("user"),'value':(user.firstName),'type':("text")],-1)
+invokeTag('textField','g',57,['id':("firstName"),'class':("form-control"),'name':("firstName"),'placeholder':("Ваше имя"),'var':("user"),'value':(user.firstName),'type':("text")],-1)
 printHtmlPart(15)
-invokeTag('textField','g',52,['id':("lastName"),'class':("form-control"),'name':("lastName"),'placeholder':("Вашa фамилия"),'var':("user"),'value':(user.lastName),'type':("text")],-1)
+invokeTag('textField','g',62,['id':("lastName"),'class':("form-control"),'name':("lastName"),'placeholder':("Вашa фамилия"),'var':("user"),'value':(user.lastName),'type':("text")],-1)
 printHtmlPart(16)
-invokeTag('textField','g',55,['id':("inputEmail"),'class':("form-control"),'name':("email"),'placeholder':("E-mail"),'var':("user"),'value':(user.email),'autofocus':(""),'data-translatable-string':(""),'type':("email")],-1)
+invokeTag('textField','g',67,['id':("inputEmail"),'class':("form-control"),'name':("email"),'placeholder':("E-mail"),'var':("user"),'value':(user.email),'autofocus':(""),'data-translatable-string':(""),'type':("email")],-1)
 printHtmlPart(17)
-invokeTag('textField','g',57,['id':("inputINN"),'class':("form-control"),'name':("inn"),'placeholder':("ИНН"),'var':("user"),'value':(user.inn),'autofocus':(""),'data-translatable-string':("INN"),'type':("number")],-1)
+invokeTag('textField','g',72,['id':("inputINN"),'class':("form-control"),'name':("inn"),'placeholder':("ИНН"),'var':("user"),'value':(user.inn),'autofocus':(""),'data-translatable-string':("INN"),'type':("number")],-1)
 printHtmlPart(18)
-invokeTag('passwordField','g',59,['id':("inputPassword"),'class':("form-control"),'name':("password"),'placeholder':("Пароль"),'var':("user"),'value':(user.password),'data-translatable-string':("Password")],-1)
+invokeTag('checkBox','g',75,['class':("isChangePasswordRequired"),'name':("isChangePasswordRequired"),'value':(false)],-1)
 printHtmlPart(19)
-invokeTag('passwordField','g',62,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'var':("user"),'value':(user.password),'data-translatable-string':("Password")],-1)
+invokeTag('passwordField','g',96,['id':("inputPassword"),'class':("form-control"),'name':("password"),'placeholder':("Пароль"),'var':("user"),'value':(""),'data-translatable-string':("Password")],-1)
 printHtmlPart(20)
-createClosureForHtmlPart(21, 3)
-invokeTag('actionSubmit','g',63,['value':("Подтвердить изменения"),'action':("updateUserData"),'class':("btn btn-lg btn-primary btn-block")],3)
+invokeTag('passwordField','g',102,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'var':("user"),'value':(""),'data-translatable-string':("Password")],-1)
+printHtmlPart(21)
+invokeTag('actionSubmit','g',104,['value':("Подтвердить изменения"),'action':("updateUserData")],-1)
 printHtmlPart(22)
 })
-invokeTag('form','g',64,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('form','g',106,['class':("form-signin"),'controller':("VisitorSpace")],2)
 printHtmlPart(23)
 })
-invokeTag('captureBody','sitemesh',77,[:],1)
+invokeTag('captureBody','sitemesh',119,[:],1)
 printHtmlPart(24)
 }
 public static final Map JSP_TAGS = new HashMap()
@@ -85,7 +86,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1430935573680L
+public static final long LAST_MODIFIED = 1432500241073L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

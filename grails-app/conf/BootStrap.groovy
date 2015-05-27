@@ -1,12 +1,13 @@
 import org.joda.time.LocalTime
 
+import billingMock.VisaMock;
 import restorator.Cafee
-import restorator.ExtHallinfo
-import restorator.ExtTablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
 import restorator.auth.PersonAuthority
 import extApiMock.ApiRequest
+import extApiMock.ExtHallinfo;
+import extApiMock.ExtTablePlacesInfo;
 
 class BootStrap {
 	def springSecurityService
@@ -18,7 +19,7 @@ class BootStrap {
 		 def newCafe = new Cafee(cafeeName: "Tarelka", region: "Mari El", city: "Yoshkar Ola").addToAdmin(new Person(username: 'testerAndrewRes', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false, 
 			 firstName:'Andrew', lastName:'Bobkov', email:'pragmus2@gmail.com', isAdminCafee: true,
-			 inn: '1234567890')).save()
+			 inn: '1234567890')).save(flush:true)
 		 println newCafe
 		 def user = Person.findByCafee(newCafe)
 		 println user
@@ -30,7 +31,7 @@ class BootStrap {
 		 newCafe = new Cafee(cafeeName: "U Petrovicha", region: "Mari El", city: "Kozmodemyansk").addToAdmin(new Person(username: 'testerAdmin', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false,
 			 firstName:'Sidr', lastName:'Sidorov', email:'sidr@gmail.com', isAdminCafee: true,
-			 inn: '9876543210')).save()
+			 inn: '9876543210')).save(flush:true)
 		 user = Person.findByCafee(newCafe)
 		 println user
 		 if(!user.authorities.contains(adminRole))
@@ -62,7 +63,7 @@ class BootStrap {
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee2 = Cafee.findOrSaveWhere(apiInit: "in_the_darkness", region: "Moscow region", city: "Moscow")
 		 def extTableInfoForCafee2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
-		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save()
+		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save(flush:true)
 		 
 		 double cost3 = 6.0
 		 def extApiRequest3 = ApiRequest.findOrSaveWhere(apiInit: "novikov_api", cafeeName: "Novikov", totalReservationPlaces: 14, placeCost: cost3, currencyType: "USD",
@@ -115,6 +116,9 @@ class BootStrap {
 				  
 		 extApiRequest5.addToHall(darkHall).save(flush: true)
 		 extApiRequest5.addToHall(openHall).save(flush: true)
+		 
+		 def bill = VisaMock.findOrSaveWhere(number: "1234567890123456", sum: 100)
+		 def bill2 = VisaMock.findOrSaveWhere(number: "6543210123456700", sum: 10)
     }
     def destroy = {
     }

@@ -60,12 +60,12 @@ invokeTag('link','g',24,['controller':("StartPage"),'action':("index")],2)
 printHtmlPart(15)
 createTagBody(2, {->
 printHtmlPart(16)
-invokeTag('textField','g',37,['class':("form-control"),'name':("city"),'placeholder':("Город заведения"),'value':("")],-1)
+invokeTag('textField','g',37,['class':("form-control"),'name':("city"),'placeholder':("Город ресторана"),'value':("")],-1)
 printHtmlPart(17)
-invokeTag('textField','g',45,['class':("form-control"),'name':("region"),'placeholder':("Регион заведения")],-1)
+invokeTag('textField','g',45,['class':("form-control"),'name':("region"),'placeholder':("Регион ресторана")],-1)
 printHtmlPart(18)
 createClosureForHtmlPart(19, 3)
-invokeTag('actionSubmit','g',47,['value':("Поиск заведений"),'action':("searchCafee"),'class':("btn btn-default")],3)
+invokeTag('actionSubmit','g',47,['value':("Начать поиск"),'action':("searchCafee"),'class':("btn btn-default")],3)
 printHtmlPart(20)
 })
 invokeTag('form','g',48,['class':("form-inline")],2)
@@ -74,42 +74,56 @@ createTagBody(2, {->
 printHtmlPart(22)
 expressionOut.print(cafeeName.cafeeName)
 printHtmlPart(23)
-expressionOut.print(cafeeName.placeCost)
+if(true && (halls.size() != 0)) {
 printHtmlPart(24)
-expressionOut.print(cafeeName.currencyType)
+invokeTag('select','g',66,['name':("hallsAvailable"),'from':(halls)],-1)
 printHtmlPart(25)
-invokeTag('select','g',65,['name':("tablePlacesAvailable"),'from':(tableInfo),'optionValue':({it.placesInTableAmount}),'optionKey':("placesInTableAmount"),'value':("")],-1)
+}
 printHtmlPart(26)
-invokeTag('datePicker','g',71,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
+expressionOut.print(cafeeName.placeCost)
 printHtmlPart(27)
-invokeTag('timePicker','joda',77,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+expressionOut.print(cafeeName.currencyType)
 printHtmlPart(28)
-invokeTag('timePicker','joda',83,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+if(true && (tableInfo.size() != 0)) {
 printHtmlPart(29)
-invokeTag('hiddenField','g',86,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+invokeTag('select','g',77,['name':("tablePlacesAvailable"),'from':(tableInfo),'optionValue':({it.placesInTableAmount}),'optionKey':("placesInTableAmount"),'value':("")],-1)
 printHtmlPart(30)
-invokeTag('hiddenField','g',87,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
-printHtmlPart(30)
-invokeTag('hiddenField','g',88,['name':("cafeePlaceCost"),'value':(cafeeName.placeCost)],-1)
-printHtmlPart(30)
-createClosureForHtmlPart(31, 3)
-invokeTag('actionSubmit','g',89,['value':("Забронировать"),'action':("index"),'class':("btn btn-primary")],3)
+}
+printHtmlPart(31)
+invokeTag('datePicker','g',81,['name':("reservationDate"),'value':(new Date()),'precision':("day")],-1)
 printHtmlPart(32)
-})
-invokeTag('form','g',90,['class':("form-signin"),'controller':("RedirectorToVisitorSpace")],2)
+invokeTag('timePicker','joda',84,['name':("startTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
 printHtmlPart(33)
-invokeTag('javascript','g',101,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
+if(true && (cafeeName.endTimeLimit != null)) {
+printHtmlPart(34)
+invokeTag('timePicker','joda',88,['name':("endTimeReservation"),'value':(new LocalTime()),'precision':("minute")],-1)
+printHtmlPart(35)
+}
+printHtmlPart(36)
+invokeTag('hiddenField','g',93,['name':("cafeeName"),'value':(cafeeName.cafeeName)],-1)
+printHtmlPart(37)
+invokeTag('hiddenField','g',95,['name':("cafeeApiInit"),'value':(cafeeName.apiInit)],-1)
+printHtmlPart(37)
+invokeTag('hiddenField','g',96,['name':("cafeePlaceCost"),'value':(cafeeName.placeCost)],-1)
+printHtmlPart(37)
+createClosureForHtmlPart(38, 3)
+invokeTag('actionSubmit','g',97,['value':("Забронировать"),'action':("index"),'class':("btn btn-primary")],3)
+printHtmlPart(39)
+})
+invokeTag('form','g',97,['class':("form-signin"),'controller':("RedirectorToVisitorSpace")],2)
+printHtmlPart(40)
+invokeTag('javascript','g',109,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(0)
 })
-invokeTag('captureBody','sitemesh',102,[:],1)
-printHtmlPart(34)
+invokeTag('captureBody','sitemesh',109,[:],1)
+printHtmlPart(41)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1431626034368L
+public static final long LAST_MODIFIED = 1432591787750L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

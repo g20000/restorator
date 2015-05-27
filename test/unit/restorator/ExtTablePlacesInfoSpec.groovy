@@ -1,5 +1,6 @@
 package restorator
 
+import extApiMock.ExtTablePlacesInfo;
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
