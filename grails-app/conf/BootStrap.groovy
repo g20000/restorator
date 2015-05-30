@@ -1,13 +1,14 @@
 import org.joda.time.LocalTime
 
-import billingMock.VisaMock;
 import restorator.Cafee
 import restorator.auth.Authority
 import restorator.auth.Person
 import restorator.auth.PersonAuthority
+import billingMock.PaymentSystems
+import billingMock.VisaMock
 import extApiMock.ApiRequest
-import extApiMock.ExtHallinfo;
-import extApiMock.ExtTablePlacesInfo;
+import extApiMock.ExtHallinfo
+import extApiMock.ExtTablePlacesInfo
 
 class BootStrap {
 	def springSecurityService
@@ -15,6 +16,9 @@ class BootStrap {
 		 def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
+		 
+		 def visa = PaymentSystems.findOrSaveWhere(paymentSystemName: "Visa")
+		 def webMoney = PaymentSystems.findOrSaveWhere(paymentSystemName: "WebMoney")
 		 		 
 		 def newCafe = new Cafee(cafeeName: "Tarelka", region: "Mari El", city: "Yoshkar Ola").addToAdmin(new Person(username: 'testerAndrewRes', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false, 
@@ -56,6 +60,7 @@ class BootStrap {
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 20, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
 		 def extCafee = Cafee.findOrSaveWhere(apiInit: "carlson_api", region: "Moscow region", city: "Moscow")
+		 //extApiRequest.addToAvailablePaymentSystems(visa).save(flush:true)
 		 
 		 double cost2 = 8.0
 		 def extApiRequest2 = ApiRequest.findOrSaveWhere(apiInit: "in_the_darkness", cafeeName: "In the darkness", totalReservationPlaces: 15, placeCost: cost2, currencyType: "USD",
@@ -117,8 +122,30 @@ class BootStrap {
 		 extApiRequest5.addToHall(darkHall).save(flush: true)
 		 extApiRequest5.addToHall(openHall).save(flush: true)
 		 
-		 def bill = VisaMock.findOrSaveWhere(number: "1234567890123456", sum: 100)
-		 def bill2 = VisaMock.findOrSaveWhere(number: "6543210123456700", sum: 10)
+		 double billSum = 100.0
+		 double billSum2 = 10.0
+		 def bill = VisaMock.findOrSaveWhere(number: "1234567890123456", sum: billSum)
+		 def bill2 = VisaMock.findOrSaveWhere(number: "6543210123456700", sum: billSum2)
+		 		 
+		 //extApiRequest.lock()
+		 extApiRequest.addToAvailablePaymentSystems(visa).save(flush:true)
+		 //extApiRequest.save()
+		 //extApiRequest.lock()
+		 extApiRequest.addToAvailablePaymentSystems(webMoney).save(flush:true)
+		 //extApiRequest.save()
+		 
+		 //extApiRequest2.lock()
+		 extApiRequest2.addToAvailablePaymentSystems(visa).save(flush:true)
+		 //extApiRequest2.save()
+		 //extApiRequest3.lock()
+		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
+		 //extApiRequest3.save()
+		 //extApiRequest4.lock()
+		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
+		 //extApiRequest4.save()
+		 //extApiRequest5.lock()
+		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)
+		 //extApiRequest5.save()
     }
     def destroy = {
     }

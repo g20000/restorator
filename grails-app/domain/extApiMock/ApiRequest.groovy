@@ -2,6 +2,8 @@ package extApiMock
 
 import org.joda.time.LocalTime
 
+import billingMock.PaymentSystems
+
 class ApiRequest {
 	String apiInit = ""
     String cafeeName = ""
@@ -21,10 +23,11 @@ class ApiRequest {
 	String city = ""
 	ArrayList<Integer> places
 	ArrayList<String> halls
+	ArrayList<String> paymentSystems
 	int placesInSelectedTable
 	String selectedHall
 		
-	static hasMany = [placesInTable: ExtTablePlacesInfo, hall: ExtHallinfo]
+	static hasMany = [placesInTable: ExtTablePlacesInfo, hall: ExtHallinfo, availablePaymentSystems: PaymentSystems]
 		
     static constraints = {
 		apiInit blank: false, unique: true
@@ -35,6 +38,7 @@ class ApiRequest {
 		hall nullable: true
 		halls nullable: true
 		selectedHall nullable: true
+		availablePaymentSystems nullable: true
     }
 			
 	String getCafeeName(){

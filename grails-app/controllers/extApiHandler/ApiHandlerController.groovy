@@ -4,8 +4,8 @@ import restorator.NovikovService
 import restorator.PiterService
 import restorator.TrizetService
 import extApiMock.ApiRequest
-import extApiMock.ExtHallinfo;
-import extApiMock.ExtTablePlacesInfo;
+import extApiMock.ExtHallinfo
+import extApiMock.ExtTablePlacesInfo
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])
@@ -103,8 +103,10 @@ class ApiHandlerController {
 			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
 					 def availableTablesByPlaces = ExtTablePlacesInfo.findAllWhere(request : cafee)
 					 def availableHalls = ExtHallinfo.findAllWhere(request : cafee)
+					 def availablePaymentSystems = cafee.availablePaymentSystems
 					 ArrayList<Integer>placesInTable = new ArrayList<Integer>()
 					 ArrayList<String>hallNames = new ArrayList<String>()
+					 //ArrayList<String>paymentSystems = new ArrayList<String>()
 					 ApiRequest request = new ApiRequest()
 					 request = cafee
 					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
@@ -113,8 +115,13 @@ class ApiHandlerController {
 					 for(ExtHallinfo availableHall : availableHalls){
 						 hallNames.add(availableHall.hallName)
 					 }
+					 /*for(PaymentSystems paymentSystem : availablePaymentSystems){
+						 paymentSystems.add(paymentSystem.getPaymentSystemName())
+					 }*/
 					 request.places = placesInTable
 					 request.halls = hallNames
+					 //request.paymentSystems = paymentSystems
+					 println cafee.availablePaymentSystems
 					 return request
 			case 2 : def cafee = NovikovService.deleteReservedTable(api[0])
 					 return cafee

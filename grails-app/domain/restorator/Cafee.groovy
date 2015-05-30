@@ -3,6 +3,7 @@ package restorator
 import org.joda.time.LocalTime
 
 import restorator.auth.Person
+import billingMock.PaymentSystems
 
 class Cafee {
 	
@@ -21,10 +22,9 @@ class Cafee {
 	String region = ""
 	String city = ""
 	String apiInit = ""
-	String hall	
-	ArrayList<String> availablePaymentSystems = new ArrayList<String>()
+	String hall
 	
-	static hasMany = [admin: Person, placesInTable: TablePlacesInfo]
+	static hasMany = [admin: Person, placesInTable: TablePlacesInfo, availablePaymentSystems: PaymentSystems]
 	
     static constraints = {
 		admin nullable: true

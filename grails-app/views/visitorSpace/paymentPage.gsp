@@ -72,7 +72,7 @@
    			<tbody>
    				<g:each in="${availablePaymentSystems}">
 	   				<tr>
-	     				<td>${it}</td>
+	     				<td><g:link action="goToPaymentSystemPage" params="[paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}"]">${it.getPaymentSystemName()}</g:link></td>
 	     			</tr>
      			</g:each>
         	</tbody>      

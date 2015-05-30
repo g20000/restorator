@@ -54,6 +54,16 @@
   		<p>Настройки ресторана успешно изменены!</p>
   		<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 
   	</g:elseif>
+  	<g:elseif test="${error == 13}">
+  		<p>Отказано в оплате!</p>
+  		<p>Недостаточно средств на счету!</p>
+  		<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 
+  	</g:elseif>
+  	<g:elseif test="${error == 14}">
+  		<p>Ошибка системы оплаты!</p>
+  		<p>Свяжитесь с вашим банком!</p>
+  		<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 
+  	</g:elseif>
   	<g:else>
   		<p>Неизвестная ошибка!</p>
   		<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 

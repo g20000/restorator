@@ -8,6 +8,7 @@ import restorator.ReservedTable
 import restorator.TablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
+import billingMock.PaymentSystems
 import extApiHandler.ApiHandlerController
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.SpringSecurityService
@@ -16,6 +17,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
+	private def cafeeInfo
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
     def index() {				
@@ -127,6 +129,9 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def makeReserve(params){
+		println "///"
+		println params
+		println "///"
 		ApiRequest apiRequest
 		def endTimeReservation
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
@@ -483,14 +488,13 @@ class VisitorSpaceController {
 	def setupBillingSystem(){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
-		def paymentHandler = new PaymentSystemsHandler()
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = paymentHandler.getAllPaymentSystems()
+		def paymentSystems = PaymentSystems.list()
 		for(def paymentSystem : paymentSystems){
 			if(cafee.availablePaymentSystems.contains(paymentSystem)){
-				paymentSystemsStatus.put(paymentSystem, true)
+				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
 			}else{
-				paymentSystemsStatus.put(paymentSystem, false)
+				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
 			}
 		}
 		render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
@@ -500,14 +504,13 @@ class VisitorSpaceController {
 	def saveSetupBillingSystems(params){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
-		def paymentHandler = new PaymentSystemsHandler()
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = paymentHandler.getAllPaymentSystems()
+		def paymentSystems = PaymentSystems.list()
 		for(def paymentSystem : paymentSystems){
-			if((params.containsKey(paymentSystem))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.availablePaymentSystems.add(paymentSystem)
-			}else if((!params.containsKey(paymentSystem))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.availablePaymentSystems.remove(paymentSystem)
+			if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
+				cafee.addToAvailablePaymentSystems(paymentSystem)
+			}else if((!params.containsKey(paymentSystem.getPaymentSystemName()))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
+				cafee.removeFromAvailablePaymentSystems(paymentSystem)
 			}
 		}
 		if(!cafee.save(flush:true)){
@@ -520,9 +523,38 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToPaymentPage(params){
-		println params
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = Cafee.findByCafeeName(params['cafeeName'])
+		println params['cafeeApiInit']
+		ApiRequest apiRequest
+		if(params['cafeeApiInit'] != ""){
+			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
+			println apiRequest.paymentSystems
+			cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems)
+		}
+		cafeeInfo = params
 		render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def makePayment(params){
+		double totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+		switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], params['billNumber'], totalCost)){
+			case 0: makeReserve(cafeeInfo)
+					break
+			case -1: def errorCode = 13
+					 render (view:'error.gsp', model: [error: errorCode])
+					 break
+			
+			case 1:  def errorCode = 14
+					 render (view:'error.gsp', model: [error: errorCode])
+					 break
+			default: break
+		}
+	}
+	
+	@Secured(['ROLE_VISITOR'])
+	def goToPaymentSystemPage(params){
+		render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName']])
 	}
 }
