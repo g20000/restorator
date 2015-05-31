@@ -30,7 +30,7 @@ class StartPageController {
 			render (view:'error.gsp')
 			return
 		}else if(((cityCafee != "") && (regionCafee == ""))){
-			goalCafee = Cafee.findAllByCityIlike(cityCafee)
+			goalCafee = Cafee.findAllByCityIlike(cityCafee[0..2] + "%")
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
@@ -41,7 +41,7 @@ class StartPageController {
 				}
 			}
 		}else if(((cityCafee == "") && (regionCafee != ""))){
-			goalCafee = Cafee.findAllByRegionIlike(regionCafee)
+			goalCafee = Cafee.findAllByRegionIlike(regionCafee[0..2] + "%")
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
@@ -52,7 +52,8 @@ class StartPageController {
 				}
 			}
 		}else{
-			goalCafee = Cafee.findAllByCityAndRegionIlike(cityCafee, regionCafee)
+			println "hi"
+			goalCafee = Cafee.findAllByCityIlikeAndRegionIlike(cityCafee[0..2] + "%", regionCafee[0..2] + "%")
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)

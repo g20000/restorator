@@ -10,7 +10,7 @@
         <nav>
           <ul class="nav nav-pills pull-right">
           	<sec:ifNotLoggedIn>
-            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегестрироваться</g:link></li>
+            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегистрироваться</g:link></li>
             	<li role="presentation"><g:link controller="VisitorSpace" action="index">Войти</g:link></li>
             </sec:ifNotLoggedIn>
             <sec:ifLoggedIn>
@@ -24,6 +24,32 @@
         </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
+		
+	  <script type="text/javascript">
+	  $(document).ready(function() {
+		  $("#city").autocomplete({
+		   source: function(request, response){
+		    $.ajax({
+		     url: "/restorator/autoCompleter/complist", // remote datasource
+		     data: request,
+		     success: function(data){
+		      response(data); // set the response
+		     },
+		     error: function(){ // handle server errors
+		      $.jGrowl("Unable to retrieve Companies", {
+		       theme: 'ui-state-error ui-corner-all'   
+		      });
+		     }
+		    });
+		   },
+		   minLength: 2, // triggered only after minimum 2 characters have been entered.
+		   change: function(event, ui) { // event handler when user selects a company from the list.
+		    $("#company\\.id").val(ui.item.id); // update the hidden field.
+		    $("#empId").val(ui.item.nasSymbol + "-") // populate the employee field with the nasdaq symbol.
+		   }
+		  });
+		 });
+	  </script>	
 		
 	  <div>
 	  	<g:form class="form-inline">

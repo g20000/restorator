@@ -10,7 +10,7 @@
         <nav>
           <ul class="nav nav-pills pull-right">
           	<sec:ifNotLoggedIn>
-            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегестрироваться</g:link></li>
+            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегистрироваться</g:link></li>
             	<li role="presentation"><g:link controller="VisitorSpace" action="index">Войти</g:link></li>
             </sec:ifNotLoggedIn>
             <sec:ifLoggedIn>

@@ -19,8 +19,8 @@ class Cafee {
 	LocalTime endTimeLimit = new LocalTime()
 	Date startDateLimit = new Date()
 	Date endDateLimit = new Date()
-	String region = ""
 	String city = ""
+	String region = ""
 	String apiInit = ""
 	String hall
 	
