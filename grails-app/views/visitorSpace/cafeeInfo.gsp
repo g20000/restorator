@@ -107,6 +107,7 @@
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
 	        <g:hiddenField name="cafeePlaceCost" value="${cafeeName.placeCost}" />
+	        <g:hiddenField name="tableCost" value="${tableInfo.placeCost}"/>
 	        <g:actionSubmit value="Забронировать"  action="goToPaymentPage" class="btn btn-primary">Забронировать</g:actionSubmit>
       	</g:form> 
        </div>

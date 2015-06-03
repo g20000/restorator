@@ -127,25 +127,12 @@ class BootStrap {
 		 def bill = VisaMock.findOrSaveWhere(number: "1234567890123456", sum: billSum)
 		 def bill2 = VisaMock.findOrSaveWhere(number: "6543210123456700", sum: billSum2)
 		 		 
-		 //extApiRequest.lock()
 		 extApiRequest.addToAvailablePaymentSystems(visa).save(flush:true)
-		 //extApiRequest.save()
-		 //extApiRequest.lock()
 		 extApiRequest.addToAvailablePaymentSystems(webMoney).save(flush:true)
-		 //extApiRequest.save()
-		 
-		 //extApiRequest2.lock()
 		 extApiRequest2.addToAvailablePaymentSystems(visa).save(flush:true)
-		 //extApiRequest2.save()
-		 //extApiRequest3.lock()
 		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
-		 //extApiRequest3.save()
-		 //extApiRequest4.lock()
 		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
-		 //extApiRequest4.save()
-		 //extApiRequest5.lock()
 		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)
-		 //extApiRequest5.save()
     }
     def destroy = {
     }

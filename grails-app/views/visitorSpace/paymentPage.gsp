@@ -70,6 +70,11 @@
       <div class="jumbotron">
    		<table class="table">
    			<tbody>
+   				<g:if test="${totalCost != null}">
+	   				<tr>
+	   					<td>Цена бронирования составит ${totalCost} ${currencyType }</td>
+	 				</tr>
+ 				</g:if>
    				<g:each in="${availablePaymentSystems}">
 	   				<tr>
 	     				<td><g:link action="goToPaymentSystemPage" params="[paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}"]">${it.getPaymentSystemName()}</g:link></td>

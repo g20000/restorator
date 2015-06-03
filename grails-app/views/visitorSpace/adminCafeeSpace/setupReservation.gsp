@@ -37,8 +37,9 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li class="active"><a href="#">Редактирование<span class="sr-only">(current)</span></a></li>
+               <li class="active"><g:link controller="VisitorSpace" action="setReservation">Редактирование<span class="sr-only">(current)</span></g:link></li>
                <li><g:link controller="VisitorSpace" action="tableAcounting">Учет столов<span class="sr-only">(current)</span></g:link></li>
+               <li><g:link controller="VisitorSpace" action="goToHallsAndZones">Залы и зоны</g:link></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

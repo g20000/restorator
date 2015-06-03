@@ -55,7 +55,7 @@
 		});
 	  </script>
       <div class="jumbotron">
-       <g:form class="form-signin" controller="RedirectorToVisitorSpace">
+       <g:form class="form-signin" controller="RedirectToVisitorSpace">
       		<table class="table">
       			<tbody>
       				<tr>
@@ -94,6 +94,7 @@
 	        <g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" />
 	        <g:hiddenField name="cafeeApiInit" value="${cafeeName.apiInit}" />
 	        <g:hiddenField name="cafeePlaceCost" value="${cafeeName.placeCost}" />
+	        <g:hiddenField name="tableCost" value="${tableInfo.placeCost}"/>
 	        <g:actionSubmit value="Забронировать"  action="index" class="btn btn-primary">Забронировать</g:actionSubmit>
       	</g:form>
       </div>

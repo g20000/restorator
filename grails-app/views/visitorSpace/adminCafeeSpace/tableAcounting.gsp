@@ -38,7 +38,8 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                <li><g:link controller="VisitorSpace" action="setReservation">Редактирование<span class="sr-only">(current)</span></g:link></li>
-               <li class="active"><a href="#">Учет столов<span class="sr-only">(current)</span></a></li>
+               <li class="active"><g:link controller="VisitorSpace" action="tableAcounting">Учет столов</g:link></li>
+               <li><g:link controller="VisitorSpace" action="goToHallsAndZones">Залы и зоны</g:link></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -53,6 +54,9 @@
 							<th>Мест за столом</th>
 							<th>Из них доступно для бронирования</th>
 							<th>Всего столов</th>
+							<th>Зал/зона</th>
+							<th>Цена стола</th>
+							<th>Единица стоимости</th>
 							<th></th>
 						</tr>	
 					</thead>
@@ -62,7 +66,10 @@
 								<td>${table.placesInTableAmount}</td>
 								<td>${table.tableForReservationAmount}</td>
 								<td>${table.tableAmount}</td>
-								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}"]">Удалить столик</g:link></td>
+								<td>${table.hall.getHallName()}</td>
+								<td>${table.placeCost}</td>
+								<td>${table.currencyType}</td>
+								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
 							</tr>
 						</g:each>
 					</tbody>
@@ -88,7 +95,21 @@
        			<small>Сколько всего таких столов?</small>
        		</div>
 	        <label for="defTableAmount" class="sr-only">Всего столов</label>
-	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="" autofocus="" data-translatable-string="" type="number"/>	    
+	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="" autofocus="" data-translatable-string="" type="number"/>
+	        <div class="text-left">
+       			<small>Зал/зона столов</small>
+       		</div>
+       		<g:select name="hallsAvailable" from="${halls}" optionValue="${{it.hallName}}" optionKey="hallName" value=""/>
+       		<div class="text-left">
+       			<small>Цена стола</small>
+       		</div>     
+	        <label for="placePrice" class="sr-only">Цена стола</label>
+	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена стола" value="" autofocus="" data-translatable-string="" type="number"/>
+	        <div class="text-left">
+       			<small>Тип принимаемой валюты</small>
+       		</div>
+	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
+	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="" autofocus="" data-translatable-string="" type="string"/>	    
 	        <g:actionSubmit value="Добавить столик"  action="addTable" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
 	    </div>    
       	</g:form>	

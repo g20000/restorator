@@ -24,13 +24,13 @@ class Cafee {
 	String apiInit = ""
 	String hall
 	
-	static hasMany = [admin: Person, placesInTable: TablePlacesInfo, availablePaymentSystems: PaymentSystems]
+	static hasMany = [admin: Person, availablePaymentSystems: PaymentSystems, halls: HallsZones]
 	
     static constraints = {
 		admin nullable: true
-		placesInTable nullable: true
 		hall nullable: true
 		availablePaymentSystems nullable: true
+		halls nullable: true
     }
 			
 	String getCafeeName(){

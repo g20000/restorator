@@ -3,6 +3,7 @@ package restoratorUserSpace
 import org.joda.time.LocalTime
 
 import restorator.Cafee
+import restorator.HallsZones
 import restorator.PaymentSystemsHandler
 import restorator.ReservedTable
 import restorator.TablePlacesInfo
@@ -57,7 +58,7 @@ class VisitorSpaceController {
 				def tempDate = new Date()
 				tempDate.set(year: Integer.parseInt(params['reservationDate_year']), month: month, dayOfMonth: Integer.parseInt(params['reservationDate_day']))
 				params.put('reservationDate', tempDate)
-				makeReserve(params)
+				goToPaymentPage(params)
 			}else{
 				showVisitorSpace()
 			}
@@ -121,9 +122,18 @@ class VisitorSpaceController {
 			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
-			ArrayList<String>hallsMock = new ArrayList<String>()
-			def tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
-			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallsMock])
+			def halls = HallsZones.findAllWhere(cafee : goalCafee)
+			def tablePlacesQuery = TablePlacesInfo.createCriteria()			
+			def tablePlaces = tablePlacesQuery.list {
+				'in'("hall", halls)
+			}
+						
+			ArrayList<String>hallNames = new ArrayList<String>()
+			for(def hall : halls){
+				hallNames.add(hall.getHallName())
+			}
+			
+			render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}
 	}
 	
@@ -196,7 +206,13 @@ class VisitorSpaceController {
 			}
 							
 			Person owner = Person.findByCafee(cafee)
-			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
+			def tableQuery = TablePlacesInfo.createCriteria()
+			
+			//def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
+			def table = tableQuery.get{
+				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
+				eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))
+			}
 			if(table.tableForReservationAmount < 1){
 				def errorCode = 3
 				render (view:'error.gsp', model: [error: errorCode])
@@ -216,10 +232,11 @@ class VisitorSpaceController {
 					println it
 				}
 			}
-			
-			double cost = Integer.parseInt(params['tablePlacesAvailable']) * Double.parseDouble(params['cafeePlaceCost'])
+						
+			//double cost = Integer.parseInt(params['tablePlacesAvailable']) * Double.parseDouble(params['cafeePlaceCost'])
+			double cost = table.getPlaceCost()
 			ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
-				reservationDate: params['reservationDate'], places: Integer.parseInt(params['tablePlacesAvailable']), cost: cost)
+				reservationDate: params['reservationDate'], places: Integer.parseInt(params['tablePlacesAvailable']), cost: cost, hall: params['hallsAvailable'])
 			if(!myPlace.save(flush: true)){
 				myPlace.errors.each {
 					println it
@@ -229,7 +246,7 @@ class VisitorSpaceController {
 		showReservedTableForVisitor()
 	}
 	
-	@Secured(['ROLE_VISITOR'])//переделать с учетом api
+	@Secured(['ROLE_VISITOR'])
 	def showReservedTableForVisitor(){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myTables = ReservedTable.findAllByVisitor(user)
@@ -263,8 +280,16 @@ class VisitorSpaceController {
 			def myPlace = ReservedTable.findByVisitorAndCafeeNameAndPlaces(user, Cafee.findByCafeeName(params['cafeeName']), Integer.parseInt(params['placesAmount']))
 			def cafee = Cafee.findByCafeeName(params['cafeeName'])
 			
-			def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesAmount']))
-
+			//def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesAmount']))
+			
+			def tableQuery = TablePlacesInfo.createCriteria()
+			
+			//def table = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['tablePlacesAvailable']))
+			def table = tableQuery.get{
+				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
+				eq("placesInTableAmount", Integer.parseInt(params['placesAmount']))
+			}
+			
 			myPlace.delete(flush: true)
 			table.tableForReservationAmount += 1
 			cafee.totalReservationPlaces += 1
@@ -407,8 +432,12 @@ class VisitorSpaceController {
 	def tableAcounting(){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
-		def tables = cafee.placesInTable
-		render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables]) 
+		def tablesQuery = TablePlacesInfo.createCriteria()
+		def tables = tablesQuery.list {
+			'in'("hall", HallsZones.findAllByCafee(cafee))
+		}
+		def halls = cafee.halls
+		render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables, halls : halls]) 
 	}
 	
 	@Secured(['ROLE_ADMIN'])
@@ -417,7 +446,9 @@ class VisitorSpaceController {
 		def cafee = user.cafee
 		cafee.totalReservationPlaces += Integer.parseInt(params['availableForReservation'])
 		cafee.totalPlaces += Integer.parseInt(params['defTableAmount'])
-		cafee.addToPlacesInTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'])).save(flush: true)
+		def hall = HallsZones.findWhere(cafee : cafee, hallName : params['hallsAvailable'])
+		hall.addToTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'],
+			placeCost: params['placePrice'], currencyType: params['currencyType'])).save(flush: true)	
 		tableAcounting()
 	}
 	
@@ -426,10 +457,16 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		cafee.totalReservationPlaces -= Integer.parseInt(params['tablesForReservation'])
-		cafee.totalPlaces -= Integer.parseInt(params['totalTables'])
-		def tableToDelete = TablePlacesInfo.findWhere(cafee: cafee, placesInTableAmount: Integer.parseInt(params['placesInTable']))
-		tableToDelete.delete(flush: true)
-		cafee.save()
+		cafee.totalPlaces -= Integer.parseInt(params['totalTables'])		
+		def hall = HallsZones.findWhere(hallName: params['hall'], cafee: cafee)		
+		def tableQuery = TablePlacesInfo.createCriteria()
+		def table = tableQuery.get {
+			'in'("hall", HallsZones.findAllByCafee(cafee))
+			eq("placesInTableAmount", Integer.parseInt(params['placesInTable']))
+		}
+		
+		hall.removeFromTable(table).save(flush: true)
+		
 		tableAcounting()
 	}
 	
@@ -523,17 +560,27 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToPaymentPage(params){
+		cafeeInfo = params
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = Cafee.findByCafeeName(params['cafeeName'])
 		println params['cafeeApiInit']
 		ApiRequest apiRequest
 		if(params['cafeeApiInit'] != ""){
+			println "goToPaymentPage1"
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
 			println apiRequest.paymentSystems
 			cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems)
+			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
+		}else{
+			println "goToPaymentPage"
+			def tableQuery = TablePlacesInfo.createCriteria()
+			def table = tableQuery.get{
+				'in'("hall", cafee.halls)
+				 eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
+			}
+			def totalCost = table.getPlaceCost()
+			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
 		}
-		cafeeInfo = params
-		render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
 	}
 	
 	@Secured(['ROLE_VISITOR'])
@@ -556,5 +603,37 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])
 	def goToPaymentSystemPage(params){
 		render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName']])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def goToHallsAndZones(){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def allHallsAndZones = user.cafee.halls
+		render (view: 'adminCafeeSpace/hallsAndZones.gsp', model: [halls: allHallsAndZones])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def addHall(params){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def hallName = new String(params['hall']).trim()
+		if(hallName != ""){
+			def newHall = HallsZones.findOrSaveWhere(hallName: hallName)
+			if(!cafee.addToHalls(newHall).save(flush: true)){
+				
+			}		
+		}
+		goToHallsAndZones()
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def deleteHall(params){
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def hallForDeleting = HallsZones.findWhere(cafee: cafee, hallName: params['hallName'])
+		if(!cafee.removeFromHalls(hallForDeleting).save(flush: true)){
+			
+		}
+		goToHallsAndZones()
 	}
 }

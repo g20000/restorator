@@ -86,16 +86,24 @@ class StartPageController {
 			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
-			ArrayList<String>hallsMock = new ArrayList<String>()
-			def tablePlaces = TablePlacesInfo.findAllWhere(cafee: goalCafee)
-			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallsMock])
+			def halls = HallsZones.findAllWhere(cafee : goalCafee)
+			def tablePlacesQuery = TablePlacesInfo.createCriteria()			
+			def tablePlaces = tablePlacesQuery.list {
+				'in'("hall", halls)
+			}
+						
+			ArrayList<String>hallNames = new ArrayList<String>()
+			for(def hall : halls){
+				hallNames.add(hall.getHallName())
+			}
+			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}
 	}
 	
-	@Secured(['ROLE_VISITOR'])
+	/*@Secured(['ROLE_VISITOR'])
 	def redirectToReserve(params){
 		VisitorSpaceController visitorSpace = new VisitorSpaceController()
 		visitorSpace.makeReserve(params)
 		//redirect(controller: "VisitorSpace", action: "makeReserve", params:params)
-	}
+	}*/
 }

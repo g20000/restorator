@@ -8,10 +8,10 @@ class RedirectorToVisitorSpaceController {
 		redirector()
 	}
 	
-	@Secured(['ROLE_VISITOR'])
-	def redirector(){
-		redirect(controller: "VisitorSpace", action: "makeReserve", params: params)
-		
+	@Secured(['permitAll'])
+	def redirector(params){
+		println "redirector"
+		redirect(controller: "VisitorSpace", action: "goToPaymentPage", params: params)
 	}
 	
 	@Secured(['permitAll'])
