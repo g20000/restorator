@@ -579,12 +579,18 @@ class VisitorSpaceController {
 			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
 		}else{
 			def tableQuery = TablePlacesInfo.createCriteria()
-			def table = tableQuery.get{
-				'in'("hall", cafee.halls)
-				 eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
+			try {
+					def table = tableQuery.get{
+						'in'("hall", cafee.halls)
+						eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
+					}
+					def totalCost = table.getPlaceCost()
+					render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
+			} catch (Exception e) {
+				def errorCode = 16
+				render (view:'error.gsp', model: [error: errorCode])
+				e.printStackTrace()
 			}
-			def totalCost = table.getPlaceCost()
-			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
 		}
 	}
 	

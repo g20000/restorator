@@ -101,6 +101,11 @@
 	  		<p><div>Проверьте полноту заполнения полей!</div></p>
 	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 
 	  	</g:elseif>
+	  	<g:elseif test="${error == 16}">
+	  		<p><div>Извините, это временная ошибка!</div></p>
+	  		<p><div>Она будет исправлена в ближайшее время!</div></p>
+	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 
+	  	</g:elseif>
 	  	<g:else>
 	  		<p><div>Неизвестная ошибка!</div></p>
 	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 
