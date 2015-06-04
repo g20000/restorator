@@ -24,33 +24,7 @@
         </div>
         <h3 class="text-muted">Olumn</h3>
       </div>
-		
-	  <script type="text/javascript">
-	  $(document).ready(function() {
-		  $("#city").autocomplete({
-		   source: function(request, response){
-		    $.ajax({
-		     url: "/restorator/autoCompleter/complist", // remote datasource
-		     data: request,
-		     success: function(data){
-		      response(data); // set the response
-		     },
-		     error: function(){ // handle server errors
-		      $.jGrowl("Unable to retrieve Companies", {
-		       theme: 'ui-state-error ui-corner-all'   
-		      });
-		     }
-		    });
-		   },
-		   minLength: 2, // triggered only after minimum 2 characters have been entered.
-		   change: function(event, ui) { // event handler when user selects a company from the list.
-		    $("#company\\.id").val(ui.item.id); // update the hidden field.
-		    $("#empId").val(ui.item.nasSymbol + "-") // populate the employee field with the nasdaq symbol.
-		   }
-		  });
-		 });
-	  </script>	
-		
+				
 	  <div>
 	  	<g:form class="form-inline">
 		  <div class="form-group">
@@ -62,12 +36,12 @@
 		    <g:textField class="form-control" name="city" placeholder="Город ресторана"/>
 		  </div>
 		  <div class="form-group">
-		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск ресторана по регионам</p>
+		    <label class="sr-only">по названию</label>
+		    <p class="form-control-static">Поиск ресторана по названию</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион ресторана</label>
-		    <g:textField class="form-control" name="region" placeholder="Регион ресторана"/>
+		    <label for="city" class="sr-only">Название ресторана</label>
+		    <g:textField class="form-control" name="region" placeholder="Название ресторана"/>
 		  </div>
 		  <g:actionSubmit value="Начать поиск" action="searchCafee" class="btn btn-default">Начать поиск</g:actionSubmit>
 		</g:form>

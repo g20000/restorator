@@ -9,6 +9,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])
 class StartPageController {
+	private int MIN_QUERY_NAME_SIZE = 3
 		
     def index() { 
 	}
@@ -25,12 +26,23 @@ class StartPageController {
 			regionCafee = ""
 		}
 		if((cityCafee == "") && (regionCafee == "")){
-			def error = "Заполните поля!"
-			println error
-			render (view:'error.gsp')
-			return
+			goalCafee = Cafee.list()
+			for(Cafee cafee : goalCafee){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit)
+					availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+						endTimeLimit : apiRequest.endTimeLimit))
+				}else{
+					availableCafees.add(cafee)
+				}
+			}
 		}else if(((cityCafee != "") && (regionCafee == ""))){
-			goalCafee = Cafee.findAllByCityIlike(cityCafee[0..2] + "%")
+			if(cityCafee.size() >= MIN_QUERY_NAME_SIZE)
+			{
+				goalCafee = Cafee.findAllByCityIlike(cityCafee[0..2] + "%")
+			}else{
+				goalCafee = Cafee.findAllByCityIlike(cityCafee)
+			}
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
@@ -41,7 +53,12 @@ class StartPageController {
 				}
 			}
 		}else if(((cityCafee == "") && (regionCafee != ""))){
-			goalCafee = Cafee.findAllByRegionIlike(regionCafee[0..2] + "%")
+			if(regionCafee.size() >= MIN_QUERY_NAME_SIZE)
+			{
+				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee[0..2] + "%")
+			}else{
+				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee)
+			}
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
@@ -52,8 +69,11 @@ class StartPageController {
 				}
 			}
 		}else{
-			println "hi"
-			goalCafee = Cafee.findAllByCityIlikeAndRegionIlike(cityCafee[0..2] + "%", regionCafee[0..2] + "%")
+			if((cityCafee.size() >= MIN_QUERY_NAME_SIZE) || (regionCafee.size() >= MIN_QUERY_NAME_SIZE)){
+				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee[0..2] + "%", regionCafee[0..2] + "%")
+			}else{
+				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee, regionCafee)
+			}
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
@@ -99,11 +119,4 @@ class StartPageController {
 			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}
 	}
-	
-	/*@Secured(['ROLE_VISITOR'])
-	def redirectToReserve(params){
-		VisitorSpaceController visitorSpace = new VisitorSpaceController()
-		visitorSpace.makeReserve(params)
-		//redirect(controller: "VisitorSpace", action: "makeReserve", params:params)
-	}*/
 }

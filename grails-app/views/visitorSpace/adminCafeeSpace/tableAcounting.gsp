@@ -85,17 +85,17 @@
        			<small>Сколько мест за столом?</small>
        		</div>
 	        <label for="placesInTable" class="sr-only">Сколько мест за столом?</label>
-	        <g:textField id="placesInTable" class="form-control" name="placesInTable" placeholder="Сколько мест за столом?" value="" type="number"/>
+	        <g:textField id="placesInTable" class="form-control" name="placesInTable" placeholder="Сколько мест за столом?" value="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Сколько таких столов доступно для бронирования?</small>
        		</div>     
 	        <label for="availableForReservation" class="sr-only">Из них доступно для бронирования</label>
-	        <g:textField id="availableForReservation" class="form-control" name="availableForReservation" placeholder="Из них доступно для бронирования" value="" autofocus="" data-translatable-string="" type="number"/>
+	        <g:textField id="availableForReservation" class="form-control" name="availableForReservation" placeholder="Из них доступно для бронирования" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Сколько всего таких столов?</small>
        		</div>
 	        <label for="defTableAmount" class="sr-only">Всего столов</label>
-	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="" autofocus="" data-translatable-string="" type="number"/>
+	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Зал/зона столов</small>
        		</div>
@@ -104,12 +104,12 @@
        			<small>Цена стола</small>
        		</div>     
 	        <label for="placePrice" class="sr-only">Цена стола</label>
-	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена стола" value="" autofocus="" data-translatable-string="" type="number"/>
+	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена стола" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Тип принимаемой валюты</small>
        		</div>
 	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
-	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="" autofocus="" data-translatable-string="" type="string"/>	    
+	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="" autofocus="" data-translatable-string="" type="string" required=""/>	    
 	        <g:actionSubmit value="Добавить столик"  action="addTable" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
 	    </div>    
       	</g:form>	

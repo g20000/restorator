@@ -13,7 +13,7 @@ import extApiMock.ExtTablePlacesInfo
 class BootStrap {
 	def springSecurityService
     def init = { servletContext ->
-		 def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
+		 /*def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
 		 
@@ -59,14 +59,14 @@ class BootStrap {
 		 def extApiRequest = ApiRequest.findOrSaveWhere(apiInit: "carlson_api", cafeeName: "Carlson", totalReservationPlaces: 10, placeCost: cost1, currencyType: "RUB",
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 20, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
-		 def extCafee = Cafee.findOrSaveWhere(apiInit: "carlson_api", region: "Moscow region", city: "Moscow")
+		 def extCafee = Cafee.findOrSaveWhere(apiInit: "carlson_api", region: "Moscow region", city: "Moscow", cafeeName: "Carlson",)
 		 //extApiRequest.addToAvailablePaymentSystems(visa).save(flush:true)
 		 
 		 double cost2 = 8.0
 		 def extApiRequest2 = ApiRequest.findOrSaveWhere(apiInit: "in_the_darkness", cafeeName: "In the darkness", totalReservationPlaces: 15, placeCost: cost2, currencyType: "USD",
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
-		 def extCafee2 = Cafee.findOrSaveWhere(apiInit: "in_the_darkness", region: "Moscow region", city: "Moscow")
+		 def extCafee2 = Cafee.findOrSaveWhere(apiInit: "in_the_darkness", region: "Moscow region", city: "Moscow", cafeeName: "In the darkness")
 		 def extTableInfoForCafee2 = ExtTablePlacesInfo.findOrSaveWhere(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6)
 		 extApiRequest2.addToPlacesInTable(extTableInfoForCafee2).save(flush:true)
 		 
@@ -74,7 +74,7 @@ class BootStrap {
 		 def extApiRequest3 = ApiRequest.findOrSaveWhere(apiInit: "novikov_api", cafeeName: "Novikov", totalReservationPlaces: 14, placeCost: cost3, currencyType: "USD",
 			 isReservationAvailable: true, reservationTimeLimit: false, reservationDateLimit: false, totalPlaces: 25, startTimeLimit: new LocalTime(), endTimeLimit: new LocalTime(),
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Moscow region", city: "Moscow")
-		 def extCafee3 = Cafee.findOrSaveWhere(apiInit: "novikov_api", region: "Moscow region", city: "Moscow")
+		 def extCafee3 = Cafee.findOrSaveWhere(apiInit: "novikov_api", region: "Moscow region", city: "Moscow", cafeeName: "Novikov")
 		 def extTableInfoForCafee3 = new ExtTablePlacesInfo(placesInTableAmount: 4, tableAmount: 8, tableForReservationAmount: 6).save(flush:true)
 		 def extTableInfoForCafee3_2 = new ExtTablePlacesInfo(placesInTableAmount: 2, tableAmount: 6, tableForReservationAmount: 8).save(flush:true)
 		 def firstHall = ExtHallinfo.findOrSaveWhere(hallName: "First hall")
@@ -92,7 +92,7 @@ class BootStrap {
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Saint Petersburg region", city: "Saint Petersburg")
 		 def extTableInfoForCafee4 = new ExtTablePlacesInfo(tableAmount: 8, tableForReservationAmount: 7).save(flush:true)
 		 def extTableInfoForCafee4_2 = new ExtTablePlacesInfo(tableAmount: 6, tableForReservationAmount: 8).save(flush:true)
-		 def extCafee4 = Cafee.findOrSaveWhere(apiInit: "piter_api", region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def extCafee4 = Cafee.findOrSaveWhere(apiInit: "piter_api", region: "Saint Petersburg region", city: "Saint Petersburg", cafeeName: "Piter")
 		 def grandHall = ExtHallinfo.findOrSaveWhere(hallName: "Grand hall")
 		 def smokingHall = ExtHallinfo.findOrSaveWhere(hallName: "Smoking hall")
 		 
@@ -110,7 +110,7 @@ class BootStrap {
 			 startDateLimit: new Date(), endDateLimit: new Date(), region: "Saint Petersburg region", city: "Saint Petersburg")
 		 def extTableInfoForCafee5 = new ExtTablePlacesInfo(tableAmount: 8, tableForReservationAmount: 5).save(flush:true)
 		 def extTableInfoForCafee5_2 = new ExtTablePlacesInfo(tableAmount: 6, tableForReservationAmount: 5).save(flush:true)
-		 def extCafee5 = Cafee.findOrSaveWhere(apiInit: "trizet_api", region: "Saint Petersburg region", city: "Saint Petersburg")
+		 def extCafee5 = Cafee.findOrSaveWhere(apiInit: "trizet_api", region: "Saint Petersburg region", city: "Saint Petersburg", cafeeName: "Trizet")
 		 def darkHall = ExtHallinfo.findOrSaveWhere(hallName: "Dark hall")
 		 def openHall = ExtHallinfo.findOrSaveWhere(hallName: "Open hall")
 		 
@@ -132,7 +132,7 @@ class BootStrap {
 		 extApiRequest2.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
-		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)
+		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)*/
     }
     def destroy = {
     }

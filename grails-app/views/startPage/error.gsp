@@ -1,11 +1,73 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-<title>Error message</title>
+	<meta name="layout" content="wrapBody"/>
+<title>Сообщение</title>
 </head>
 <body>
-  	<p>Заполните хотя бы одно поле для поиска!</p>
-	<p><a href="#" onclick="javascript:window.history.back();">Назад</a></p> 
+  <div class="container">	
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+          	<sec:ifNotLoggedIn>
+            	<li role="presentation" class="active"><g:link controller="Registration" action="index">Зарегистрироваться</g:link></li>
+            	<li role="presentation"><g:link controller="VisitorSpace" action="index">Войти</g:link></li>
+            </sec:ifNotLoggedIn>
+            <sec:ifLoggedIn>
+            	<li role="presentation"><g:link controller="VisitorSpace" action="index"><sec:loggedInUserInfo field="username"/></g:link></li>
+	            <li role="presentation"><g:link controller="Logout" action="index">Выход</g:link></li>
+            </sec:ifLoggedIn>
+          </ul>
+        </nav>
+        <div class="img-rounded">
+            <g:link controller="StartPage" action="index"><g:img dir="images" file="Olumn64.png"/></g:link>
+        </div>
+        <h3 class="text-muted">Olumn</h3>
+      </div>
+		
+	  <div>
+	  	<g:form class="form-inline" controller="StartPage" >
+		  <div class="form-group">
+		    <label class="sr-only">Поиск ресторана по городам</label>
+		    <p class="form-control-static">Поиск ресторана по городам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Город ресторана</label>
+		    <g:textField class="form-control" name="city" placeholder="Город ресторана"/>
+		  </div>
+		  <div class="form-group">
+		    <label class="sr-only">по регионам</label>
+		    <p class="form-control-static">Поиск ресторана по регионам</p>
+		  </div>
+		  <div class="form-group">
+		    <label for="city" class="sr-only">Регион ресторана</label>
+		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		  </div>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Начать поиск</g:actionSubmit>
+		</g:form>
+	  </div>	
+		
+	  <script type="text/javascript">
+		$(document).ready(function(){
+			jQuery('.jumbotron').css("text-align", "left");
+			jQuery('.jumbotron').css("padding-left", "20px");
+			jQuery('.jumbotron').css("line-height", "0.5em");
+		});
+	  </script>
+	  	
+      <div class="jumbotron">
+        <p><div>Заполните хотя бы одно поле для поиска!</div></p>
+		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p>
+      </div>
+
+      <div class="footer">
+        <p>© Olumn 2015</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <%--<g:javascript library="start_page_bootstrap_files/ie-emulation-modes-warning"/> --%>
 </body>
 </html>

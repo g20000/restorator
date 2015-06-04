@@ -43,7 +43,8 @@
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
-      </nav>	
+      </nav>
+            	
       <div class="jumbotron">
         <h3>Залы и зоны</h3>
         <g:if test="${halls.size() != 0}">
@@ -75,7 +76,7 @@
        			<small>Введите название зоны или зала</small>
        		</div>
 	        <label for="hall" class="sr-only">Введите название зоны или зала</label>
-	        <g:textField id="hall" class="form-control" name="hall" placeholder="Введите название зоны или зала" value="" type="text"/>	    
+	        <g:textField id="hall" class="form-control" name="hall" placeholder="Введите название зоны или зала" value="" type="text" required=""/>	    
 	        <g:actionSubmit value="Добавить зал/зону"  action="addHall" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
 	    </div>    
       	</g:form>	

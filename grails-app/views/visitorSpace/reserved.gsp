@@ -33,14 +33,14 @@
 		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
 		  </div>
 		  <div class="form-group">
-		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск заведения по регионам</p>
+		    <label class="sr-only">по названию</label>
+		    <p class="form-control-static">Поиск заведения по названию</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион заведения</label>
-		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		    <label for="city" class="sr-only">Название заведения</label>
+		    <g:textField class="form-control" name="region" placeholder="Название ресторана"/>
 		  </div>
-		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Начать поиск</g:actionSubmit>
 		</g:form>
 	  </div>
 	  

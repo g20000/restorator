@@ -1,4 +1,4 @@
-dataSource {
+/*dataSource {
     pooled = true
     jmxExport = true
     driverClassName = "org.h2.Driver"
@@ -54,12 +54,12 @@ environments {
             }
         }
     }
-}
+}*/
 
-/*dataSource {
+dataSource {
  pooled = true
  jmxExport = true
- url = "jdbc:mysql://localhost:3306/my_database"
+ url = "jdbc:mysql://localhost:3306/my_database?characterEncoding=utf8"
  //url = "jdbc:mysql://s155.eatj.com:3307/pragmus"
  driverClassName = "com.mysql.jdbc.Driver"
  dialect = org.hibernate.dialect.MySQL5InnoDBDialect
@@ -80,19 +80,19 @@ environments {
  development {
 	 dataSource {
 		 dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-		 url = "jdbc:mysql://localhost:3306/my_database"
+		 url = "jdbc:mysql://localhost:3306/my_database?characterEncoding=utf8"
 	 }
  }
  test {
 	 dataSource {
 		 dbCreate = "update"
-		 url = "jdbc:mysql://localhost:3306/my_database"
+		 url = "jdbc:mysql://localhost:3306/my_database?characterEncoding=utf8"
 	 }
  }
  production {
 	 dataSource {
 		 dbCreate = "update"
-		 url = "jdbc:mysql://localhost:3306/my_database"
+		 url = "jdbc:mysql://localhost:3306/my_database?characterEncoding=utf8"
 		 properties {
 			// See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
 			jmxEnabled = true
@@ -115,4 +115,4 @@ environments {
 		 }
 	 }
  }
-}*/
+}
