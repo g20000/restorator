@@ -13,7 +13,7 @@ import extApiMock.ExtTablePlacesInfo
 class BootStrap {
 	def springSecurityService
     def init = { servletContext ->
-		 /*def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
+		 def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
 		 
@@ -132,7 +132,7 @@ class BootStrap {
 		 extApiRequest2.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
-		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)*/
+		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)
     }
     def destroy = {
     }

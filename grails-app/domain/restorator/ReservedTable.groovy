@@ -15,6 +15,7 @@ class ReservedTable {
 	double cost
 	String hall
 
+	static scaffold = true
     static constraints = {
 		visitor blank: false
 		owner nullable: true

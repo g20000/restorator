@@ -7,6 +7,7 @@ class TablePlacesInfo {
 	int placeCost
 	String currencyType
 	
+	static scaffold = true
 	static belongsTo = [hall: HallsZones]
 
     static constraints = {

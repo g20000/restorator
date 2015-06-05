@@ -74,7 +74,7 @@
 	      			</tr>
 		      		<g:if test="${tableInfo.size() != 0}">
 	      				<tr>
-	      					<td>Выберите подходящее для вас количество мест</td><td><g:select name="tablePlacesAvailable" from="${tableInfo}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/></td>
+	      					<td>Выберите подходящее для вас количество мест</td><td><g:select name="tablePlacesAvailable" from="${tableInfo.unique()}" optionValue="${{it.placesInTableAmount}}" optionKey="placesInTableAmount" value=""/></td>
 	      				</tr>
 		      		</g:if>
 			        <tr>

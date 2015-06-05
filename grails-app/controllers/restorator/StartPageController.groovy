@@ -106,17 +106,26 @@ class StartPageController {
 			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 		}else{
 			goalCafee = Cafee.findByCafeeName(params['cafeeName'])
+			def tablePlaces
 			def halls = HallsZones.findAllWhere(cafee : goalCafee)
-			def tablePlacesQuery = TablePlacesInfo.createCriteria()			
-			def tablePlaces = tablePlacesQuery.list {
-				'in'("hall", halls)
+			def tablePlacesQuery = TablePlacesInfo.createCriteria()
+			ArrayList<TablePlacesInfo>places = new ArrayList<TablePlacesInfo>()
+			if(!halls.isEmpty()){			
+				tablePlaces = tablePlacesQuery.list {
+					'in'("hall", halls)
+				}
+				for(TablePlacesInfo place: tablePlaces){
+					places.add(place)
+				}
+			}else{
+				places = []
 			}
 						
 			ArrayList<String>hallNames = new ArrayList<String>()
 			for(def hall : halls){
 				hallNames.add(hall.getHallName())
 			}
-			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
+			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: places, halls: hallNames])
 		}
 	}
 }

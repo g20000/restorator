@@ -203,10 +203,23 @@ class VisitorSpaceController {
 							
 			Person owner = Person.findByCafee(cafee)
 			def tableQuery = TablePlacesInfo.createCriteria()
-			def table = tableQuery.get{
+			/*def table = tableQuery.get{
 				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
 				eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))
-			}
+			}*/
+			
+			def table = TablePlacesInfo.where {
+				placesInTableAmount == Integer.parseInt(params['tablePlacesAvailable'])
+				hall {
+						hallName == params['hallsAvailable']
+						cafee {
+							// criteria matching grand parent
+							//idEq 1L // for example
+							cafeeName == cafee.getCafeeName()
+						}
+					}
+			}.get()
+			
 			if(table.tableForReservationAmount < 1){
 				def errorCode = 3
 				render (view:'error.gsp', model: [error: errorCode])//render "Sorry, no more such tables for reservation"
@@ -274,6 +287,8 @@ class VisitorSpaceController {
 				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
 				eq("placesInTableAmount", Integer.parseInt(params['placesAmount']))
 			}
+			
+			
 			
 			myPlace.delete(flush: true)
 			table.tableForReservationAmount += 1
@@ -413,11 +428,18 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		def tables
-		def tablesQuery = TablePlacesInfo.createCriteria()
+		//def tablesQuery = TablePlacesInfo.createCriteria()
 		if (!HallsZones.findAllByCafee(cafee).isEmpty()) {
-			tables = tablesQuery.list {
+			/*tables = tablesQuery.list {
 				'in'("hall", HallsZones.findAllByCafee(cafee))
-			}
+			}*/
+			tables = TablePlacesInfo.where {
+				hall {
+						cafee{
+						cafeeName == cafee.getCafeeName()
+					}
+				}
+			}.list()
 		}else{
 			tables = []
 		}
@@ -456,7 +478,6 @@ class VisitorSpaceController {
 			'in'("hall", HallsZones.findAllByCafee(cafee))
 			eq("placesInTableAmount", Integer.parseInt(params['placesInTable']))
 		}
-		
 		hall.removeFromTable(table).save(flush: true)
 		
 		tableAcounting()
@@ -579,18 +600,34 @@ class VisitorSpaceController {
 			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
 		}else{
 			def tableQuery = TablePlacesInfo.createCriteria()
-			try {
-					def table = tableQuery.get{
+			//try {
+					/*def table = tableQuery.get{
 						'in'("hall", cafee.halls)
-						eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
-					}
-					def totalCost = table.getPlaceCost()
+						 eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
+					}*/
+					//def table = TablePlacesInfo.findWhere(hall : params['hallsAvailable'], placesInTableAmount : Integer.parseInt(params['tablePlacesAvailable'])) 
+					
+					def table = TablePlacesInfo.where {
+						placesInTableAmount == Integer.parseInt(params['tablePlacesAvailable'])
+						hall {
+								hallName == params['hallsAvailable']
+								cafee {
+									// criteria matching grand parent
+									//idEq 1L // for example
+									cafeeName == cafee.getCafeeName()
+								}
+							}
+					}.get()
+					println "///"
+					println table
+					println "///"
+					def totalCost = table.placeCost
 					render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
-			} catch (Exception e) {
+			/*} catch (Exception e) {
 				def errorCode = 16
 				render (view:'error.gsp', model: [error: errorCode])
 				e.printStackTrace()
-			}
+			}*/
 		}
 	}
 	
@@ -629,7 +666,7 @@ class VisitorSpaceController {
 		def cafee = user.cafee
 		def hallName = new String(params['hall']).trim()
 		if(hallName != ""){
-			def newHall = HallsZones.findOrSaveWhere(hallName: hallName)
+			def newHall = new HallsZones(hallName: hallName)
 			if(!cafee.addToHalls(newHall).save(flush: true)){
 				
 			}		
