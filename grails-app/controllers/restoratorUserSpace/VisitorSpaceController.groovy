@@ -202,19 +202,12 @@ class VisitorSpaceController {
 			}
 							
 			Person owner = Person.findByCafee(cafee)
-			def tableQuery = TablePlacesInfo.createCriteria()
-			/*def table = tableQuery.get{
-				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
-				eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))
-			}*/
 			
 			def table = TablePlacesInfo.where {
 				placesInTableAmount == Integer.parseInt(params['tablePlacesAvailable'])
 				hall {
 						hallName == params['hallsAvailable']
 						cafee {
-							// criteria matching grand parent
-							//idEq 1L // for example
 							cafeeName == cafee.getCafeeName()
 						}
 					}
@@ -282,12 +275,15 @@ class VisitorSpaceController {
 		}else{
 			def myPlace = ReservedTable.findByVisitorAndCafeeNameAndPlaces(user, Cafee.findByCafeeName(params['cafeeName']), Integer.parseInt(params['placesAmount']))
 			def cafee = Cafee.findByCafeeName(params['cafeeName'])			
-			def tableQuery = TablePlacesInfo.createCriteria()
-			def table = tableQuery.get{
-				'in'("hall", HallsZones.findAllWhere(cafee: cafee))
-				eq("placesInTableAmount", Integer.parseInt(params['placesAmount']))
-			}
-			
+			def table = TablePlacesInfo.where {
+				placesInTableAmount == Integer.parseInt(params['placesAmount'])
+				hall {
+						hallName == params['hall']
+						cafee {
+							cafeeName == cafee.getCafeeName()
+						}
+					}
+			}.get()
 			
 			
 			myPlace.delete(flush: true)
@@ -428,11 +424,7 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		def tables
-		//def tablesQuery = TablePlacesInfo.createCriteria()
 		if (!HallsZones.findAllByCafee(cafee).isEmpty()) {
-			/*tables = tablesQuery.list {
-				'in'("hall", HallsZones.findAllByCafee(cafee))
-			}*/
 			tables = TablePlacesInfo.where {
 				hall {
 						cafee{
@@ -596,31 +588,20 @@ class VisitorSpaceController {
 		ApiRequest apiRequest
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
-			cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems)
-			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems])
+			cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems, currencyType: apiRequest.getCurrencyType())
+			def totalCost = apiRequest.getTotalCost()
+			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
 		}else{
-			def tableQuery = TablePlacesInfo.createCriteria()
-			//try {
-					/*def table = tableQuery.get{
-						'in'("hall", cafee.halls)
-						 eq("placesInTableAmount", Integer.parseInt(params['tablePlacesAvailable']))//обработать ситуацию когда не передаются нужные параметры	
-					}*/
-					//def table = TablePlacesInfo.findWhere(hall : params['hallsAvailable'], placesInTableAmount : Integer.parseInt(params['tablePlacesAvailable'])) 
-					
+			//try {					
 					def table = TablePlacesInfo.where {
 						placesInTableAmount == Integer.parseInt(params['tablePlacesAvailable'])
 						hall {
 								hallName == params['hallsAvailable']
 								cafee {
-									// criteria matching grand parent
-									//idEq 1L // for example
-									cafeeName == cafee.getCafeeName()
-								}
+									  	cafeeName == cafee.getCafeeName()
+									  }
 							}
 					}.get()
-					println "///"
-					println table
-					println "///"
 					def totalCost = table.placeCost
 					render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
 			/*} catch (Exception e) {
@@ -633,7 +614,14 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def makePayment(params){
-		double totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+		double totalCost
+		if (cafeeInfo.containsKey('tablePlacesAvailable') && (Integer.parseInt(cafeeInfo['tablePlacesAvailable']) != 0)) {
+			println "Hello from if"
+			totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+		}else{
+			println "Hello from else"
+			totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+		}
 		switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], params['billNumber'], totalCost)){
 			case 0: makeReserve(cafeeInfo)
 					break
