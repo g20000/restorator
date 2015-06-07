@@ -10,13 +10,13 @@ class VisaMockService {
 		def visaBill = VisaMock.findByNumber(bill)
 		if(visaBill != null){
 			if(sum <= visaBill.getSum()){
-				visaBill.sum -= sum
+				/*visaBill.sum -= sum
 				if(!visaBill.save(flush:true)){
 					visaBill.errors.each{
 						println it
 					}
 					return 1
-				}
+				}*/
 				return 0
 			}else{
 				return -1
@@ -25,4 +25,15 @@ class VisaMockService {
 			return 1
 		}
     }
+	
+	static def doPayment(bill, sum){
+		def visaBill = VisaMock.findByNumber(bill)
+		visaBill.sum -= sum
+		if(!visaBill.save(flush:true)){
+			visaBill.errors.each{
+				println it
+			}
+			return 1
+		}
+	}
 }

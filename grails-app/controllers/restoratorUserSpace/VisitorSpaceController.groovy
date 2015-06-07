@@ -20,6 +20,8 @@ class VisitorSpaceController {
 	def springSecurityService = new SpringSecurityService()
 	private def cafeeInfo
 	private def MIN_QUERY_NAME_SIZE = 3
+	private def CHECK_BILL = "check_bill"
+	private def DO_PAYMENT = "do_payment"
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
     def index() {				
@@ -143,12 +145,20 @@ class VisitorSpaceController {
 	}
 	
 	@Secured(['ROLE_VISITOR'])
-	def makeReserve(params){
-		ApiRequest apiRequest
+	def makeReserve(params, paymentSystem, bill, costForPay){
+		def apiRequest
 		def endTimeReservation
 		Person user  = Person.findByUsername(springSecurityService.currentUser.username)
 		if(params['cafeeApiInit'] != ""){
 			apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
+			if(apiRequest instanceof Integer){
+				render (view:'error.gsp', model: [error: apiRequest])
+				return
+			}else if(apiRequest instanceof String){
+				def errorCode = 17
+				render (view:'error.gsp', model: [error: errorCode, message: apiRequest])
+				return
+			}
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
 			if((params.containsKey('endTimeReservation_hour'))&&(params.containsKey('endTimeReservation_minute'))){
@@ -161,6 +171,7 @@ class VisitorSpaceController {
 					println it
 				}
 			}
+			PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
 		}else{
 			Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
 			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
@@ -218,6 +229,7 @@ class VisitorSpaceController {
 				render (view:'error.gsp', model: [error: errorCode])//render "Sorry, no more such tables for reservation"
 				return
 			}
+						
 			cafee.totalReservationPlaces -= 1
 			table.tableForReservationAmount -= 1
 			if(!table.save()){
@@ -239,6 +251,7 @@ class VisitorSpaceController {
 					println it
 				}
 			}
+			PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
 		}
 		showReservedTableForVisitor()
 	}
@@ -622,8 +635,8 @@ class VisitorSpaceController {
 			println "Hello from else"
 			totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
 		}
-		switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], params['billNumber'], totalCost)){
-			case 0: makeReserve(cafeeInfo)
+		switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], CHECK_BILL, params['billNumber'], totalCost)){
+			case 0: makeReserve(cafeeInfo, params['paymentSystemName'], params['billNumber'], totalCost)
 					break
 			case -1: def errorCode = 13
 					 render (view:'error.gsp', model: [error: errorCode])

@@ -43,12 +43,18 @@ class ApiHandlerController {
 	def static requestCarlsonAPI(...api){
 		switch(api.size()){
 			case 1 : def cafee = ApiRequest.findByApiInit(api[0])
-					 return cafee
+					 ApiRequest request = new ApiRequest()
+					 request = cafee
+					 request.totalCost = request.getPlaceCost()
+					 return request
 			case 2 : def cafee = ExtHandlerMockController.deleteReservedTable(api[0])
 					 return cafee
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
-								  return cafee
+								  ApiRequest request = new ApiRequest()
+								  request = cafee
+								  request.totalCost = request.getPlaceCost()
+								  return request
 			    case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
 							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
 							   return cafee
@@ -85,6 +91,7 @@ class ApiHandlerController {
 					 ArrayList<Integer>placesInTable = new ArrayList<Integer>()
 					 ApiRequest request = new ApiRequest()
 					 request = cafee
+					 request.totalCost = request.getPlaceCost()
 					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
 						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
 					 }
@@ -137,34 +144,33 @@ class ApiHandlerController {
 					 def availablePaymentSystems = cafee.availablePaymentSystems
 					 ArrayList<Integer>placesInTable = new ArrayList<Integer>()
 					 ArrayList<String>hallNames = new ArrayList<String>()
-					 //ArrayList<String>paymentSystems = new ArrayList<String>()
 					 ApiRequest request = new ApiRequest()
 					 request = cafee
+					 request.totalCost = request.getPlaceCost()
 					 for(ExtTablePlacesInfo availableTableByPlaces : availableTablesByPlaces){
 						 placesInTable.add(availableTableByPlaces.placesInTableAmount)
 					 }
 					 for(ExtHallinfo availableHall : availableHalls){
 						 hallNames.add(availableHall.hallName)
 					 }
-					 /*for(PaymentSystems paymentSystem : availablePaymentSystems){
-						 paymentSystems.add(paymentSystem.getPaymentSystemName())
-					 }*/
 					 request.places = placesInTable
 					 request.halls = hallNames
-					 //request.paymentSystems = paymentSystems
-					 println cafee.availablePaymentSystems
 					 return request
 			case 2 : def cafee = NovikovService.deleteReservedTable(api[0])
 					 return cafee
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = NovikovService.makeReserve(api[0], api[2])
-								  double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
-								  ApiRequest request = new ApiRequest()
-								  request = cafee
-								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
-								  request.totalCost = totalCost
-								  request.selectedHall = api[2]['hallsAvailable']
-								  return request
+								  if(cafee instanceof ApiRequest){
+									  double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
+									  ApiRequest request = new ApiRequest()
+									  request = cafee
+									  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
+									  request.totalCost = totalCost
+									  request.selectedHall = api[2]['hallsAvailable']
+									  return request
+								  }else{
+								  	return cafee
+								  }
 				case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
 							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
 							   return cafee
@@ -201,6 +207,7 @@ class ApiHandlerController {
 					 ArrayList<String>hallNames = new ArrayList<String>()
 					 ApiRequest request = new ApiRequest()
 					 request = cafee
+					 request.totalCost = request.getPlaceCost()
 					 for(ExtHallinfo availableHall : availableHalls){
 						 hallNames.add(availableHall.hallName)
 					 }
@@ -243,6 +250,7 @@ class ApiHandlerController {
 					 ApiRequest request = new ApiRequest()
 					 request = cafee
 					 request.endTimeLimit = null
+					 request.totalCost = request.getPlaceCost()
 					 for(ExtHallinfo availableHall : availableHalls){
 						 hallNames.add(availableHall.hallName)
 					 }

@@ -106,6 +106,10 @@
 	  		<p><div>Она будет исправлена в ближайшее время!</div></p>
 	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 
 	  	</g:elseif>
+	  	<g:elseif test="${error == 17}">
+	  		<p><div>"${message }"</div></p>
+	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 
+	  	</g:elseif>
 	  	<g:else>
 	  		<p><div>Неизвестная ошибка!</div></p>
 	  		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p> 

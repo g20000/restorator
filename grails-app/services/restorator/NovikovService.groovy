@@ -16,41 +16,42 @@ class NovikovService {
 		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour']), Integer.parseInt(param['endTimeReservation_minute']))
 		
 		if(startTimeReservation >= endTimeReservation){
-			render "Start time reservation can not be more than end time reservation!"
-			return
+			//render "Start time reservation can not be more than end time reservation!"
+			def errorCode = 4
+			return errorCode
 		}	
 		
 		if(!cafee.isReservationAvailable){
-			render "Sorry, this cafee closed for reservation at the moment!"
-			return
+			def errorCode = 1
+			return errorCode
 		}
 		
 		if(cafee.reservationDateLimit && (cafee.startDateLimit <= param['reservationDate']) && (cafee.endDateLimit >= param['reservationDate'])){
-			render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
-			return
+			def errorMessage = "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
+			return errorMessage
 		}
 		
 		if(cafee.reservationTimeLimit && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
 			&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
-			render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
-			return
+			def errorMessage = "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
+			return errorMessage
 		}
 					
 		if(cafee.totalReservationPlaces < 1){
-			render "Sorry, no more free places in this cafee for reservation"
-			return
+			def errorCode = 2
+			return errorCode
 		}
 		
 		def hall = ExtHallinfo.findWhere(hallName: param['hallsAvailable'])	
 		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(param['tablePlacesAvailable']), hall: hall)
 		if(table == null){
-			render "Sorry, no such table for reservation in this hall, select another table or hall"
-			return
+			def errorCode = 3
+			return errorCode
 		}
 		
 		if(table.tableForReservationAmount < 1){
-			render "Sorry, no more such tables for reservation, select another table or hall"
-			return
+			def errorCode = 3
+			return errorCode
 		}
 				
 		table.tableForReservationAmount -= 1
