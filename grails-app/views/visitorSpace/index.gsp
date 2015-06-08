@@ -47,7 +47,7 @@
 	  
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Бронирование<span class="sr-only">(current)</span></a></li>
+            <li class="active"><g:link controller="VisitorSpace" action="index">Бронирование <span class="sr-only">(current)</span></g:link></li>
             <li><g:link controller="VisitorSpace" action="editPrivateData">Редактирование личных данных</g:link></li>
           </ul>
        </div>
@@ -56,7 +56,7 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Бронировать столик</a></li>
+              <li class="active"><g:link controller="VisitorSpace" action="index">Бронировать столик</g:link></li>
               <li><g:link controller="VisitorSpace" action="showReservedTableForVisitor">Просмотр забронированных мест</g:link></li>
               <li><a href="#">Редактировать бронирование</a></li>
             </ul>
@@ -84,8 +84,8 @@
 					<g:each in="${availableCafee}" var="cafeeInfo">
 						<tr>
 							<td><g:link action="goToCafeePage" params="[cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"]">${cafeeInfo.cafeeName}</g:link></td>
-							<td>${cafeeInfo.placeCost}</td>
-							<td>${cafeeInfo.currencyType}</td>
+							<td>${cafeeInfo.getCity()}</td>
+							<td>${cafeeInfo.getRegion()}</td>
 						</tr>
 					</g:each>
 				</tbody>

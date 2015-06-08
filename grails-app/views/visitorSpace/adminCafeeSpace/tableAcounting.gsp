@@ -58,6 +58,7 @@
 							<th>Цена стола</th>
 							<th>Единица стоимости</th>
 							<th></th>
+							<th></th>
 						</tr>	
 					</thead>
 					<tbody>
@@ -69,6 +70,7 @@
 								<td>${table.hall.getHallName()}</td>
 								<td>${table.placeCost}</td>
 								<td>${table.currencyType}</td>
+								<td><g:link controller="VisitorSpace" action="editTableData" params="[]">Редактировать столик</g:link></td>
 								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
 							</tr>
 						</g:each>

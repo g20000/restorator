@@ -17,36 +17,36 @@ class ExtHandlerMock2Controller {
 		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour']), Integer.parseInt(param['endTimeReservation_minute']))
 		
 		if(startTimeReservation >= endTimeReservation){
-			render "Start time reservation can not be more than end time reservation!"
-			return
+			def errorCode = 4
+			return errorCode
 		}
 				
 		println "hello from makeReserve external"
 		if(!cafee.isReservationAvailable){
-			render "Sorry, this cafee closed for reservation at the moment!"
-			return
+			def errorCode = 1
+			return errorCode
 		}
 		
 		if(cafee.reservationDateLimit && (cafee.startDateLimit <= param['reservationDate']) && (cafee.endDateLimit >= param['reservationDate'])){
-			render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
-			return
+			def errorMessage = "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
+			return errorMessage
 		}
 		
 		if(cafee.reservationTimeLimit && (cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
 			&& (cafee.startTimeLimit <= endTimeReservation) && (cafee.endTimeLimit >= endTimeReservation)){
-			render "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
-			return
+			def errorMessage = "You can reserve a place in this cafee between " + cafee.startTimeLimit + " and " + cafee.endTimeLimit
+			return errorMessage
 		}
 					
 		if(cafee.totalReservationPlaces < 1){
-			render "Sorry, no more free places in this cafee for reservation"
-			return
+			def errorCode = 2
+			return errorCode
 		}
 			
 		def table = ExtTablePlacesInfo.findWhere(request: cafee, placesInTableAmount: Integer.parseInt(param['tablePlacesAvailable']))
 		if(table.tableForReservationAmount < 1){
-			render "Sorry, no more such tables for reservation"
-			return
+			def errorCode = 3
+			return errorCode
 		}
 		table.tableForReservationAmount -= 1
 		cafee.totalReservationPlaces -= 1

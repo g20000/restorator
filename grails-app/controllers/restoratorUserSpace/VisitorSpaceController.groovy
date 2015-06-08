@@ -685,4 +685,15 @@ class VisitorSpaceController {
 		}
 		goToHallsAndZones()
 	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def editTableData(params){
+		def tableForDeleting = TablePlacesInfo.findById(Integer.parseInt(params[]))
+		render (view: 'adminCafeeSpace/editTableData.gsp')
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def updateTableData(params){
+		
+	}
 }

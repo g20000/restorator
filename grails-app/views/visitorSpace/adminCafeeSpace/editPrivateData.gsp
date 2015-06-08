@@ -29,7 +29,7 @@
             <li><g:link controller="VisitorSpace" action="index">Бронирование <span class="sr-only">(current)</span></g:link></li>
             <li><g:link controller="VisitorSpace" action="setReservation">Настройка бронирования<span class="sr-only">(current)</span></g:link></li>
             <li><g:link controller="VisitorSpace" action="setupBillingSystem">Настройка оплаты</g:link></li>
-            <li class="active"><a href="#">Редактирование личных данных</a></li>
+            <li class="active"><g:link controller="VisitorSpace" action="editPrivateData">Редактирование личных данных</g:link></li>
           </ul>
        </div>
 	  <nav class="navbar navbar-default">

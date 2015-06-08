@@ -24,7 +24,7 @@
 
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Состояние бронирования<span class="sr-only">(current)</span></a></li>
+            <li class="active"><g:link controller="VisitorSpace" action="index">Бронирование <span class="sr-only">(current)</span></g:link></li>
             <li><g:link controller="VisitorSpace" action="setReservation">Настройка бронирования<span class="sr-only">(current)</span></g:link></li>
             <li><g:link controller="VisitorSpace" action="setupBillingSystem">Настройка оплаты</g:link></li>
             <li><g:link controller="VisitorSpace" action="editPrivateData">Редактирование личных данных</g:link></li>
@@ -34,7 +34,7 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Cведения о заведении</a></li>
+              <li class="active"><g:link action="index">Cведения о заведении</g:link></li>
               <li><g:link action="showReservedTableForAdmin">Информация о бронировании</g:link></li>
             </ul>
           </div><!--/.nav-collapse -->

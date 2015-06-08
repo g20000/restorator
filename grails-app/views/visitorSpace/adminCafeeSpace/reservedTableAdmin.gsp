@@ -35,7 +35,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><g:link action="index">Cведения о заведении</g:link></li>
-              <li class="active"><a href="#">Информация о бронировании</a></li>
+              <li class="active"><g:link action="showReservedTableForAdmin">Информация о бронировании</g:link></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
