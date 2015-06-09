@@ -45,74 +45,40 @@
         </div><!--/.container-fluid -->
       </nav>	
       <div class="jumbotron">
-        <h3>Учет столов</h3>
-        <g:if test="${tableInfo.size() != 0 }">
-	        <div>
-		      	<table class="table">
-					<thead>
-						<tr>
-							<th>Мест за столом</th>
-							<th>Из них доступно для бронирования</th>
-							<th>Всего столов</th>
-							<th>Зал/зона</th>
-							<th>Цена стола</th>
-							<th>Единица стоимости</th>
-							<th></th>
-							<th></th>
-						</tr>	
-					</thead>
-					<tbody>
-						<g:each in="${tableInfo}" var="table">
-							<tr>
-								<td>${table.placesInTableAmount}</td>
-								<td>${table.tableForReservationAmount}</td>
-								<td>${table.tableAmount}</td>
-								<td>${table.hall.getHallName()}</td>
-								<td>${table.placeCost}</td>
-								<td>${table.currencyType}</td>
-								<td><g:link controller="VisitorSpace" action="editTableData" params="[tableId: "${table.getId()}"]">Редактировать столик</g:link></td>
-								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
-							</tr>
-						</g:each>
-					</tbody>
-				</table>			
-	     	</div>
-     	</g:if>
-     	<g:else>
-     		<p>Нет информации об имеющихся столах!</p>
-     	</g:else>
+        <h3>Редактирование параметров стола</h3>
 		<g:form class="form-signin" controller="VisitorSpace">
 		<div class="col-xs-4">
 			<div class="text-left">
        			<small>Сколько мест за столом?</small>
        		</div>
 	        <label for="placesInTable" class="sr-only">Сколько мест за столом?</label>
-	        <g:textField id="placesInTable" class="form-control" name="placesInTable" placeholder="Сколько мест за столом?" value="" type="number"  required=""/>
+	        <g:textField id="placesInTable" class="form-control" name="placesInTable" placeholder="Сколько мест за столом?" value="${tableInfo.getPlacesInTableAmount()}" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Сколько таких столов доступно для бронирования?</small>
        		</div>     
 	        <label for="availableForReservation" class="sr-only">Из них доступно для бронирования</label>
-	        <g:textField id="availableForReservation" class="form-control" name="availableForReservation" placeholder="Из них доступно для бронирования" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
+	        <g:textField id="availableForReservation" class="form-control" name="availableForReservation" placeholder="Из них доступно для бронирования" value="${tableInfo.getTableForReservationAmount()}" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Сколько всего таких столов?</small>
        		</div>
 	        <label for="defTableAmount" class="sr-only">Всего столов</label>
-	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
+	        <g:textField id="defTableAmount" class="form-control" name="defTableAmount" placeholder="Всего столов" value="${tableInfo.getTableAmount()}" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Зал/зона столов</small>
        		</div>
-       		<g:select name="hallsAvailable" from="${halls}" optionValue="${{it.hallName}}" optionKey="hallName" value=""/>
+       		<g:select name="hallsAvailable" from="${halls}" optionValue="${{it.hallName}}" optionKey="hallName" value="${tableInfo.hall}"/>
        		<div class="text-left">
        			<small>Цена стола</small>
        		</div>     
 	        <label for="placePrice" class="sr-only">Цена стола</label>
-	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена стола" value="" autofocus="" data-translatable-string="" type="number"  required=""/>
+	        <g:textField id="placePrice" class="form-control" name="placePrice" placeholder="Цена стола" value="${tableInfo.getPlaceCost() }" autofocus="" data-translatable-string="" type="number"  required=""/>
 	        <div class="text-left">
        			<small>Тип принимаемой валюты</small>
        		</div>
 	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
-	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="" autofocus="" data-translatable-string="" type="string" required=""/>	    
-	        <g:actionSubmit value="Добавить столик"  action="addTable" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="${tableInfo.getCurrencyType()}" autofocus="" data-translatable-string="" type="string" required=""/>
+	        <g:hiddenField name="id" value="${tableInfo.getId()}"/>	    
+	        <g:actionSubmit value="Добавить столик"  action="updateTableData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
 	    </div>    
       	</g:form>	
        </div>

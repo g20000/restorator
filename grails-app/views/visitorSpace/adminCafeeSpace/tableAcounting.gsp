@@ -70,8 +70,8 @@
 								<td>${table.hall.getHallName()}</td>
 								<td>${table.placeCost}</td>
 								<td>${table.currencyType}</td>
-								<td><g:link controller="VisitorSpace" action="editTableData" params="[]">Редактировать столик</g:link></td>
-								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
+								<td><g:link controller="VisitorSpace" action="editTableData" params="[id: "${table.getId()}"]">Редактировать столик</g:link></td>
+								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[id: "${table.getId()}", placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
 							</tr>
 						</g:each>
 					</tbody>

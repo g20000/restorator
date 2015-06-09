@@ -13,6 +13,16 @@ import extApiMock.ExtTablePlacesInfo
 class BootStrap {
 	def springSecurityService
     def init = { servletContext ->
+		 /*def rootAdminRole = Authority.findOrSaveWhere(authority: 'ROLE_ROOT_ADMIN')
+		 def rootAdmin = new Person(username: 'root', password:'password',
+			 accountExpired: false, accountLocked: false, passwordExpired: false, 
+			 firstName:'Andrew', lastName:'Bobkov', email:'root@gmail.com', isAdminCafee: false).save(flush : true)
+		 if(!rootAdmin.authorities.contains(rootAdminRole))
+		 {
+			 PersonAuthority.create(rootAdmin, rootAdminRole, true)
+		 }*/
+		 
+		 
 		 /*def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')

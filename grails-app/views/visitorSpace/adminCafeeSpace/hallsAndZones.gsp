@@ -54,12 +54,14 @@
 	      			  <tr>
 	      			  	<td>Название зала/зоны</td>
 	      			  	<td></td>
+	      			  	<td></td>
 	      			  </tr>
 		      		</thead>
 					<tbody>
 						<g:each in="${halls}">
 							<tr>
 							  <td>${it.hallName}</td>
+							  <td><g:link controller="VisitorSpace" action="editHall" params="[id: "${it.getId()}"]">Редактировать зал/зону</g:link></td>
 							  <td><g:link controller="VisitorSpace" action="deleteHall" params="[hallName: "${it.hallName}"]">Удалить зал/зону</g:link></td>	
 							</tr>
 						</g:each>

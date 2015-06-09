@@ -455,14 +455,14 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def addTable(params){
 		try {
-			def user = Person.findByUsername(springSecurityService.currentUser.username)
-					def cafee = user.cafee
-					cafee.totalReservationPlaces += Integer.parseInt(params['availableForReservation'])
-					cafee.totalPlaces += Integer.parseInt(params['defTableAmount'])
-					def hall = HallsZones.findWhere(cafee : cafee, hallName : params['hallsAvailable'])
-					hall.addToTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'],
-							placeCost: params['placePrice'], currencyType: params['currencyType'])).save(flush: true)	
-							tableAcounting()
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				def cafee = user.cafee
+				cafee.totalReservationPlaces += Integer.parseInt(params['availableForReservation'])
+				cafee.totalPlaces += Integer.parseInt(params['defTableAmount'])
+				def hall = HallsZones.findWhere(cafee : cafee, hallName : params['hallsAvailable'])
+				hall.addToTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'],
+					placeCost: params['placePrice'], currencyType: params['currencyType'])).save(flush: true)	
+					tableAcounting()
 		} catch (Exception e) {
 			def errorCode = 15
 			render (view:'error.gsp', model: [error: errorCode])//"невалидное заполнение полей!"
@@ -471,18 +471,27 @@ class VisitorSpaceController {
 		}
 	}
 	
-	@Secured(['ROLE_ADMIN'])
+	@Secured(['ROLE_ADMIN'])//исправить ошибку удаления в связи с уникальностью
 	def deleteTableAdmin(params){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		cafee.totalReservationPlaces -= Integer.parseInt(params['tablesForReservation'])
 		cafee.totalPlaces -= Integer.parseInt(params['totalTables'])		
 		def hall = HallsZones.findWhere(hallName: params['hall'], cafee: cafee)		
-		def tableQuery = TablePlacesInfo.createCriteria()
+		/*def tableQuery = TablePlacesInfo.createCriteria()
 		def table = tableQuery.get {
 			'in'("hall", HallsZones.findAllByCafee(cafee))
 			eq("placesInTableAmount", Integer.parseInt(params['placesInTable']))
-		}
+		}*/
+		/*def table = TablePlacesInfo.where{
+			placesInTableAmount == Integer.parseInt(params['placesInTable'])
+			hall{
+				cafee{
+					cafeeName == cafee.getCafeeName()
+				}
+			}
+		}.get()*/
+		def table = TablePlacesInfo.findById(Integer.parseInt(params['id']))
 		hall.removeFromTable(table).save(flush: true)
 		
 		tableAcounting()
@@ -688,12 +697,60 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def editTableData(params){
-		def tableForDeleting = TablePlacesInfo.findById(Integer.parseInt(params[]))
-		render (view: 'adminCafeeSpace/editTableData.gsp')
+		def user = Person.findByUsername(springSecurityService.currentUser.username)
+		def cafee = user.cafee
+		def tableForDeleting = TablePlacesInfo.findById(Integer.parseInt(params['id']))
+		println tableForDeleting
+		def halls = cafee.halls
+		render (view: 'adminCafeeSpace/editTableData.gsp', model: [tableInfo: tableForDeleting, halls: halls])
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def updateTableData(params){
+		try {
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				def cafee = user.cafee
+				def oldTable = TablePlacesInfo.findById(Integer.parseInt(params['id']))
+				
+				cafee.totalReservationPlaces -= oldTable.getTableForReservationAmount()
+				cafee.totalPlaces -= oldTable.getTableAmount()
+							
+				cafee.totalReservationPlaces += Integer.parseInt(params['availableForReservation'])
+				cafee.totalPlaces += Integer.parseInt(params['defTableAmount'])
+							
+				oldTable.placesInTableAmount = Integer.parseInt(params['placesInTable'])
+				oldTable.tableAmount = Integer.parseInt(params['defTableAmount'])
+				oldTable.tableForReservationAmount = Integer.parseInt(params['availableForReservation'])
+				oldTable.placeCost = Integer.parseInt(params['placePrice'])
+				oldTable.currencyType = params['currencyType']
+				if(!oldTable.save(flush : true)){
+					
+				}
+				def hall = HallsZones.findWhere(cafee : cafee, hallName : params['hallsAvailable'])				
+				def checkTableInHall = TablePlacesInfo.findWhere(id : Long.parseLong(params['id']), hall : hall)
+				println checkTableInHall
+				if(checkTableInHall == null){
+					println "hall is null"
+					hall.addToTable(oldTable).save(flush: true)
+				}
+				tableAcounting()
+		} catch (Exception e) {
+			def errorCode = 15
+			render (view:'error.gsp', model: [error: errorCode])//"невалидное заполнение полей!"
+			return
+			e.printStackTrace()
+		}
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def editHall(params){
+		def hall = HallsZones.findById(params['id'])
+		println hall
+		render (view: 'adminCafeeSpace/editHallsAndZones.gsp', model: [hall : hall])
+	}
+	
+	@Secured(['ROLE_ADMIN'])
+	def updateHall(params){
 		
 	}
 }
