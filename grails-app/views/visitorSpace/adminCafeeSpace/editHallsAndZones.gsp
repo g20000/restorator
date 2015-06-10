@@ -53,8 +53,9 @@
        			<small>Введите новое название зоны или зала</small>
        		</div>
 	        <label for="hall" class="sr-only">Введите новое название зоны или зала</label>
-	        <g:textField id="hall" class="form-control" name="hall" placeholder="Введите название зоны или зала" value="${hall.getHallName()}" type="text" required=""/>	    
-	        <g:actionSubmit value="Добавить зал/зону"  action="addHall" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <g:textField id="hall" class="form-control" name="hall" placeholder="Введите название зоны или зала" value="${hall.getHallName()}" type="text" required=""/>
+	        <g:hiddenField name="id" value="${hall.getId()}"/>	    
+	        <g:actionSubmit value="Обновить зал/зону"  action="updateHall" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
 	    </div>    
       	</g:form>	
        </div>
@@ -68,6 +69,6 @@
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="index4_files/ie10-viewport-bug-workaround.js"></script>
+<%--    <script src="index4_files/ie10-viewport-bug-workaround.js"></script>--%>
 </body>
 </html>

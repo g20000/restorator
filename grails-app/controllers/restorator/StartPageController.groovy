@@ -39,7 +39,7 @@ class StartPageController {
 		}else if(((cityCafee != "") && (regionCafee == ""))){
 			if(cityCafee.size() >= MIN_QUERY_NAME_SIZE)
 			{
-				goalCafee = Cafee.findAllByCityIlike(cityCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCityIlike("%" + cityCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCityIlike(cityCafee)
 			}
@@ -55,7 +55,7 @@ class StartPageController {
 		}else if(((cityCafee == "") && (regionCafee != ""))){
 			if(regionCafee.size() >= MIN_QUERY_NAME_SIZE)
 			{
-				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCafeeNameIlike("%" + regionCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee)
 			}
@@ -70,7 +70,7 @@ class StartPageController {
 			}
 		}else{
 			if((cityCafee.size() >= MIN_QUERY_NAME_SIZE) || (regionCafee.size() >= MIN_QUERY_NAME_SIZE)){
-				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee[0..2] + "%", regionCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike("%" + cityCafee[0..2] + "%", "%" + regionCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee, regionCafee)
 			}

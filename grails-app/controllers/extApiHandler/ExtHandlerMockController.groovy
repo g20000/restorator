@@ -12,8 +12,8 @@ class ExtHandlerMockController {
 	
 	static def makeReserve(api, param){
 		def cafee = ApiRequest.findByApiInit(api)
-		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour']), Integer.parseInt(param['startTimeReservation_minute']))
-		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour']), Integer.parseInt(param['endTimeReservation_minute']))
+		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour'])/*, Integer.parseInt(param['startTimeReservation_minute'])*/)
+		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour'])/*, Integer.parseInt(param['endTimeReservation_minute'])*/)
 		
 		if(startTimeReservation >= endTimeReservation){
 			def errorCode = 4

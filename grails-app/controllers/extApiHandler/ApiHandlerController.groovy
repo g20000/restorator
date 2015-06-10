@@ -51,19 +51,23 @@ class ApiHandlerController {
 					 return cafee
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = ExtHandlerMockController.makeReserve(api[0], api[2])
-								  ApiRequest request = new ApiRequest()
-								  request = cafee
-								  request.totalCost = request.getPlaceCost()
-								  return request
+								  if(cafee instanceof ApiRequest){
+										ApiRequest request = new ApiRequest()
+										request = cafee
+										request.totalCost = request.getPlaceCost()
+										return request								
+									}else{
+										return cafee
+									}
 			    case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
+							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%")
 							   return cafee
 			    		   }else{
 							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2])
 							   return cafee
 			    		   }			
 			    case CITY : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2] + "%")
+								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], "%" + api[2][0..2] + "%")
 								return cafee
 			    			}else{
 								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2])
@@ -74,7 +78,7 @@ class ApiHandlerController {
 				default : break
 			}
 			case 4 : if((api[2].size() >= MIN_QUERY_NAME_SIZE) || (api[3].size() >= MIN_QUERY_NAME_SIZE)){
-						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2][0..2] + "%", api[3][0..2] + "%")
+						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%", "%" + api[3][0..2] + "%")
 						 return cafee
 					 }else{
 						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2], api[3])
@@ -101,21 +105,25 @@ class ApiHandlerController {
 					 return cafee
 			case 3 : switch(api[1]){
 				case TO_RESERVE : def cafee = ExtHandlerMock2Controller.makeReserve(api[0], api[2])
-								  double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
-								  ApiRequest request = new ApiRequest()
-								  request = cafee
-								  request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
-								  request.totalCost = totalCost
-								  return request
+								  if(cafee instanceof ApiRequest){
+										double totalCost = Double.parseDouble(api[2]['tablePlacesAvailable']) * cafee.placeCost
+												ApiRequest request = new ApiRequest()
+										request = cafee
+										request.placesInSelectedTable = Integer.parseInt(api[2]['tablePlacesAvailable'])
+										request.totalCost = totalCost
+										return request								
+								  }else{
+									return cafee
+								  }
 			    case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
+							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%")
 							   return cafee
 			    		   }else{
 							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2])
 							   return cafee
 			    		   }
 			    case CITY : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2] + "%")
+								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], "%" + api[2][0..2] + "%")
 								return cafee
 			    		    }else{
 								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2])
@@ -126,7 +134,7 @@ class ApiHandlerController {
 				default : break
 			}
 			case 4 : if((api[2].size() >= MIN_QUERY_NAME_SIZE) || (api[3].size() >= MIN_QUERY_NAME_SIZE)){
-						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2][0..2] + "%", api[3][0..2] + "%")
+						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%", "%" + api[3][0..2] + "%")
 						 return cafee
 					}else{
 						def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2], api[3])
@@ -172,14 +180,14 @@ class ApiHandlerController {
 								  	return cafee
 								  }
 				case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
+							   def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%")
 							   return cafee
 							}else{
 								def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2])
 								return cafee
 							}
 				case CITY : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2] + "%")
+								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], "%" + api[2][0..2] + "%")
 								return cafee
 							}else{
 								def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
@@ -190,7 +198,7 @@ class ApiHandlerController {
 				default : break
 			}
 			case 4 : if((api[2].size() >= MIN_QUERY_NAME_SIZE)||(api[3].size() >= MIN_QUERY_NAME_SIZE)){
-						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2][0..2] + "%", api[3][0..2] + "%")
+						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%", "%" + api[3][0..2] + "%")
 						 return cafee
 					 }else{
 						 def cafee = ApiRequest.findByApiInitAndCityIlikeAndCafeeNameIlike(api[0], api[2], api[3])
@@ -215,20 +223,24 @@ class ApiHandlerController {
 					 return request
 			 case 3 : switch(api[1]){
 				 case TO_RESERVE : def cafee = PiterService.makeReserve(api[0], api[2])
-								   ApiRequest request = new ApiRequest()
-								   request = cafee
-								   request.totalCost = cafee.placeCost
-								   request.selectedHall = api[2]['hallsAvailable']
-								   return request
+								   if(cafee instanceof ApiRequest){
+										ApiRequest request = new ApiRequest()
+										request = cafee
+										request.totalCost = cafee.placeCost
+										request.selectedHall = api[2]['hallsAvailable']
+										return request								
+									}else{
+										return cafee
+									}
 				 case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-					 			def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
+					 			def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%")
 								return cafee
 				 			}else{
 								def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2])
 								return cafee
 				 			}
 				 case CITY : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-					 			 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2] + "%")
+					 			 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], "%" + api[2][0..2] + "%")
 								 return cafee
 				 			 }else{
 								 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])
@@ -258,20 +270,24 @@ class ApiHandlerController {
 					 return request
 			 case 3 : switch(api[1]){
 				 case TO_RESERVE : def cafee = TrizetService.makeReserve(api[0], api[2])
-								   ApiRequest request = new ApiRequest()
-								   request = cafee
-								   request.totalCost = cafee.placeCost
-								   request.selectedHall = api[2]['hallsAvailable']
-								   return request
+								   if(cafee instanceof ApiRequest){
+										ApiRequest request = new ApiRequest()
+										request = cafee
+										request.totalCost = cafee.placeCost
+										request.selectedHall = api[2]['hallsAvailable']
+										return request								
+									}else{
+										return cafee
+									}
 				 case REG : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-					 			def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2][0..2] + "%")
+					 			def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], "%" + api[2][0..2] + "%")
 								return cafee
 				 			}else{
 								def cafee = ApiRequest.findByApiInitAndCafeeNameIlike(api[0], api[2])
 								return cafee
 				 			}
 				 case CITY : if(api[2].size() >= MIN_QUERY_NAME_SIZE){
-					 			 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2][0..2] + "%")
+					 			 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], "%" + api[2][0..2] + "%")
 								 return cafee
 				 			 }else{
 								 def cafee = ApiRequest.findByApiInitAndCityIlike(api[0], api[2])

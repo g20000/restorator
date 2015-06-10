@@ -23,9 +23,17 @@ class VisitorSpaceController {
 	private def CHECK_BILL = "check_bill"
 	private def DO_PAYMENT = "do_payment"
 	
-	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR'])
+	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR', 'ROLE_ROOT_ADMIN'])
     def index() {				
 		def user = springSecurityService.currentUser
+		Authority rootAdminAuthority = Authority.findByAuthority('ROLE_ROOT_ADMIN')
+		if(user.getAuthorities().contains(rootAdminAuthority)){
+			println "///"
+			println "not root"
+			println "///"
+			redirect(controller: "RootAdminSpace")
+			return
+		}
 		if(user.isAdminCafee){			
 			showAdminSpace()
 		}else{
@@ -160,9 +168,9 @@ class VisitorSpaceController {
 				return
 			}
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
-			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
+			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour'])/*, Integer.parseInt(params['startTimeReservation_minute'])*/)
 			if((params.containsKey('endTimeReservation_hour'))&&(params.containsKey('endTimeReservation_minute'))){
-			  endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+			  endTimeReservation = new LocalTime (Integer.parseInt(params['endTimeReservation_hour'])/*, Integer.parseInt(params['endTimeReservation_minute'])*/)
 			}
 			ReservedTable myPlace = new ReservedTable(visitor: user, cafeeName: extCafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
 				reservationDate: params['reservationDate'], places: apiRequest.placesInSelectedTable, cost: apiRequest.totalCost, hall: apiRequest.selectedHall)
@@ -174,8 +182,8 @@ class VisitorSpaceController {
 			PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
 		}else{
 			Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
-			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), Integer.parseInt(params['startTimeReservation_minute']))
-			endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), Integer.parseInt(params['endTimeReservation_minute']))
+			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour'])/*, Integer.parseInt(params['startTimeReservation_minute'])*/)
+			endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour'])/*, Integer.parseInt(params['endTimeReservation_minute'])*/)
 			
 			if(startTimeReservation >= endTimeReservation){
 				def errorCode = 4
@@ -521,7 +529,7 @@ class VisitorSpaceController {
 			}
 		}else if(((cityCafee != "") && (regionCafee == ""))){
 			if(cityCafee.size() >= MIN_QUERY_NAME_SIZE){
-				goalCafee = Cafee.findAllByCityIlike(cityCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCityIlike("%" + cityCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCityIlike(cityCafee)
 			}
@@ -535,7 +543,7 @@ class VisitorSpaceController {
 			}
 		}else if(((cityCafee == "") && (regionCafee != ""))){
 			if(regionCafee.size() >= MIN_QUERY_NAME_SIZE){
-				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCafeeNameIlike("%" + regionCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee)
 			}
@@ -549,7 +557,7 @@ class VisitorSpaceController {
 			}
 		}else{
 			if((cityCafee.size() >= MIN_QUERY_NAME_SIZE)||(regionCafee.size() >= MIN_QUERY_NAME_SIZE)){
-				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee[0..2] + "%", regionCafee[0..2] + "%")
+				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike("%" + cityCafee[0..2] + "%", regionCafee[0..2] + "%")
 			}else{
 				goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee, regionCafee)
 			}
@@ -751,6 +759,9 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def updateHall(params){
-		
+		def oldHall = HallsZones.findById(params['id'])
+		oldHall.hallName = new String(params['hall']).trim()
+		oldHall.save(flush: true)
+		goToHallsAndZones()
 	}
 }

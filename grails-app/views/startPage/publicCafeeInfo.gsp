@@ -81,11 +81,11 @@
 	      				<td>Выберите день бронирования</td><td><g:datePicker name="reservationDate" value="${new Date()}" precision="day"/></td>
 	      			</tr>
 			        <tr>
-	      				<td>Забронировать с</td><td><joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="minute"/></td>
+	      				<td>Забронировать с</td><td><joda:timePicker name="startTimeReservation" value="${new LocalTime()}" precision="hour"/></td>
 	      			</tr>
 			        <g:if test="${cafeeName.endTimeLimit != null}">
 				        <tr>
-	      					<td>до</td><td><joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="minute" /></td>
+	      					<td>до</td><td><joda:timePicker name="endTimeReservation" value="${new LocalTime()}" precision="hour" /></td>
 	      				</tr>
 			        </g:if>
 		        </tbody>      
