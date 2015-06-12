@@ -5,6 +5,7 @@ import extApiMock.ApiRequest
 
 class PaymentSystems {
 	String paymentSystemName
+	boolean enabled = true
 	
 	//static belongsTo = [cafee: Cafee, extCafee: ApiRequest]
 	

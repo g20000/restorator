@@ -1,6 +1,8 @@
 package restorator
 
-import restoratorUserSpace.VisitorSpaceController
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalTime
+
 import extApiHandler.ApiHandlerController
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.annotation.Secured
@@ -10,6 +12,7 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['permitAll'])
 class StartPageController {
 	private int MIN_QUERY_NAME_SIZE = 3
+	private def TIME_ZONE_CORRECT = 3
 		
     def index() { 
 	}
@@ -26,7 +29,7 @@ class StartPageController {
 			regionCafee = ""
 		}
 		if((cityCafee == "") && (regionCafee == "")){
-			goalCafee = Cafee.list()
+			goalCafee = Cafee.findAllByIsReservationAvailable(true)
 			for(Cafee cafee : goalCafee){
 				if(cafee.apiInit != ""){
 					apiRequest = ApiHandlerController.request(cafee.apiInit)
@@ -125,6 +128,7 @@ class StartPageController {
 			for(def hall : halls){
 				hallNames.add(hall.getHallName())
 			}
+			println DateTimeZone.getDefault()
 			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: places, halls: hallNames])
 		}
 	}

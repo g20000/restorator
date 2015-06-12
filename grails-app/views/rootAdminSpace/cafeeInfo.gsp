@@ -60,6 +60,11 @@
 	      			<tr>
 	      				<td>Город ресторана</td><td>${cafeeName.getCity()}</td>
 	      			</tr>
+	      			<g:if test = "${cafeeOwner != null }">
+		      			<tr>
+		      				<td>Владелец</td><td><g:link action = "goToUserInfo" params = "[id: "${cafeeOwner.getId()}"]">${cafeeOwner.getUsername()}</g:link></td>
+		      			</tr>
+	      			</g:if>
 		        </tbody>      
 		        <%--<g:hiddenField name="cafeeName" value="${cafeeName.cafeeName}" /> --%>
 	        </table> 

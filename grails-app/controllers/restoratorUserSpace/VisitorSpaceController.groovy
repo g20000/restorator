@@ -1,5 +1,6 @@
 package restoratorUserSpace
 
+import org.joda.time.DateTimeZone
 import org.joda.time.LocalTime
 
 import restorator.Cafee
@@ -22,15 +23,13 @@ class VisitorSpaceController {
 	private def MIN_QUERY_NAME_SIZE = 3
 	private def CHECK_BILL = "check_bill"
 	private def DO_PAYMENT = "do_payment"
+	private def MINUTE_ZERO = 0
 	
 	@Secured(['ROLE_ADMIN', 'ROLE_VISITOR', 'ROLE_ROOT_ADMIN'])
     def index() {				
 		def user = springSecurityService.currentUser
 		Authority rootAdminAuthority = Authority.findByAuthority('ROLE_ROOT_ADMIN')
 		if(user.getAuthorities().contains(rootAdminAuthority)){
-			println "///"
-			println "not root"
-			println "///"
 			redirect(controller: "RootAdminSpace")
 			return
 		}
@@ -69,6 +68,7 @@ class VisitorSpaceController {
 				def tempDate = new Date()
 				tempDate.set(year: Integer.parseInt(params['reservationDate_year']), month: month, dayOfMonth: Integer.parseInt(params['reservationDate_day']))
 				params.put('reservationDate', tempDate)
+				println params
 				goToPaymentPage(params)
 			}else{
 				showVisitorSpace()
@@ -78,7 +78,7 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def showVisitorSpace(){
-		ArrayList<Cafee>allCafees = Cafee.list()
+		ArrayList<Cafee>allCafees = Cafee.findAllByIsReservationAvailable(true)
 		ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()		
 		ApiRequest apiRequest
 		for(Cafee cafee : allCafees){
@@ -168,9 +168,9 @@ class VisitorSpaceController {
 				return
 			}
 			def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
-			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour'])/*, Integer.parseInt(params['startTimeReservation_minute'])*/)
-			if((params.containsKey('endTimeReservation_hour'))&&(params.containsKey('endTimeReservation_minute'))){
-			  endTimeReservation = new LocalTime (Integer.parseInt(params['endTimeReservation_hour'])/*, Integer.parseInt(params['endTimeReservation_minute'])*/)
+			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+			if((params.containsKey('endTimeReservation_hour'))/*&&(params.containsKey('endTimeReservation_minute'))*/){
+			  endTimeReservation = new LocalTime (Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
 			}
 			ReservedTable myPlace = new ReservedTable(visitor: user, cafeeName: extCafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
 				reservationDate: params['reservationDate'], places: apiRequest.placesInSelectedTable, cost: apiRequest.totalCost, hall: apiRequest.selectedHall)
@@ -182,8 +182,11 @@ class VisitorSpaceController {
 			PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
 		}else{
 			Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
-			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour'])/*, Integer.parseInt(params['startTimeReservation_minute'])*/)
-			endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour'])/*, Integer.parseInt(params['endTimeReservation_minute'])*/)
+			println params
+			def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+			endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
+			println startTimeReservation
+			println endTimeReservation
 			
 			if(startTimeReservation >= endTimeReservation){
 				def errorCode = 4
@@ -578,7 +581,7 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
+		def paymentSystems = PaymentSystems.findAllByEnabled(true)
 		for(def paymentSystem : paymentSystems){
 			if(cafee.availablePaymentSystems.contains(paymentSystem)){
 				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
@@ -594,7 +597,7 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
+		def paymentSystems = PaymentSystems.findAllByEnabled(true)
 		for(def paymentSystem : paymentSystems){
 			if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
 				cafee.addToAvailablePaymentSystems(paymentSystem)

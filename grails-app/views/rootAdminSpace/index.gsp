@@ -34,7 +34,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><g:link action="index">Мои рестораны</g:link></li>
-              <li><g:link action="showReservedTableForAdmin">Пользователи</g:link></li>
+              <li><g:link action="showUsers">Пользователи</g:link></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -60,7 +60,7 @@
 				<tbody>
 					<g:each in="${availableCafee}" var="cafeeInfo">
 						<tr>
-							<td><g:link controller="RootAdminSpace" action="goToCafeePage" params="[cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"]">${cafeeInfo.cafeeName}</g:link></td>
+							<td><g:link controller="RootAdminSpace" action="goToCafeePage" params="[id: "${cafeeInfo.getId()}", cafeeApiInit: "${cafeeInfo.apiInit}"]">${cafeeInfo.cafeeName}</g:link></td>
 							<td>${cafeeInfo.getCity()}</td>
 							<td>${cafeeInfo.getRegion()}</td>
 						</tr>

@@ -9,11 +9,12 @@ import org.joda.time.LocalTime
 
 @Transactional
 class PiterService {
-
+	static def MINUTE_ZERO = 0
+	
     static def makeReserve(api, param){
 		def cafee = ApiRequest.findByApiInit(api)
-		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour']), Integer.parseInt(param['startTimeReservation_minute']))
-		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour']), Integer.parseInt(param['endTimeReservation_minute']))
+		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour']), MINUTE_ZERO)
+		def endTimeReservation = new LocalTime(Integer.parseInt(param['endTimeReservation_hour']), MINUTE_ZERO)
 		
 		if(startTimeReservation >= endTimeReservation){
 			def errorCode = 4

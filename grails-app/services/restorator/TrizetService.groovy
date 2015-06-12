@@ -9,10 +9,11 @@ import org.joda.time.LocalTime
 
 @Transactional
 class TrizetService {
-
+	static def MINUTE_ZERO = 0
+	
     static def makeReserve(api, param){
 		def cafee = ApiRequest.findByApiInit(api)
-		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour']), Integer.parseInt(param['startTimeReservation_minute']))
+		def startTimeReservation = new LocalTime(Integer.parseInt(param['startTimeReservation_hour']), MINUTE_ZERO)
 				
 		println "hello from makeReserve external"
 		if(!cafee.isReservationAvailable){
