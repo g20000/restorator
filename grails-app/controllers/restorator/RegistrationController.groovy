@@ -22,11 +22,13 @@ class RegistrationController {
 		def newCafee = null
 		
 		if((!(Person.find{username == params['login']}).equals(null)) || (!(Person.find{email == params['email']}).equals(null))){
-			render "User with the same email or login has been registered already!"
+			def errorCode = 18
+			render (view:'error.gsp', model: [error: errorCode])//"User with the same email or login has been registered already!"
 			return
 		}
 		if(!params['password'].equals(params['controlPassword'])){
-			render "Enter your password correctly!"
+			def errorCode = 19
+			render (view:'error.gsp', model: [error: errorCode])//пароли не совпадают
 			return
 		}
 		println params
@@ -51,7 +53,9 @@ class RegistrationController {
 		}
 		PersonAuthority.create(newUser, newUserRole, true)
 		
-		render "Registration has been finished successful!" 
+		def errorCode = 20
+		render (view:'error.gsp', model: [error: errorCode])//пароли не совпадают
+		return 
 	}
 	
 }

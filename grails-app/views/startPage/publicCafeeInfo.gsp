@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta name="layout" content="wrapBody"/>
+	<g:javascript library='jquery' />
 <title>Insert title here</title>
 </head>
 <body>
@@ -64,7 +65,12 @@
 		      		</tr>
 		      		<g:if test="${halls.size() != 0}">
 		      			<tr>
-	      					<td>Выберите желаемый зал</td><td><g:select name="hallsAvailable" from="${halls}"/></td>
+	      					<td>Выберите желаемый зал</td><td><g:select name="hallsAvailable" from="${halls}" onchange="hallChanged(this.value, ${cafeeName.getId()});"/></td>
+	      					<script>
+		      					function hallChanged(regionId, cafeeId) {
+		    				        $.ajax({type:'POST',data:{regionId : regionId, cafeeId : cafeeId}, url:'${createLink(controller: 'startPage', action: 'hallChanged')}',success:function(data,textStatus){},error:function(XMLHttpRequest,textStatus,errorThrown){}});
+		    				    }
+	      					</script>
 	      				</tr>	      				
 			        </g:if>
 <%--		      		<tr>--%>

@@ -132,4 +132,18 @@ class StartPageController {
 			render (view:'publicCafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: places, halls: hallNames])
 		}
 	}
+	
+	def hallChanged(String regionId, long cafeeId) {
+		println "test"
+		println regionId
+		println cafeeId
+		/*Region region = Region.get(regionId)
+		def subCategories = []
+		if ( region != null ) {
+			subCategories = City.findAllWhere(region : region, [order:'cityName'])
+		}
+		render g.select(id:'subCategory', name:'subCategory.id',
+			from:subCategories, optionKey:'id', noSelection:[null:'Выберите город'], optionValue: 'cityName'
+		)*/
+	}
 }

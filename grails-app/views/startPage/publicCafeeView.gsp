@@ -90,6 +90,6 @@
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <g:javascript library="start_page_bootstrap_files/ie-emulation-modes-warning"/>
+<%--    <g:javascript library="start_page_bootstrap_files/ie-emulation-modes-warning"/>--%>
 </body>
 </html>

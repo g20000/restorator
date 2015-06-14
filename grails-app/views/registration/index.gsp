@@ -17,7 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="${resource(dir: 'css/reg_page_files', file: 'signing.css') }" type="text/css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<%--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>--%>
+	<g:javascript library='jquery' />
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$(".adminFields").hide();
@@ -138,16 +139,16 @@
 <%--	      <g:textField id="cafeeCity" class="form-control" name="city" value="" placeholder="Город" type="text"/>--%>
 			  <form>
 			    <g:select
-			        optionKey="id" name="region.id" id="region" from="${region}" noSelection="[null:' ']"
-			        onchange="categoryChanged(this.value);"
+			        optionKey="id" name="region.id" id="region" from="${region}" noSelection="[null:'Выберите регион']"
+			        optionValue="${{it.getRegionName()}}" onchange="categoryChanged(this.value);"
 			    ></g:select>
 			    <div>
-		            <b>Sub-Category: </b>
+		            <b>Город: </b>
 		            <span id="subContainer"></span>
 	        	</div>
 	        	<script>
-				    function categoryChanged(categoryId) {
-				        jQuery.ajax({type:'POST',data:'regionId='+regionId, url:'region/categoryChanged',success:function(data,textStatus){jQuery('#subContainer').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});
+				    function categoryChanged(regionId) {
+				        $.ajax({type:'POST',data:'regionId='+regionId, url:'${createLink(controller: 'region', action: 'categoryChanged')}',success:function(data,textStatus){jQuery('#subContainer').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});
 				    }
 				</script>
 			</form>

@@ -1,7 +1,9 @@
 package restorator
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['permitAll'])
 class RegionController {
 
     def ajaxGetCities = {
@@ -11,14 +13,14 @@ class RegionController {
 	}
 	
 	def categoryChanged(long regionId) {
-		println "test"
+		println regionId
 		Region region = Region.get(regionId)
 		def subCategories = []
 		if ( region != null ) {
-			subCategories = City.findAllByRegion(region, [order:'cityName'])
+			subCategories = City.findAllWhere(region : region, [order:'cityName'])
 		}
 		render g.select(id:'subCategory', name:'subCategory.id',
-			from:subCategories, optionKey:'id', noSelection:[null:' ']
+			from:subCategories, optionKey:'id', noSelection:[null:'Выберите город'], optionValue: 'cityName'
 		)
 	}
 }

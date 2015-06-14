@@ -145,8 +145,8 @@ class BootStrap {
 		 region.addToCities(city2).save(flush: true)
 		 
 		 def region2 = Region.findOrSaveWhere(regionName: "Chuvashia")
-		 region.addToCities(city3).save(flush: true)
-		 region.addToCities(city4).save(flush: true)
+		 region2.addToCities(city3).save(flush: true)
+		 region2.addToCities(city4).save(flush: true)
     }
     def destroy = {
     }

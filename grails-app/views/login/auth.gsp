@@ -19,7 +19,7 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <g:javascript library="reg_page_files/analytics"/>
-    <g:javascript library="reg_page_files/ie-emulation-modes-warning"/>
+<%--    <g:javascript library="reg_page_files/ie-emulation-modes-warning"/>--%>
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -54,7 +54,7 @@
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <g:javascript library="reg_page_files/ie10-viewport-bug-workaround"/>
+<%--    <g:javascript library="reg_page_files/ie10-viewport-bug-workaround"/>--%>
   <script type="text/javascript">OneSkyClientConfig = {apiKey: "U9aDnPz49ouz8J2CjMcAz74GppvQBGym",project: 19540,translate: true,locale: "ru",xdReceiver: "http://www.oneskyapp.com/docs/xd_receiver.html"};</script>
 <g:javascript library="reg_page_files/loader"/>
 

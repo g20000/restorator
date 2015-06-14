@@ -640,6 +640,11 @@ class VisitorSpaceController {
 									  }
 							}
 					}.get()
+					if(table == null){
+						def errorCode = 21
+						render (view:'error.gsp', model: [error: errorCode])
+						return
+					}
 					def totalCost = table.placeCost
 					render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
 			/*} catch (Exception e) {
