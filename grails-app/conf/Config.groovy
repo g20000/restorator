@@ -59,7 +59,7 @@ grails {
     }
 }
 
-
+grails.views.javascript.library="jquery"
 grails.converters.encoding = "UTF-8"
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'

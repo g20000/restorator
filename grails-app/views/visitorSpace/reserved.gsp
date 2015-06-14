@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="org.joda.time.format.DateTimeFormatter" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
@@ -58,7 +60,7 @@
             <ul class="nav navbar-nav">
               <li><g:link controller="VisitorSpace" action="index">Бронировать столик</g:link></li>
               <li class="active"><g:link controller="VisitorSpace" action="showReservedTableForVisitor">Просмотр забронированных мест</g:link></li>
-              <li><a href="#">Редактировать бронирование</a></li>
+<%--              <li><a href="#">Редактировать бронирование</a></li>--%>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -82,7 +84,7 @@
 							<th>Время бронирования до</th>
 							<th>Зал</th>
 							<th>Мест за столиком</th>
-							<th>Оплачено</th>
+<%--							<th>Оплачено</th>--%>
 							<th></th>
 						</tr>	
 					</thead>
@@ -90,11 +92,11 @@
 						<g:each in="${tableInfo}" var="table">
 							<tr>
 								<td>${table.cafeeName.cafeeName}</td>
-								<td>${table.reservationDate}</td>
-								<td>${table.startTimeLimit}</td>
+								<td>${new SimpleDateFormat("yyyy-MM-dd").format(table.reservationDate)}</td>
+								<td>${table.startTimeLimit.toString(timeForm)}</td>
 								<td>
 									<g:if test="${table.endTimeLimit != null}">
-										${table.endTimeLimit}
+										${table.endTimeLimit.toString(timeForm)}
 									</g:if>
 									<g:else>
 										<p>-</p>
@@ -102,7 +104,7 @@
 								</td>
 								<td>${table.hall}</td>
 								<td>${table.places}</td>
-								<td>${table.cost}</td>
+<%--								<td>${table.cost}</td>--%>
 								<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
 								date: "${table.reservationDate }", startTime: "${table.startTimeLimit }", endTime: "${table.endTimeLimit }",
 								placesAmount: "${table.places }", cost: "${table.cost }", hall: "${table.hall}"]">Отменить бронирование</g:link></td>

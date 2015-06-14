@@ -67,9 +67,9 @@
 	      					<td>Выберите желаемый зал</td><td><g:select name="hallsAvailable" from="${halls}"/></td>
 	      				</tr>	      				
 			        </g:if>
-		      		<tr>
-	      				<td>Цена за место</td><td>${cafeeName.placeCost}</td>
-	      			</tr>
+<%--		      		<tr>--%>
+<%--	      				<td>Цена за место</td><td>${cafeeName.placeCost}</td>--%>
+<%--	      			</tr>--%>
 		      		<tr>
 	      				<td>Тип принимаемой валюты</td><td>${cafeeName.currencyType}</td>
 	      			</tr>

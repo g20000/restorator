@@ -5,7 +5,7 @@ import restorator.Cafee
 class Person {
 
 	transient springSecurityService
-
+	
 	String username
 	String password
 	boolean enabled = true

@@ -1,14 +1,6 @@
-import org.joda.time.LocalTime
 
-import restorator.Cafee
-import restorator.auth.Authority
-import restorator.auth.Person
-import restorator.auth.PersonAuthority
-import billingMock.PaymentSystems
-import billingMock.VisaMock
-import extApiMock.ApiRequest
-import extApiMock.ExtHallinfo
-import extApiMock.ExtTablePlacesInfo
+import restorator.City
+import restorator.Region
 
 class BootStrap {
 	def springSecurityService
@@ -143,6 +135,18 @@ class BootStrap {
 		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)*/
+		 def city = City.findOrSaveWhere(cityName: "Yoshkar - Ola")
+		 def city2 = City.findOrSaveWhere(cityName: "Volzhsk")
+		 def city3 = City.findOrSaveWhere(cityName: "Kanash")
+		 def city4 = City.findOrSaveWhere(cityName: "Cheboksary")
+		
+		 def region = Region.findOrSaveWhere(regionName: "MariEl")
+		 region.addToCities(city).save(flush: true)
+		 region.addToCities(city2).save(flush: true)
+		 
+		 def region2 = Region.findOrSaveWhere(regionName: "Chuvashia")
+		 region.addToCities(city3).save(flush: true)
+		 region.addToCities(city4).save(flush: true)
     }
     def destroy = {
     }

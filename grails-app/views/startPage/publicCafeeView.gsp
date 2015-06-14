@@ -29,22 +29,22 @@
 	  <div>
 	  	<g:form class="form-inline">
 		  <div class="form-group">
-		    <label class="sr-only">Поиск заведения по городам</label>
-		    <p class="form-control-static">Поиск заведения по городам</p>
+		    <label class="sr-only">Поиск ресторана по городам</label>
+		    <p class="form-control-static">Поиск ресторана по городам</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Город заведения</label>
-		    <g:textField class="form-control" name="city" placeholder="Город заведения" value=""/>
+		    <label for="city" class="sr-only">Город ресторана</label>
+		    <g:textField class="form-control" name="city" placeholder="Город ресторана" value=""/>
 		  </div>
 		  <div class="form-group">
-		    <label class="sr-only">по регионам</label>
-		    <p class="form-control-static">Поиск заведения по регионам</p>
+		    <label class="sr-only">по названию</label>
+		    <p class="form-control-static">Поиск ресторана по названию</p>
 		  </div>
 		  <div class="form-group">
-		    <label for="city" class="sr-only">Регион заведения</label>
-		    <g:textField class="form-control" name="region" placeholder="Регион заведения"/>
+		    <label for="city" class="sr-only">Название ресторана</label>
+		    <g:textField class="form-control" name="region" placeholder="Название ресторана"/>
 		  </div>
-		  <g:actionSubmit value="Поиск заведений" action="searchCafee" class="btn btn-default">Поиск заведений</g:actionSubmit>
+		  <g:actionSubmit value="Поиск ресторана" action="searchCafee" class="btn btn-default">Поиск ресторанов</g:actionSubmit>
 		</g:form>
 	  </div>	
 	  <script type="text/javascript">
@@ -60,9 +60,9 @@
       	<table class="table">
 			<thead>
 				<tr>
-					<th>Название заведения</th>
-					<th>Цена за место</th>
-					<th>Тип принимаемой валюты</th>
+					<th>Название ресторана</th>
+					<th>Город рестарана</th>
+					<th>Регион ресторана</th>
 				</tr>	
 			</thead>
 			<tbody>

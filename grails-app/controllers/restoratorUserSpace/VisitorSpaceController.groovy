@@ -1,7 +1,10 @@
 package restoratorUserSpace
 
-import org.joda.time.DateTimeZone
+import java.text.SimpleDateFormat
+
 import org.joda.time.LocalTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 
 import restorator.Cafee
 import restorator.HallsZones
@@ -269,6 +272,7 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_VISITOR'])
 	def showReservedTableForVisitor(){
+		DateTimeFormatter timeFormat = DateTimeFormat.forPattern("HH:mm")
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def myTables = ReservedTable.findAllByVisitor(user)
 		List<ReservedTable>reservedTables = new ArrayList<Cafee>()
@@ -285,7 +289,7 @@ class VisitorSpaceController {
 			}
 		}
 		
-		render (view:'reserved.gsp', model: [tableInfo: reservedTables])
+		render (view:'reserved.gsp', model: [tableInfo: reservedTables, timeForm: timeFormat])
 	}
 	
 	@Secured(['ROLE_VISITOR'])//переделать с учетом api
@@ -384,10 +388,10 @@ class VisitorSpaceController {
 			def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
 			
 			oldCafeeInfo.cafeeName = params['cafee']
-			oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
+			//oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
 			oldCafeeInfo.currencyType = params['currencyType']
-			oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
-			oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
+			//oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
+			//oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
 			
 			if(params['reservationAvailable'] == 'on'){
 				oldCafeeInfo.isReservationAvailable = true
@@ -412,12 +416,12 @@ class VisitorSpaceController {
 			oldCafeeInfo.startDateLimit = params['startDateReservation']
 			oldCafeeInfo.endDateLimit = params['endDateReservation']
 					
-			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
-				def errorCode = 9
-				render (view:'error.gsp', model: [error: errorCode])
-				//render "Amount places for reservation can't be more than total places amount!"
-				return
-			}
+//			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
+//				def errorCode = 9
+//				render (view:'error.gsp', model: [error: errorCode])
+//				//render "Amount places for reservation can't be more than total places amount!"
+//				return
+//			}
 			
 			if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
 				def errorCode = 10
@@ -581,7 +585,8 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.findAllByEnabled(true)
+		def paymentSystems = PaymentSystems.list()
+		println paymentSystems
 		for(def paymentSystem : paymentSystems){
 			if(cafee.availablePaymentSystems.contains(paymentSystem)){
 				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
@@ -597,7 +602,7 @@ class VisitorSpaceController {
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.findAllByEnabled(true)
+		def paymentSystems = PaymentSystems.list()
 		for(def paymentSystem : paymentSystems){
 			if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
 				cafee.addToAvailablePaymentSystems(paymentSystem)

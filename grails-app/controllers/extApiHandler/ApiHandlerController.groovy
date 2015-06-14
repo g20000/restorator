@@ -1,5 +1,7 @@
 package extApiHandler
 
+import org.joda.time.LocalTime
+
 import restorator.NovikovService
 import restorator.PiterService
 import restorator.TrizetService
@@ -23,7 +25,6 @@ class ApiHandlerController {
 	static def MIN_QUERY_NAME_SIZE = 3
 	
     def index() { }
-		
 	def static request(...api){//сделать проверку на верный результат
 		switch(api[0]){
 			case CARLSON_API : requestCarlsonAPI(api)

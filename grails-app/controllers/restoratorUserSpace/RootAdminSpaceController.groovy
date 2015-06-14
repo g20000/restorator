@@ -21,7 +21,8 @@ class RootAdminSpaceController {
 		for(Cafee cafee : allCafees){
 			if(cafee.apiInit != ""){
 				apiRequest = ApiHandlerController.request(cafee.apiInit)
-				availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+				availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+					city: apiRequest.getCity(), region: apiRequest.getRegion()))
 			}else{
 				availableCafee.add(cafee)
 			}
@@ -90,14 +91,13 @@ class RootAdminSpaceController {
 		}
 	}
 	
-	@Secured(['ROLE_ADMIN'])
 	def setupBillingSystem(){
 		def user = Person.findByUsername(springSecurityService.currentUser.username)
 		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.findAllByEnabled(true)
+		def paymentSystems = PaymentSystems.list()
 		for(def paymentSystem : paymentSystems){
-			if(cafee.availablePaymentSystems.contains(paymentSystem)){
+			if(paymentSystem.getEnabled()){
 				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
 			}else{
 				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
@@ -106,22 +106,29 @@ class RootAdminSpaceController {
 		render (view:'billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
 	}
 	
-	@Secured(['ROLE_ADMIN'])
 	def saveSetupBillingSystems(params){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
 		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.findAllByEnabled(true)
+		def paymentSystems = PaymentSystems.list()
+		def service
 		for(def paymentSystem : paymentSystems){
-			if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.addToAvailablePaymentSystems(paymentSystem)
-			}else if((!params.containsKey(paymentSystem.getPaymentSystemName()))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.removeFromAvailablePaymentSystems(paymentSystem)
-			}
-		}
-		if(!cafee.save(flush:true)){
-			cafee.errors.each{
-				println it
+			if(params.containsKey(paymentSystem.getPaymentSystemName())){
+				service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
+				service.enabled = true
+				if(!service.save(flush:true)){
+					service.errors.each{
+						println it
+					}
+					return
+				}
+			}else if(!params.containsKey(paymentSystem.getPaymentSystemName())){
+				service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
+				service.enabled = false
+				if(!service.save(flush:true)){
+					service.errors.each{
+						println it
+					}
+					return
+				}
 			}
 		}
 		setupBillingSystem()

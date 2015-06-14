@@ -62,9 +62,9 @@
 			      	<tr>
 			      		<td>Доступно мест для бронирования</td><td>${cafeeInfo.totalReservationPlaces}</td>
 			      	</tr>
-			      	<tr>
-			      		<td>Цена за место</td><td>${cafeeInfo.placeCost}</td>
-			      	</tr>
+<%--			      	<tr>--%>
+<%--			      		<td>Цена за место</td><td>${cafeeInfo.placeCost}</td>--%>
+<%--			      	</tr>--%>
 			      	<tr>
 			      		<td>Тип принимаемой валюты</td><td>${cafeeInfo.currencyType}</td>
 			      	</tr>

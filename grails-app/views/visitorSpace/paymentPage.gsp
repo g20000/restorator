@@ -74,6 +74,9 @@
 	   				<tr>
 	   					<td>Цена бронирования составит ${totalCost} ${currencyType }</td>
 	 				</tr>
+	 				<tr>
+	 					<td>Выберите способ оплаты</td>
+	 				</tr>
  				</g:if>
    				<g:each in="${availablePaymentSystems}">
 	   				<tr>

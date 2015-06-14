@@ -7,7 +7,8 @@ import restorator.auth.PersonAuthority
 
 class RegistrationController {
 	@Secured(['permitAll'])
-    def index() { 
+    def index() {
+		render (view:'index.gsp', model: [region: Region.list(), city: City.list()]) 
 	}
 	
 	@Secured(['permitAll'])

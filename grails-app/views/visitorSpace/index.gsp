@@ -58,7 +58,7 @@
             <ul class="nav navbar-nav">
               <li class="active"><g:link controller="VisitorSpace" action="index">Бронировать столик</g:link></li>
               <li><g:link controller="VisitorSpace" action="showReservedTableForVisitor">Просмотр забронированных мест</g:link></li>
-              <li><a href="#">Редактировать бронирование</a></li>
+<%--              <li><a href="#">Редактировать бронирование</a></li>--%>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

@@ -47,7 +47,7 @@
 		});
 	  </script>
       <div class="jumbotron">
-     	<h3>Информация о заведении</h3>
+     	<h3>Зарегистрированные рестораны</h3>
      	<div>     	
 	   		<table class="table">
 	    		<thead>
