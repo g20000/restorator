@@ -78,7 +78,7 @@
 	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
 	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="${tableInfo.getCurrencyType()}" autofocus="" data-translatable-string="" type="string" required=""/>
 	        <g:hiddenField name="id" value="${tableInfo.getId()}"/>	    
-	        <g:actionSubmit value="Добавить столик"  action="updateTableData" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <g:actionSubmit value="Применить изменения"  action="updateTableData"/>
 	    </div>    
       	</g:form>	
        </div>

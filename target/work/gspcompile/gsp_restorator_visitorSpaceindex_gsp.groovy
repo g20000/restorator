@@ -44,7 +44,7 @@ createTagBody(2, {->
 printHtmlPart(10)
 invokeTag('textField','g',32,['class':("form-control"),'name':("city"),'placeholder':("Город ресторана"),'value':("")],-1)
 printHtmlPart(11)
-invokeTag('textField','g',40,['class':("form-control"),'name':("region"),'placeholder':("Регион ресторана")],-1)
+invokeTag('textField','g',40,['class':("form-control"),'name':("region"),'placeholder':("Название ресторана")],-1)
 printHtmlPart(12)
 createClosureForHtmlPart(13, 3)
 invokeTag('actionSubmit','g',42,['value':("Начать поиск"),'action':("searchCafee"),'class':("btn btn-default")],3)
@@ -53,34 +53,40 @@ printHtmlPart(14)
 invokeTag('form','g',43,['class':("form-inline")],2)
 printHtmlPart(15)
 createClosureForHtmlPart(16, 2)
-invokeTag('link','g',51,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
+invokeTag('link','g',50,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(17)
 createClosureForHtmlPart(18, 2)
-invokeTag('link','g',60,['controller':("VisitorSpace"),'action':("showReservedTableForVisitor")],2)
+invokeTag('link','g',51,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
 printHtmlPart(19)
+createClosureForHtmlPart(20, 2)
+invokeTag('link','g',59,['controller':("VisitorSpace"),'action':("index")],2)
+printHtmlPart(21)
+createClosureForHtmlPart(22, 2)
+invokeTag('link','g',60,['controller':("VisitorSpace"),'action':("showReservedTableForVisitor")],2)
+printHtmlPart(23)
 for( cafeeInfo in (availableCafee) ) {
-printHtmlPart(20)
+printHtmlPart(24)
 createTagBody(3, {->
 expressionOut.print(cafeeInfo.cafeeName)
 })
 invokeTag('link','g',86,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"])],3)
-printHtmlPart(21)
-expressionOut.print(cafeeInfo.placeCost)
-printHtmlPart(21)
-expressionOut.print(cafeeInfo.currencyType)
-printHtmlPart(22)
+printHtmlPart(25)
+expressionOut.print(cafeeInfo.getCity())
+printHtmlPart(25)
+expressionOut.print(cafeeInfo.getRegion())
+printHtmlPart(26)
 }
-printHtmlPart(23)
+printHtmlPart(27)
 })
-invokeTag('captureBody','sitemesh',106,[:],1)
-printHtmlPart(24)
+invokeTag('captureBody','sitemesh',105,[:],1)
+printHtmlPart(28)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1432592060809L
+public static final long LAST_MODIFIED = 1434216301452L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

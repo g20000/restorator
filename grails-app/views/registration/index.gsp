@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="${resource(dir: 'css/reg_page_files', file: 'signing.css') }" type="text/css">
-<%--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>--%>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<g:javascript library='jquery' />
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -127,31 +127,31 @@
      	  </div>
 	      <label for="innName" class="sr-only">ИНН</label>
 	      <g:textField id="innName" class="form-control" name="inn" value="" placeholder="ИНН" type="text"/>
-<%--	      <div class="text-left">--%>
-<%--      		<small>Регион</small>--%>
-<%--      	  </div>	      --%>
-<%--	      <label for="cafeeRegion" class="sr-only">Регион</label>--%>
-<%--	      <g:textField id="cafeeRegion" class="form-control" name="region" value="" placeholder="Регион" type="text"/>--%>
-<%--	      <div class="text-left">--%>
-<%--   			<small>Город</small>--%>
-<%--   		  </div>--%>
-<%--	      <label for="cafeeCity" class="sr-only">Город</label>--%>
-<%--	      <g:textField id="cafeeCity" class="form-control" name="city" value="" placeholder="Город" type="text"/>--%>
-			  <form>
-			    <g:select
-			        optionKey="id" name="region.id" id="region" from="${region}" noSelection="[null:'Выберите регион']"
-			        optionValue="${{it.getRegionName()}}" onchange="categoryChanged(this.value);"
-			    ></g:select>
-			    <div>
-		            <b>Город: </b>
-		            <span id="subContainer"></span>
-	        	</div>
-	        	<script>
-				    function categoryChanged(regionId) {
-				        $.ajax({type:'POST',data:'regionId='+regionId, url:'${createLink(controller: 'region', action: 'categoryChanged')}',success:function(data,textStatus){jQuery('#subContainer').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});
-				    }
-				</script>
-			</form>
+	      <div class="text-left">
+      		<small>Регион</small>
+      	  </div>	      
+	      <label for="cafeeRegion" class="sr-only">Регион</label>
+	      <g:textField id="cafeeRegion" class="form-control" name="region" value="" placeholder="Регион" type="text"/>
+	      <div class="text-left">
+   			<small>Город</small>
+   		  </div>
+	      <label for="cafeeCity" class="sr-only">Город</label>
+	      <g:textField id="cafeeCity" class="form-control" name="city" value="" placeholder="Город" type="text"/>
+<%--			  <form>--%>
+<%--			    <g:select--%>
+<%--			        optionKey="id" name="region.id" id="region" from="${region}" noSelection="[null:'Выберите регион']"--%>
+<%--			        optionValue="${{it.getRegionName()}}" onchange="categoryChanged(this.value);"--%>
+<%--			    ></g:select>--%>
+<%--			    <div>--%>
+<%--		            <b>Город: </b>--%>
+<%--		            <span id="subContainer"></span>--%>
+<%--	        	</div>--%>
+<%--	        	<script>--%>
+<%--				    function categoryChanged(regionId) {--%>
+<%--				        $.ajax({type:'POST',data:'regionId='+regionId, url:'${createLink(controller: 'region', action: 'categoryChanged')}',success:function(data,textStatus){jQuery('#subContainer').html(data);},error:function(XMLHttpRequest,textStatus,errorThrown){}});--%>
+<%--				    }--%>
+<%--				</script>--%>
+<%--			</form>--%>
 		</div>
         <g:actionSubmit value="Зарегистрироваться"  action="saveUser" class="btn btn-lg btn-primary btn-block">Зарегистрироваться</g:actionSubmit>
       </g:form>

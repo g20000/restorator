@@ -60,7 +60,7 @@ createTagBody(2, {->
 printHtmlPart(16)
 invokeTag('textField','g',36,['class':("form-control"),'name':("city"),'placeholder':("Город ресторана")],-1)
 printHtmlPart(17)
-invokeTag('textField','g',44,['class':("form-control"),'name':("region"),'placeholder':("Регион ресторана")],-1)
+invokeTag('textField','g',44,['class':("form-control"),'name':("region"),'placeholder':("Название ресторана")],-1)
 printHtmlPart(18)
 createClosureForHtmlPart(19, 3)
 invokeTag('actionSubmit','g',46,['value':("Начать поиск"),'action':("searchCafee"),'class':("btn btn-default")],3)
@@ -178,7 +178,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1432592461992L
+public static final long LAST_MODIFIED = 1433344643276L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

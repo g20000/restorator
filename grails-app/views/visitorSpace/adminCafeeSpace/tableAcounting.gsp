@@ -64,12 +64,12 @@
 					<tbody>
 						<g:each in="${tableInfo}" var="table">
 							<tr>
-								<td>${table.placesInTableAmount}</td>
-								<td>${table.tableForReservationAmount}</td>
-								<td>${table.tableAmount}</td>
+								<td>${table.getPlacesInTableAmount()}</td>
+								<td>${table.getTableForReservationAmount()}</td>
+								<td>${table.getTableAmount()}</td>
 								<td>${table.hall.getHallName()}</td>
-								<td>${table.placeCost}</td>
-								<td>${table.currencyType}</td>
+								<td>${table.getPlaceCost()}</td>
+								<td>${table.getCurrencyType()}</td>
 								<td><g:link controller="VisitorSpace" action="editTableData" params="[id: "${table.getId()}"]">Редактировать столик</g:link></td>
 								<td><g:link controller="VisitorSpace" action="deleteTableAdmin" params="[id: "${table.getId()}", placesInTable: "${table.placesInTableAmount}", tablesForReservation: "${table.tableForReservationAmount}", totalTables: "${table.tableAmount}", hall: "${table.hall.getHallName()}"]">Удалить столик</g:link></td>
 							</tr>
@@ -112,7 +112,7 @@
        		</div>
 	        <label for="currencyType" class="sr-only">Тип принимаемой валюты</label>
 	        <g:textField id="currencyType" class="form-control" name="currencyType" placeholder="Тип принимаемой валюты" value="" autofocus="" data-translatable-string="" type="string" required=""/>	    
-	        <g:actionSubmit value="Добавить столик"  action="addTable" class="btn btn-lg btn-primary btn-block">Подтвердить изменения</g:actionSubmit>
+	        <g:actionSubmit value="Добавить столик"  action="addTable"/>
 	    </div>    
       	</g:form>	
        </div>
@@ -123,9 +123,5 @@
       </footer>
 
     </div> <!-- /container -->
-
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="index4_files/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

@@ -46,42 +46,48 @@ createClosureForHtmlPart(10, 2)
 invokeTag('link','g',28,['controller':("VisitorSpace"),'action':("setReservation")],2)
 printHtmlPart(11)
 createClosureForHtmlPart(12, 2)
+invokeTag('link','g',29,['controller':("VisitorSpace"),'action':("setupBillingSystem")],2)
+printHtmlPart(11)
+createClosureForHtmlPart(13, 2)
 invokeTag('link','g',30,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
-printHtmlPart(13)
-createClosureForHtmlPart(14, 2)
+printHtmlPart(14)
+createClosureForHtmlPart(15, 2)
 invokeTag('link','g',37,['action':("index")],2)
-printHtmlPart(15)
-if(true && (tableInfo.size() != 0)) {
 printHtmlPart(16)
-for( table in (tableInfo) ) {
-printHtmlPart(17)
-expressionOut.print(table.visitor.username)
+createClosureForHtmlPart(17, 2)
+invokeTag('link','g',38,['action':("showReservedTableForAdmin")],2)
 printHtmlPart(18)
-expressionOut.print(table.reservationDate)
-printHtmlPart(18)
-expressionOut.print(table.startTimeLimit)
-printHtmlPart(18)
-expressionOut.print(table.endTimeLimit)
-printHtmlPart(18)
-expressionOut.print(table.places)
+if(true && (tableInfo.size() != 0)) {
 printHtmlPart(19)
-}
+for( table in (tableInfo) ) {
 printHtmlPart(20)
+expressionOut.print(table.visitor.username)
+printHtmlPart(21)
+expressionOut.print(table.reservationDate)
+printHtmlPart(21)
+expressionOut.print(table.startTimeLimit)
+printHtmlPart(21)
+expressionOut.print(table.endTimeLimit)
+printHtmlPart(21)
+expressionOut.print(table.places)
+printHtmlPart(22)
+}
+printHtmlPart(23)
 }
 else {
-printHtmlPart(21)
+printHtmlPart(24)
 }
-printHtmlPart(22)
+printHtmlPart(25)
 })
 invokeTag('captureBody','sitemesh',93,[:],1)
-printHtmlPart(23)
+printHtmlPart(26)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1432585138961L
+public static final long LAST_MODIFIED = 1433780580229L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

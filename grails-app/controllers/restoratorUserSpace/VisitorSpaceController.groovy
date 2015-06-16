@@ -93,7 +93,8 @@ class VisitorSpaceController {
 					for(Cafee cafee : allCafees){
 						if(cafee.apiInit != ""){
 							apiRequest = ApiHandlerController.request(cafee.apiInit)
-									availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+									availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+										region: apiRequest.getRegion(), city: apiRequest.getCity()))
 						}else{
 							availableCafee.add(cafee)
 						}
@@ -369,10 +370,10 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def showReservedTableForAdmin(){		
 		try {
+			DateTimeFormatter timeFormat = DateTimeFormat.forPattern("HH:mm")
 			def user = Person.findByUsername(springSecurityService.currentUser.username)
 			def myTable = ReservedTable.findAllByOwner(user)
-			println myTable
-			render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable])
+			render (view:'adminCafeeSpace/reservedTableAdmin.gsp', model: [tableInfo: myTable, timeForm: timeFormat])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -399,8 +400,8 @@ class VisitorSpaceController {
 			
 			if((!(new String(params['password']).trim().equals(new String(params['controlPassword']).trim())))&&(new String(params['password']) != "")){
 				def errorCode = 7
-						render (view:'error.gsp', model: [error: errorCode])
-						return
+				render (view:'error.gsp', model: [error: errorCode])
+				return
 								//render "Enter your password correctly!"
 			}else{
 				oldUserRecord.save(flush:true)
@@ -419,8 +420,17 @@ class VisitorSpaceController {
 		try {
 			def user = Person.findByUsername(springSecurityService.currentUser.username)
 			def cafee = user.cafee
+			println cafee.availablePaymentSystems
+			def tablesAvailable = TablePlacesInfo.where{
+				hall{
+					cafee{
+						cafeeName == cafee.getCafeeName()
+					}
+				}
+			}.list()
+			println tablesAvailable
 			
-			render (view:'adminCafeeSpace/setupReservation.gsp', model: [cafeeInfo: cafee])
+			render (view:'adminCafeeSpace/setupReservation.gsp', model: [cafeeInfo: cafee, tableAvailable: tablesAvailable])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -430,71 +440,67 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def editReservation(params){
 		try {
-			def MINUTE_ZERO = 0
-					def presentDate = new Date()
-			def user = Person.findByUsername(springSecurityService.currentUser.username)
-			Cafee oldCafeeInfo = user.cafee
-			
-			def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
-			def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
-			
-			oldCafeeInfo.cafeeName = params['cafee']
-					//oldCafeeInfo.placeCost = Double.parseDouble(params['placePrice'])
-					oldCafeeInfo.currencyType = params['currencyType']
-							//oldCafeeInfo.totalPlaces = Integer.parseInt(params['totalPlaces'])
-							//oldCafeeInfo.totalReservationPlaces = Integer.parseInt(params['reservationPlaces'])
-							
-							if(params['reservationAvailable'] == 'on'){
-								oldCafeeInfo.isReservationAvailable = true
-							}else{
-								oldCafeeInfo.isReservationAvailable = false
-							}
-			
-			if(params['timeLimitReservation'] == 'on'){
-				oldCafeeInfo.reservationTimeLimit = true
-			}else{
-				oldCafeeInfo.reservationTimeLimit = false
-			}
-			
-			if(params['dateLimitReservation'] == 'on'){
-				oldCafeeInfo.reservationDateLimit = true
-			}else{
-				oldCafeeInfo.reservationDateLimit = false
-			}
-			
-			oldCafeeInfo.startTimeLimit = startTimePoint
-					oldCafeeInfo.endTimeLimit = endTimePoint
-					oldCafeeInfo.startDateLimit = params['startDateReservation']
-							oldCafeeInfo.endDateLimit = params['endDateReservation']
-									
-//			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
-//				def errorCode = 9
-//				render (view:'error.gsp', model: [error: errorCode])
-//				//render "Amount places for reservation can't be more than total places amount!"
-//				return
-//			}
-									
-									if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
-										def errorCode = 10
-												render (view:'error.gsp', model: [error: errorCode])
-												//render "Start date point can not be more than end date point!"
-												return
-									}
-			
-			if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
-				def errorCode = 11
-						render (view:'error.gsp', model: [error: errorCode])
-						//render "Start time point can not be more than end time point!"
-						return
-			}
-			
-			if(!oldCafeeInfo.save(flush: true)){
-				oldCafeeInfo.errors.each{
-					println it
+				def MINUTE_ZERO = 0
+				def presentDate = new Date()
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				Cafee oldCafeeInfo = user.cafee
+								
+				def startTimePoint = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+				def endTimePoint = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
+				
+				oldCafeeInfo.cafeeName = params['cafee']
+				oldCafeeInfo.currencyType = params['currencyType']							
+				if(params['reservationAvailable'] == 'on'){
+					oldCafeeInfo.isReservationAvailable = true
+				}else{
+					oldCafeeInfo.isReservationAvailable = false
 				}
-			}
-			def errorCode = 12
-			render (view:'error.gsp', model: [error: errorCode])
+				
+				if(params['timeLimitReservation'] == 'on'){
+					oldCafeeInfo.reservationTimeLimit = true
+				}else{
+					oldCafeeInfo.reservationTimeLimit = false
+				}
+				
+				if(params['dateLimitReservation'] == 'on'){
+					oldCafeeInfo.reservationDateLimit = true
+				}else{
+					oldCafeeInfo.reservationDateLimit = false
+				}
+				
+				oldCafeeInfo.startTimeLimit = startTimePoint
+				oldCafeeInfo.endTimeLimit = endTimePoint
+				oldCafeeInfo.startDateLimit = params['startDateReservation']
+				oldCafeeInfo.endDateLimit = params['endDateReservation']
+										
+	//			if(Integer.parseInt(params['totalPlaces']) < Integer.parseInt(params['reservationPlaces'])){
+	//				def errorCode = 9
+	//				render (view:'error.gsp', model: [error: errorCode])
+	//				//render "Amount places for reservation can't be more than total places amount!"
+	//				return
+	//			}
+										
+				if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
+					def errorCode = 10
+							render (view:'error.gsp', model: [error: errorCode])
+							//render "Start date point can not be more than end date point!"
+							return
+				}
+				
+				if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
+					def errorCode = 11
+							render (view:'error.gsp', model: [error: errorCode])
+							//render "Start time point can not be more than end time point!"
+							return
+				}
+				
+				if(!oldCafeeInfo.save(flush: true)){
+					oldCafeeInfo.errors.each{
+						println it
+					}
+				}
+				def errorCode = 12
+				render (view:'error.gsp', model: [error: errorCode])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -554,19 +560,6 @@ class VisitorSpaceController {
 			cafee.totalReservationPlaces -= Integer.parseInt(params['tablesForReservation'])
 			cafee.totalPlaces -= Integer.parseInt(params['totalTables'])		
 			def hall = HallsZones.findWhere(hallName: params['hall'], cafee: cafee)		
-			/*def tableQuery = TablePlacesInfo.createCriteria()
-			def table = tableQuery.get {
-				'in'("hall", HallsZones.findAllByCafee(cafee))
-				eq("placesInTableAmount", Integer.parseInt(params['placesInTable']))
-			}*/
-						/*def table = TablePlacesInfo.where{
-				placesInTableAmount == Integer.parseInt(params['placesInTable'])
-				hall{
-					cafee{
-						cafeeName == cafee.getCafeeName()
-					}
-				}
-			}.get()*/
 			def table = TablePlacesInfo.findById(Integer.parseInt(params['id']))
 			hall.removeFromTable(table).save(flush: true)
 			
@@ -595,7 +588,8 @@ class VisitorSpaceController {
 						for(Cafee cafee : goalCafee){
 							if(cafee.apiInit != ""){
 								apiRequest = ApiHandlerController.request(cafee.apiInit)
-										availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+										availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
+											region: apiRequest.getRegion(), city: apiRequest.getCity()))
 							}else{
 								availableCafees.add(cafee)
 							}
@@ -652,40 +646,50 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def setupBillingSystem(){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
-		println paymentSystems
-		for(def paymentSystem : paymentSystems){
-			if(cafee.availablePaymentSystems.contains(paymentSystem)){
-				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
-			}else{
-				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
+		try {
+			def user = Person.findByUsername(springSecurityService.currentUser.username)
+			def cafee = user.cafee
+			Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+			def paymentSystems = PaymentSystems.list()
+			println paymentSystems
+			for(def paymentSystem : paymentSystems){
+				if(cafee.availablePaymentSystems.contains(paymentSystem)){
+					paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
+				}else{
+					paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
+				}
 			}
+			render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def saveSetupBillingSystems(params){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
-		for(def paymentSystem : paymentSystems){
-			if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.addToAvailablePaymentSystems(paymentSystem)
-			}else if((!params.containsKey(paymentSystem.getPaymentSystemName()))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
-				cafee.removeFromAvailablePaymentSystems(paymentSystem)
+		try {
+			def user = Person.findByUsername(springSecurityService.currentUser.username)
+			def cafee = user.cafee
+			Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+			def paymentSystems = PaymentSystems.list()
+			for(def paymentSystem : paymentSystems){
+				if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
+					cafee.addToAvailablePaymentSystems(paymentSystem)
+				}else if((!params.containsKey(paymentSystem.getPaymentSystemName()))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
+					cafee.removeFromAvailablePaymentSystems(paymentSystem)
+				}
 			}
-		}
-		if(!cafee.save(flush:true)){
-			cafee.errors.each{
-				println it
+			if(!cafee.save(flush:true)){
+				cafee.errors.each{
+					println it
+				}
 			}
+			setupBillingSystem()
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		setupBillingSystem()
 	}
 	
 	@Secured(['ROLE_VISITOR'])
@@ -695,12 +699,17 @@ class VisitorSpaceController {
 		def cafee = Cafee.findByCafeeName(params['cafeeName'])
 		ApiRequest apiRequest
 		if(params['cafeeApiInit'] != ""){
-			apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
-			cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems, currencyType: apiRequest.getCurrencyType())
-			def totalCost = apiRequest.getTotalCost()
-			render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
+			try {
+				apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
+				cafee = new Cafee(availablePaymentSystems : apiRequest.availablePaymentSystems, currencyType: apiRequest.getCurrencyType())
+				def totalCost = apiRequest.getTotalCost()
+				render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
+			} catch (Exception e) {
+				render (view:'error.gsp')
+				e.printStackTrace()
+			}
 		}else{
-			//try {					
+			try {					
 					def table = TablePlacesInfo.where {
 						placesInTableAmount == Integer.parseInt(params['tablePlacesAvailable'])
 						hall {
@@ -717,41 +726,49 @@ class VisitorSpaceController {
 					}
 					def totalCost = table.placeCost
 					render(view:'paymentPage.gsp', model: [availablePaymentSystems: cafee.availablePaymentSystems, totalCost: totalCost, currencyType: cafee.getCurrencyType()])
-			/*} catch (Exception e) {
+			} catch (Exception e) {
 				def errorCode = 16
 				render (view:'error.gsp', model: [error: errorCode])
 				e.printStackTrace()
-			}*/
+			}
 		}
 	}
 	
 	@Secured(['ROLE_VISITOR'])
 	def makePayment(params){
-		double totalCost
-		if (cafeeInfo.containsKey('tablePlacesAvailable') && (Integer.parseInt(cafeeInfo['tablePlacesAvailable']) != 0)) {
-			println "Hello from if"
-			totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
-		}else{
-			println "Hello from else"
-			totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
-		}
-		switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], CHECK_BILL, params['billNumber'], totalCost)){
-			case 0: makeReserve(cafeeInfo, params['paymentSystemName'], params['billNumber'], totalCost)
-					break
-			case -1: def errorCode = 13
-					 render (view:'error.gsp', model: [error: errorCode])
-					 break
-			
-			case 1:  def errorCode = 14
-					 render (view:'error.gsp', model: [error: errorCode])
-					 break
-			default: break
+		try {
+			double totalCost
+			if (cafeeInfo.containsKey('tablePlacesAvailable') && (Integer.parseInt(cafeeInfo['tablePlacesAvailable']) != 0)) {
+				totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+			}else{
+				totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+			}
+			switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], CHECK_BILL, params['billNumber'], totalCost)){
+				case 0: makeReserve(cafeeInfo, params['paymentSystemName'], params['billNumber'], totalCost)
+				break
+				case -1: def errorCode = 13
+				render (view:'error.gsp', model: [error: errorCode])
+				break
+				
+				case 1:  def errorCode = 14
+				render (view:'error.gsp', model: [error: errorCode])
+				break
+				default: break
+			}
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
 	}
 	
 	@Secured(['ROLE_VISITOR'])
 	def goToPaymentSystemPage(params){
-		render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName']])
+		try {
+			render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName']])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
+		}
 	}
 	
 	@Secured(['ROLE_ADMIN'])
@@ -763,37 +780,51 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def addHall(params){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		def hallName = new String(params['hall']).trim()
-		if(hallName != ""){
-			def newHall = new HallsZones(hallName: hallName)
-			if(!cafee.addToHalls(newHall).save(flush: true)){
-				
-			}		
+		try {
+			def user = Person.findByUsername(springSecurityService.currentUser.username)
+			def cafee = user.cafee
+			def hallName = new String(params['hall']).trim()
+			if(hallName != ""){
+				def newHall = new HallsZones(hallName: hallName)
+				if(!cafee.addToHalls(newHall).save(flush: true)){
+					
+				}		
+			}
+			goToHallsAndZones()
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		goToHallsAndZones()
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def deleteHall(params){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		def hallForDeleting = HallsZones.findWhere(cafee: cafee, hallName: params['hallName'])
-		if(!cafee.removeFromHalls(hallForDeleting).save(flush: true)){
-			
+		try {
+			def user = Person.findByUsername(springSecurityService.currentUser.username)
+			def cafee = user.cafee
+			def hallForDeleting = HallsZones.findWhere(cafee: cafee, hallName: params['hallName'])
+			if(!cafee.removeFromHalls(hallForDeleting).save(flush: true)){
+				
+			}
+			goToHallsAndZones()
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		goToHallsAndZones()
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def editTableData(params){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		def tableForDeleting = TablePlacesInfo.findById(Integer.parseInt(params['id']))
-		println tableForDeleting
-		def halls = cafee.halls
-		render (view: 'adminCafeeSpace/editTableData.gsp', model: [tableInfo: tableForDeleting, halls: halls])
+		try {
+			def user = Person.findByUsername(springSecurityService.currentUser.username)
+			def cafee = user.cafee
+			def tableForDeleting = TablePlacesInfo.findById(Integer.parseInt(params['id']))
+			def halls = cafee.halls
+			render (view: 'adminCafeeSpace/editTableData.gsp', model: [tableInfo: tableForDeleting, halls: halls])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
+		}
 	}
 	
 	@Secured(['ROLE_ADMIN'])
@@ -835,16 +866,25 @@ class VisitorSpaceController {
 	
 	@Secured(['ROLE_ADMIN'])
 	def editHall(params){
-		def hall = HallsZones.findById(params['id'])
-		println hall
-		render (view: 'adminCafeeSpace/editHallsAndZones.gsp', model: [hall : hall])
+		try {
+			def hall = HallsZones.findById(params['id'])
+			render (view: 'adminCafeeSpace/editHallsAndZones.gsp', model: [hall : hall])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
+		}
 	}
 	
 	@Secured(['ROLE_ADMIN'])
 	def updateHall(params){
-		def oldHall = HallsZones.findById(params['id'])
-		oldHall.hallName = new String(params['hall']).trim()
-		oldHall.save(flush: true)
-		goToHallsAndZones()
+		try {
+			def oldHall = HallsZones.findById(params['id'])
+			oldHall.hallName = new String(params['hall']).trim()
+			oldHall.save(flush: true)
+			goToHallsAndZones()
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
+		}
 	}
 }

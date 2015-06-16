@@ -25,7 +25,6 @@
       <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><g:link controller="VisitorSpace" action="index">Состояние бронирования</g:link></li>
-            <li><g:link controller="VisitorSpace" action="setReservation">Настройка бронирования<span class="sr-only">(current)</span></g:link></li>
             <li class="active"><g:link controller="VisitorSpace" action="setupBillingSystem">Настройка оплаты</g:link></li>
             <li><g:link controller="VisitorSpace" action="editPrivateData">Редактирование личных данных</g:link></li>
           </ul>

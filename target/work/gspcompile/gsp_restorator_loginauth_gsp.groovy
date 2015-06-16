@@ -37,8 +37,6 @@ printHtmlPart(6)
 expressionOut.print(resource(dir: 'css/reg_page_files', file: 'signing.css'))
 printHtmlPart(7)
 invokeTag('javascript','g',21,['library':("reg_page_files/analytics")],-1)
-printHtmlPart(2)
-invokeTag('javascript','g',22,['library':("reg_page_files/ie-emulation-modes-warning")],-1)
 printHtmlPart(8)
 invokeTag('captureMeta','sitemesh',29,['gsp_sm_xmlClosingForEmptyTag':(""),'class':("os-tdn"),'http-equiv':("Content-Language"),'content':("ru")],-1)
 invokeTag('captureMeta','sitemesh',29,['gsp_sm_xmlClosingForEmptyTag':(""),'class':("os-tdn"),'property':("og:locale"),'content':("ru")],-1)
@@ -48,20 +46,18 @@ invokeTag('captureHead','sitemesh',29,[:],1)
 printHtmlPart(10)
 createTagBody(1, {->
 printHtmlPart(11)
-invokeTag('javascript','g',57,['library':("reg_page_files/ie10-viewport-bug-workaround")],-1)
+invokeTag('javascript','g',58,['library':("reg_page_files/loader")],-1)
 printHtmlPart(12)
-invokeTag('javascript','g',59,['library':("reg_page_files/loader")],-1)
-printHtmlPart(13)
 })
-invokeTag('captureBody','sitemesh',1,[:],1)
-printHtmlPart(14)
+invokeTag('captureBody','sitemesh',58,[:],1)
+printHtmlPart(13)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1432564652568L
+public static final long LAST_MODIFIED = 1434288909103L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

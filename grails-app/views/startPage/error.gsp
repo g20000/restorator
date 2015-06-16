@@ -56,8 +56,8 @@
 	  </script>
 	  	
       <div class="jumbotron">
-        <p><div>Заполните хотя бы одно поле для поиска!</div></p>
-		<p><div><a href="#" onclick="javascript:window.history.back();">Назад</a></div></p>
+        <p><div>Неизвестная ошибка!</div></p>
+		<p><div><a href="#" onclick="window.history.back();return false;">Назад</a></div></p>
       </div>
 
       <div class="footer">

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="org.joda.time.format.DateTimeFormatter" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
@@ -58,6 +60,7 @@
 						<th>Дата бронирования</th>
 						<th>Время бронирования с</th>
 						<th>Время бронирования до</th>
+						<th>Зал</th>
 						<th>Мест за столом</th>
 					</tr>	
 				</thead>
@@ -65,10 +68,11 @@
 					<g:each in="${tableInfo}" var="table">
 						<tr>
 							<td>${table.visitor.username}</td>
-							<td>${table.reservationDate}</td>
-							<td>${table.startTimeLimit}</td>
-							<td>${table.endTimeLimit}</td>
-							<td>${table.places }</td>
+							<td>${new SimpleDateFormat("yyyy-MM-dd").format(table.getReservationDate()) }</td>
+							<td>${table.getStartTimeLimit().toString(timeForm)}</td>
+							<td>${table.getEndTimeLimit().toString(timeForm)}</td>
+							<td>${table.getHall()}</td>
+							<td>${table.getPlaces()}</td>
 						</tr>
 					</g:each>
 				</tbody>

@@ -60,12 +60,12 @@ invokeTag('link','g',24,['controller':("StartPage"),'action':("index")],2)
 printHtmlPart(15)
 createTagBody(2, {->
 printHtmlPart(16)
-invokeTag('textField','g',37,['class':("form-control"),'name':("city"),'placeholder':("Город заведения"),'value':("")],-1)
+invokeTag('textField','g',37,['class':("form-control"),'name':("city"),'placeholder':("Город ресторана"),'value':("")],-1)
 printHtmlPart(17)
-invokeTag('textField','g',45,['class':("form-control"),'name':("region"),'placeholder':("Регион заведения")],-1)
+invokeTag('textField','g',45,['class':("form-control"),'name':("region"),'placeholder':("Название ресторана")],-1)
 printHtmlPart(18)
 createClosureForHtmlPart(19, 3)
-invokeTag('actionSubmit','g',47,['value':("Поиск заведений"),'action':("searchCafee"),'class':("btn btn-default")],3)
+invokeTag('actionSubmit','g',47,['value':("Поиск ресторана"),'action':("searchCafee"),'class':("btn btn-default")],3)
 printHtmlPart(20)
 })
 invokeTag('form','g',48,['class':("form-inline")],2)
@@ -79,9 +79,9 @@ expressionOut.print(cafeeInfo.cafeeName)
 })
 invokeTag('link','g',71,['action':("goToCafeePage"),'params':([cafeeName: "${cafeeInfo.cafeeName}", cafeeApiInit: "${cafeeInfo.apiInit}"])],4)
 printHtmlPart(24)
-expressionOut.print(cafeeInfo.placeCost)
+expressionOut.print(cafeeInfo.city)
 printHtmlPart(24)
-expressionOut.print(cafeeInfo.currencyType)
+expressionOut.print(cafeeInfo.region)
 printHtmlPart(25)
 }
 printHtmlPart(26)
@@ -90,10 +90,8 @@ else {
 printHtmlPart(27)
 }
 printHtmlPart(28)
-invokeTag('javascript','g',93,['library':("start_page_bootstrap_files/ie-emulation-modes-warning")],-1)
-printHtmlPart(2)
 })
-invokeTag('captureBody','sitemesh',94,[:],1)
+invokeTag('captureBody','sitemesh',93,[:],1)
 printHtmlPart(29)
 }
 public static final Map JSP_TAGS = new HashMap()
@@ -101,7 +99,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1432580976455L
+public static final long LAST_MODIFIED = 1434307401958L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'
