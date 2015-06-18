@@ -31,15 +31,15 @@ class StartPageController {
 			}
 			if((cityCafee == "") && (regionCafee == "")){
 				goalCafee = Cafee.findAllByIsReservationAvailable(true)
-						for(Cafee cafee : goalCafee){
-							if(cafee.apiInit != ""){
-								apiRequest = ApiHandlerController.request(cafee.apiInit)
-										availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-												endTimeLimit : apiRequest.endTimeLimit, region: apiRequest.getRegion(), city: apiRequest.getCity()))
-							}else{
-								availableCafees.add(cafee)
-							}
-						}
+				for(Cafee cafee : goalCafee){
+					if(cafee.apiInit != ""){
+						apiRequest = ApiHandlerController.request(cafee.apiInit)
+						availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+								endTimeLimit : apiRequest.endTimeLimit, region: apiRequest.getRegion(), city: apiRequest.getCity()))
+					}else{
+						availableCafees.add(cafee)
+					}
+				}
 			}else if(((cityCafee != "") && (regionCafee == ""))){
 				if(cityCafee.size() >= MIN_QUERY_NAME_SIZE)
 				{
@@ -50,8 +50,8 @@ class StartPageController {
 				for(Cafee cafee : goalCafee){
 					if(cafee.apiInit != ""){
 						apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-										endTimeLimit : apiRequest.endTimeLimit))
+						availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+								endTimeLimit : apiRequest.endTimeLimit))
 					}else{
 						availableCafees.add(cafee)
 					}
@@ -66,8 +66,8 @@ class StartPageController {
 				for(Cafee cafee : goalCafee){
 					if(cafee.apiInit != ""){
 						apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-										endTimeLimit : apiRequest.endTimeLimit))
+						availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+								endTimeLimit : apiRequest.endTimeLimit))
 					}else{
 						availableCafees.add(cafee)
 					}
@@ -81,8 +81,8 @@ class StartPageController {
 				for(Cafee cafee : goalCafee){
 					if(cafee.apiInit != ""){
 						apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-										endTimeLimit : apiRequest.endTimeLimit))
+						availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+								endTimeLimit : apiRequest.endTimeLimit))
 					}else{
 						availableCafees.add(cafee)
 					}
@@ -143,9 +143,9 @@ class StartPageController {
 	}
 	
 	def hallChanged(String regionId, long cafeeId) {
-		println "test"
-		println regionId
-		println cafeeId
+//		println "test"
+//		println regionId
+//		println cafeeId
 		/*Region region = Region.get(regionId)
 		def subCategories = []
 		if ( region != null ) {

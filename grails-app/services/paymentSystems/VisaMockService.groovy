@@ -29,6 +29,7 @@ class VisaMockService {
 	static def doPayment(bill, sum){
 		def visaBill = VisaMock.findByNumber(bill)
 		visaBill.sum -= sum
+		println visaBill.getSum()
 		if(!visaBill.save(flush:true)){
 			visaBill.errors.each{
 				println it

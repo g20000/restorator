@@ -32,8 +32,4 @@ class Cafee {
 		availablePaymentSystems nullable: true
 		halls nullable: true
     }
-			
-	String getCafeeName(){
-		return cafeeName
-	}
 }

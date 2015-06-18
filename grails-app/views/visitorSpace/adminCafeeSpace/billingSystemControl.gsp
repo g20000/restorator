@@ -54,13 +54,20 @@
 	      			<thead>
 	      				<tr>
 	      					<th>Название системы оплаты</th>
+	      					<th>Счет в системе</th>
 	      					<th>Система выбрана</th>
 	      				</tr>
 	      			</thead>
 		      		<tbody>
-		      			<g:each in="${paymentSystems}" var="paymentSystem">
+		      			<g:each in="${paymentSystems}">
 		      				<tr>
-		      					<td>${paymentSystem.key}</td><td><g:checkBox name="${paymentSystem.key}" value="${paymentSystem.value}"/></td>
+<%--		      					<td>${paymentSystem.key}</td>--%>
+<%--		      					<td>${paymentSystem.get}</td>--%>
+<%--		      					<td><g:checkBox name="${paymentSystem.key}" value="${paymentSystem.value}"/></td>--%>
+		      					<td>${it.getPaymentSystemName()}</td>
+		      					<td><g:textField id="bill" class="form-control" name="bill" value="${it.getBill()}" placeholder="Номер счета" type="number"/></td>
+		      					<td><g:checkBox name="${it.getPaymentSystemName()}" value="${it.getEnabled()}"/></td>
+		      					<g:hiddenField name="paymentSystemName" value="${it.getPaymentSystemName()}"/>
 		      				</tr>
 		      			</g:each>
 			    	</tbody>

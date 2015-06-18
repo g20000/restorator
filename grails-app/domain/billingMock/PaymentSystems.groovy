@@ -5,12 +5,10 @@ import extApiMock.ApiRequest
 
 class PaymentSystems {
 	String paymentSystemName
+	long bill
 	boolean enabled = true
-	
-	//static belongsTo = [cafee: Cafee, extCafee: ApiRequest]
-	
+		
     static constraints = {
-		//extCafee nullable: true
-		//cafee nullable: true
+		bill nullable: true
     }
 }

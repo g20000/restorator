@@ -74,7 +74,8 @@
 	       			<small>Введите номер счета</small>
 	       		</div>
 	       		<g:hiddenField name="cafeeInfo" value="${cafeeInfo}"/>
-	       		<g:hiddenField name="paymentSystemName" value="${paymentSystemName}"/> 		
+	       		<g:hiddenField name="paymentSystemName" value="${paymentSystemName}"/>
+	       		<g:hiddenField name="totalCost" value="${totalCost }"/> 		
 				<label for="defTableAmount" class="sr-only">Введите номер счета</label>
 		        <g:textField id="billNumber" class="form-control" name="billNumber" placeholder="Введите номер счета" value="" autofocus="" data-translatable-string="" type="number"/>	    
 		        <g:actionSubmit value="Произвести оплату"  action="makePayment">Произвести оплату</g:actionSubmit>

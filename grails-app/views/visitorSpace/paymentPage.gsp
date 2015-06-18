@@ -80,7 +80,7 @@
  				</g:if>
    				<g:each in="${availablePaymentSystems}">
 	   				<tr>
-	     				<td><g:link action="goToPaymentSystemPage" params="[paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}"]">${it.getPaymentSystemName()}</g:link></td>
+	     				<td><g:link action="goToPaymentSystemPage" params="[paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}", totalCost: "${totalCost }"]">${it.getPaymentSystemName()}</g:link></td>
 	     			</tr>
      			</g:each>
         	</tbody>      

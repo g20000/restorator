@@ -72,7 +72,6 @@ class VisitorSpaceController {
 					def tempDate = new Date()
 					tempDate.set(year: Integer.parseInt(params['reservationDate_year']), month: month, dayOfMonth: Integer.parseInt(params['reservationDate_day']))
 					params.put('reservationDate', tempDate)
-					println params
 					goToPaymentPage(params)
 				}else{
 					showVisitorSpace()
@@ -88,17 +87,17 @@ class VisitorSpaceController {
 	def showVisitorSpace(){
 		try {
 			ArrayList<Cafee>allCafees = Cafee.findAllByIsReservationAvailable(true)
-					ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()		
-					ApiRequest apiRequest
-					for(Cafee cafee : allCafees){
-						if(cafee.apiInit != ""){
-							apiRequest = ApiHandlerController.request(cafee.apiInit)
-									availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-										region: apiRequest.getRegion(), city: apiRequest.getCity()))
-						}else{
-							availableCafee.add(cafee)
-						}
-					}
+			ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()		
+			ApiRequest apiRequest
+			for(Cafee cafee : allCafees){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit)
+							availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+								region: apiRequest.getRegion(), city: apiRequest.getCity()))
+				}else{
+					availableCafee.add(cafee)
+				}
+			}
 			
 			render (view:'index.gsp', model: [availableCafee: availableCafee])
 		} catch (Exception e) {
@@ -141,8 +140,8 @@ class VisitorSpaceController {
 		try {
 			if(params['cafeeApiInit'] != ""){
 				apiRequest = ApiHandlerController.request(params['cafeeApiInit'])
-						goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
-								endTimeLimit : apiRequest.endTimeLimit)
+				goalCafee = new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
+						endTimeLimit : apiRequest.endTimeLimit)
 				
 				ArrayList<Integer>tablePlaces = new ArrayList<Integer>()
 				for(int places : apiRequest.places){
@@ -150,23 +149,23 @@ class VisitorSpaceController {
 				}
 				
 				ArrayList<String>hallNames = new ArrayList<String>()
-						for(String hall : apiRequest.halls){
-							hallNames.add(hall)
-						}
+				for(String hall : apiRequest.halls){
+					hallNames.add(hall)
+				}
 				
 				render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 			}else{
 				goalCafee = Cafee.findByCafeeName(params['cafeeName'])
-						def halls = HallsZones.findAllWhere(cafee : goalCafee)
-						def tablePlacesQuery = TablePlacesInfo.createCriteria()			
-						def tablePlaces = tablePlacesQuery.list {
+					def halls = HallsZones.findAllWhere(cafee : goalCafee)
+					def tablePlacesQuery = TablePlacesInfo.createCriteria()			
+					def tablePlaces = tablePlacesQuery.list {
 					'in'("hall", halls)
 				}
 				
 				ArrayList<String>hallNames = new ArrayList<String>()
-						for(def hall : halls){
-							hallNames.add(hall.getHallName())
-						}
+				for(def hall : halls){
+					hallNames.add(hall.getHallName())
+				}
 				
 				render (view:'cafeeInfo.gsp', model: [cafeeName: goalCafee, tableInfo: tablePlaces, halls: hallNames])
 			}
@@ -184,14 +183,14 @@ class VisitorSpaceController {
 			Person user  = Person.findByUsername(springSecurityService.currentUser.username)
 			if(params['cafeeApiInit'] != ""){
 				apiRequest = ApiHandlerController.request(params['cafeeApiInit'], "TO_RESERVE", params)
-						if(apiRequest instanceof Integer){
-							render (view:'error.gsp', model: [error: apiRequest])
-							return
-						}else if(apiRequest instanceof String){
-							def errorCode = 17
-									render (view:'error.gsp', model: [error: errorCode, message: apiRequest])
-									return
-						}
+				if(apiRequest instanceof Integer){
+					render (view:'error.gsp', model: [error: apiRequest])
+					return
+				}else if(apiRequest instanceof String){
+					def errorCode = 17
+					render (view:'error.gsp', model: [error: errorCode, message: apiRequest])
+					return
+				}
 				def extCafee = Cafee.findWhere(apiInit: params['cafeeApiInit'])
 						def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
 				if((params.containsKey('endTimeReservation_hour'))/*&&(params.containsKey('endTimeReservation_minute'))*/){
@@ -204,33 +203,30 @@ class VisitorSpaceController {
 						println it
 					}
 				}
-				PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
+				PaymentSystemsHandler.paymentRequest(paymentSystem, DO_PAYMENT, bill, costForPay)
 			}else{
 				Cafee cafee = Cafee.findByCafeeName(params['cafeeName'])
-						println params
-						def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
+				def startTimeReservation = new LocalTime(Integer.parseInt(params['startTimeReservation_hour']), MINUTE_ZERO)
 				endTimeReservation = new LocalTime(Integer.parseInt(params['endTimeReservation_hour']), MINUTE_ZERO)
-				println startTimeReservation
-				println endTimeReservation
 				
 				if(startTimeReservation >= endTimeReservation){
 					def errorCode = 4
-							render (view:'error.gsp', model: [error: errorCode])//render "Start time reservation can not be more than end time reservation!"
-							return
+					render (view:'error.gsp', model: [error: errorCode])//render "Start time reservation can not be more than end time reservation!"
+					return
 				}
 				
 				if(!cafee.isReservationAvailable){
 					def errorCode = 1
-							render (view:'error.gsp', model: [error: errorCode])
-							return
+					render (view:'error.gsp', model: [error: errorCode])
+					return
 				}
 				
 				if(cafee.reservationDateLimit && (!((cafee.startDateLimit <= params['reservationDate']) && (cafee.endDateLimit >= params['reservationDate'])))){
 					def errorCode = 5
-							def stDateLimit = cafee.startDateLimit
-							def endDateLimit = cafee.endDateLimit
-							render (view:'error.gsp', model: [error: errorCode, stDate: stDateLimit, endDate: endDateLimit])//render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
-							return
+					def stDateLimit = cafee.startDateLimit
+					def endDateLimit = cafee.endDateLimit
+					render (view:'error.gsp', model: [error: errorCode, stDate: stDateLimit, endDate: endDateLimit])//render "You can reserve a place in this cafee between " + cafee.startDateLimit + " and " + cafee.endDateLimit
+					return
 				}
 				
 				if(cafee.reservationTimeLimit && (!((cafee.startTimeLimit <= startTimeReservation) && (cafee.endTimeLimit >= startTimeReservation)
@@ -280,14 +276,14 @@ class VisitorSpaceController {
 					}
 				}
 				double cost = table.getPlaceCost()
-						ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
-								reservationDate: params['reservationDate'], places: Integer.parseInt(params['tablePlacesAvailable']), cost: cost, hall: params['hallsAvailable'])
+				ReservedTable myPlace = new ReservedTable(visitor: user, owner: owner, cafeeName: cafee, startTimeLimit: startTimeReservation, endTimeLimit: endTimeReservation,
+						reservationDate: params['reservationDate'], places: Integer.parseInt(params['tablePlacesAvailable']), cost: cost, hall: params['hallsAvailable'])
 				if(!myPlace.save(flush: true)){
 					myPlace.errors.each {
 						println it
 					}
 				}
-				PaymentSystemsHandler.paymentRequest(paymentSystem, CHECK_BILL, bill, costForPay)
+				PaymentSystemsHandler.paymentRequest(paymentSystem, DO_PAYMENT, bill, costForPay)
 			}
 			showReservedTableForVisitor()
 		} catch (Exception e) {
@@ -384,15 +380,15 @@ class VisitorSpaceController {
 	def updateUserData(params){
 		try {
 			def successUpdatedCode = 8		
-					Authority userAdminAuthority = Authority.findByAuthority('ROLE_ADMIN')
-					Person oldUserRecord = Person.findByUsername(springSecurityService.currentUser.username)
-					oldUserRecord.username = new String(params['login']).trim()
-					oldUserRecord.firstName = new String(params['firstName']).trim()
-					oldUserRecord.lastName = new String(params['lastName']).trim()
-					oldUserRecord.email = new String(params['email']).trim()
-					if(new String(params['password']) != ""){
-						oldUserRecord.password = new String(params['password']).trim()
-					}
+				Authority userAdminAuthority = Authority.findByAuthority('ROLE_ADMIN')
+				Person oldUserRecord = Person.findByUsername(springSecurityService.currentUser.username)
+				oldUserRecord.username = new String(params['login']).trim()
+				oldUserRecord.firstName = new String(params['firstName']).trim()
+				oldUserRecord.lastName = new String(params['lastName']).trim()
+				oldUserRecord.email = new String(params['email']).trim()
+				if(new String(params['password']) != ""){
+					oldUserRecord.password = new String(params['password']).trim()
+				}
 			
 			if(oldUserRecord.getAuthorities().contains(userAdminAuthority)){
 				oldUserRecord.inn = new String(params['inn']).trim()
@@ -428,8 +424,7 @@ class VisitorSpaceController {
 					}
 				}
 			}.list()
-			println tablesAvailable
-			
+						
 			render (view:'adminCafeeSpace/setupReservation.gsp', model: [cafeeInfo: cafee, tableAvailable: tablesAvailable])
 		} catch (Exception e) {
 			render (view:'error.gsp')
@@ -482,16 +477,16 @@ class VisitorSpaceController {
 										
 				if((params['dateLimitReservation'] == 'on') && (params['startDateReservation'] >= params['endDateReservation'])){
 					def errorCode = 10
-							render (view:'error.gsp', model: [error: errorCode])
-							//render "Start date point can not be more than end date point!"
-							return
+					render (view:'error.gsp', model: [error: errorCode])
+					//render "Start date point can not be more than end date point!"
+					return
 				}
 				
 				if((params['timeLimitReservation'] == 'on') && (startTimePoint >= endTimePoint)){
 					def errorCode = 11
-							render (view:'error.gsp', model: [error: errorCode])
-							//render "Start time point can not be more than end time point!"
-							return
+					render (view:'error.gsp', model: [error: errorCode])
+					//render "Start time point can not be more than end time point!"
+					return
 				}
 				
 				if(!oldCafeeInfo.save(flush: true)){
@@ -511,22 +506,22 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def tableAcounting(){
 		try {
-			def user = Person.findByUsername(springSecurityService.currentUser.username)
-			def cafee = user.cafee
-			def tables
-			if (!HallsZones.findAllByCafee(cafee).isEmpty()) {
-				tables = TablePlacesInfo.where {
-					hall {
-							cafee{
-							cafeeName == cafee.getCafeeName()
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				def cafee = user.cafee
+				def tables
+				if (!HallsZones.findAllByCafee(cafee).isEmpty()) {
+					tables = TablePlacesInfo.where {
+						hall {
+								cafee{
+								cafeeName == cafee.getCafeeName()
+							}
 						}
-					}
-				}.list()
-			}else{
-				tables = []
-			}
-			def halls = cafee.halls
-			render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables, halls : halls]) 
+					}.list()
+				}else{
+					tables = []
+				}
+				def halls = cafee.halls
+				render (view:'adminCafeeSpace/tableAcounting.gsp', model: [tableInfo: tables, halls : halls]) 
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -543,7 +538,7 @@ class VisitorSpaceController {
 				def hall = HallsZones.findWhere(cafee : cafee, hallName : params['hallsAvailable'])
 				hall.addToTable(new TablePlacesInfo(placesInTableAmount: params['placesInTable'], tableAmount: params['defTableAmount'], tableForReservationAmount: params['availableForReservation'],
 					placeCost: params['placePrice'], currencyType: params['currencyType'])).save(flush: true)	
-					tableAcounting()
+				tableAcounting()
 		} catch (Exception e) {
 			def errorCode = 15
 			render (view:'error.gsp', model: [error: errorCode])//"невалидное заполнение полей!"
@@ -573,71 +568,71 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])//исправить названия "регион" на "название кафе" в связи с изменением критериев поиска и соответствующие им ссылки
 	def searchCafee(params){
 		try {
-			def goalCafee
-			List<Cafee> availableCafees = new ArrayList<Cafee>()
-			ApiRequest apiRequest
-			String regionCafee
-			String cityCafee = new String(params['city']).trim()
-			if(params.containsKey('region')){
-				regionCafee = new String(params['region']).trim()
-			}else{
-				regionCafee = ""
-			}
-			if((cityCafee == "") && (regionCafee == "")){			
-				goalCafee = Cafee.list()
-						for(Cafee cafee : goalCafee){
-							if(cafee.apiInit != ""){
-								apiRequest = ApiHandlerController.request(cafee.apiInit)
-										availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
-											region: apiRequest.getRegion(), city: apiRequest.getCity()))
-							}else{
-								availableCafees.add(cafee)
-							}
+				def goalCafee
+				List<Cafee> availableCafees = new ArrayList<Cafee>()
+				ApiRequest apiRequest
+				String regionCafee
+				String cityCafee = new String(params['city']).trim()
+				if(params.containsKey('region')){
+					regionCafee = new String(params['region']).trim()
+				}else{
+					regionCafee = ""
+				}
+				if((cityCafee == "") && (regionCafee == "")){			
+					goalCafee = Cafee.list()
+					for(Cafee cafee : goalCafee){
+						if(cafee.apiInit != ""){
+							apiRequest = ApiHandlerController.request(cafee.apiInit)
+									availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit, 
+										region: apiRequest.getRegion(), city: apiRequest.getCity()))
+						}else{
+							availableCafees.add(cafee)
 						}
-			}else if(((cityCafee != "") && (regionCafee == ""))){
-				if(cityCafee.size() >= MIN_QUERY_NAME_SIZE){
-					goalCafee = Cafee.findAllByCityIlike("%" + cityCafee[0..2] + "%")
-				}else{
-					goalCafee = Cafee.findAllByCityIlike(cityCafee)
-				}
-				for(Cafee cafee : goalCafee){
-					if(cafee.apiInit != ""){
-						apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+					}
+				}else if(((cityCafee != "") && (regionCafee == ""))){
+					if(cityCafee.size() >= MIN_QUERY_NAME_SIZE){
+						goalCafee = Cafee.findAllByCityIlike("%" + cityCafee[0..2] + "%")
 					}else{
-						availableCafees.add(cafee)
+						goalCafee = Cafee.findAllByCityIlike(cityCafee)
+					}
+					for(Cafee cafee : goalCafee){
+						if(cafee.apiInit != ""){
+							apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY", cityCafee)
+									availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+						}else{
+							availableCafees.add(cafee)
+						}
+					}
+				}else if(((cityCafee == "") && (regionCafee != ""))){
+					if(regionCafee.size() >= MIN_QUERY_NAME_SIZE){
+						goalCafee = Cafee.findAllByCafeeNameIlike("%" + regionCafee[0..2] + "%")
+					}else{
+						goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee)
+					}
+					for(Cafee cafee : goalCafee){
+						if(cafee.apiInit != ""){
+							apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
+									availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+						}else{
+							availableCafees.add(cafee)
+						}
+					}
+				}else{
+					if((cityCafee.size() >= MIN_QUERY_NAME_SIZE)||(regionCafee.size() >= MIN_QUERY_NAME_SIZE)){
+						goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike("%" + cityCafee[0..2] + "%", regionCafee[0..2] + "%")
+					}else{
+						goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee, regionCafee)
+					}
+					for(Cafee cafee : goalCafee){
+						if(cafee.apiInit != ""){
+							apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
+									availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
+						}else{
+							availableCafees.add(cafee)
+						}
 					}
 				}
-			}else if(((cityCafee == "") && (regionCafee != ""))){
-				if(regionCafee.size() >= MIN_QUERY_NAME_SIZE){
-					goalCafee = Cafee.findAllByCafeeNameIlike("%" + regionCafee[0..2] + "%")
-				}else{
-					goalCafee = Cafee.findAllByCafeeNameIlike(regionCafee)
-				}
-				for(Cafee cafee : goalCafee){
-					if(cafee.apiInit != ""){
-						apiRequest = ApiHandlerController.request(cafee.apiInit, "REG", regionCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
-					}else{
-						availableCafees.add(cafee)
-					}
-				}
-			}else{
-				if((cityCafee.size() >= MIN_QUERY_NAME_SIZE)||(regionCafee.size() >= MIN_QUERY_NAME_SIZE)){
-					goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike("%" + cityCafee[0..2] + "%", regionCafee[0..2] + "%")
-				}else{
-					goalCafee = Cafee.findAllByCityIlikeAndCafeeNameIlike(cityCafee, regionCafee)
-				}
-				for(Cafee cafee : goalCafee){
-					if(cafee.apiInit != ""){
-						apiRequest = ApiHandlerController.request(cafee.apiInit, "CITY_REG", cityCafee, regionCafee)
-								availableCafees.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit))
-					}else{
-						availableCafees.add(cafee)
-					}
-				}
-			}
-			render (view:'index.gsp', model: [availableCafee: availableCafees])
+				render (view:'index.gsp', model: [availableCafee: availableCafees])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -647,19 +642,26 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def setupBillingSystem(){
 		try {
-			def user = Person.findByUsername(springSecurityService.currentUser.username)
-			def cafee = user.cafee
-			Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-			def paymentSystems = PaymentSystems.list()
-			println paymentSystems
-			for(def paymentSystem : paymentSystems){
-				if(cafee.availablePaymentSystems.contains(paymentSystem)){
-					paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
-				}else{
-					paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				def cafee = user.cafee
+//				Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+				def paymentSystems = PaymentSystems.list()
+//				for(def paymentSystem : paymentSystems){
+//					if(cafee.availablePaymentSystems.contains(paymentSystem)){
+//						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
+//					}else{
+//						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
+//					}
+//				}
+				ArrayList<PaymentSystems>paymentSystemsStatus = new ArrayList<PaymentSystems>()
+				for(def paymentSystem : paymentSystems){
+					if(cafee.availablePaymentSystems.contains(paymentSystem)){
+						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), enabled : true))
+					}else{
+						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), enabled : false))
+					}
 				}
-			}
-			render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
+				render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -671,7 +673,6 @@ class VisitorSpaceController {
 		try {
 			def user = Person.findByUsername(springSecurityService.currentUser.username)
 			def cafee = user.cafee
-			Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
 			def paymentSystems = PaymentSystems.list()
 			for(def paymentSystem : paymentSystems){
 				if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
@@ -737,24 +738,26 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])
 	def makePayment(params){
 		try {
-			double totalCost
-			if (cafeeInfo.containsKey('tablePlacesAvailable') && (Integer.parseInt(cafeeInfo['tablePlacesAvailable']) != 0)) {
-				totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
-			}else{
-				totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
-			}
-			switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], CHECK_BILL, params['billNumber'], totalCost)){
-				case 0: makeReserve(cafeeInfo, params['paymentSystemName'], params['billNumber'], totalCost)
-				break
-				case -1: def errorCode = 13
-				render (view:'error.gsp', model: [error: errorCode])
-				break
-				
-				case 1:  def errorCode = 14
-				render (view:'error.gsp', model: [error: errorCode])
-				break
-				default: break
-			}
+				double totalCost
+				if (cafeeInfo.containsKey('tablePlacesAvailable') && (Integer.parseInt(cafeeInfo['tablePlacesAvailable']) != 0)) {
+					//totalCost = Integer.parseInt(cafeeInfo['tablePlacesAvailable']) * Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+					totalCost = Double.parseDouble(params['totalCost'])
+				}else{
+					//totalCost = Double.parseDouble(cafeeInfo['cafeePlaceCost'])
+					totalCost = Double.parseDouble(params['totalCost'])
+				}
+				switch(PaymentSystemsHandler.paymentRequest(params['paymentSystemName'], CHECK_BILL, params['billNumber'], totalCost)){
+					case 0: makeReserve(cafeeInfo, params['paymentSystemName'], params['billNumber'], totalCost)
+					break
+					case -1: def errorCode = 13
+					render (view:'error.gsp', model: [error: errorCode])
+					break
+					
+					case 1:  def errorCode = 14
+					render (view:'error.gsp', model: [error: errorCode])
+					break
+					default: break
+				}
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
@@ -764,7 +767,7 @@ class VisitorSpaceController {
 	@Secured(['ROLE_VISITOR'])
 	def goToPaymentSystemPage(params){
 		try {
-			render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName']])
+			render (view: 'paymentSystemPage.gsp', model: [paymentSystemName: params['paymentSystemName'], totalCost: params['totalCost']])
 		} catch (Exception e) {
 			render (view:'error.gsp')
 			e.printStackTrace()
