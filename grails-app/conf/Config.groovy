@@ -120,7 +120,10 @@ log4j.main = {
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity
+grails.plugin.springsecurity.failureHandler.useForward=false
 grails.plugin.springsecurity.logout.postOnly = false
+grails.plugin.springsecurity.adh.errorPage = '/login/denied'
+grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/loginError'
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'restorator.auth.Person'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'restorator.auth.PersonAuthority'
 grails.plugin.springsecurity.authority.className = 'restorator.auth.Authority'

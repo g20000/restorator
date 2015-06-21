@@ -1,4 +1,4 @@
-/*dataSource {
+dataSource {
     pooled = true
     jmxExport = true
     driverClassName = "org.h2.Driver"
@@ -54,9 +54,9 @@ environments {
             }
         }
     }
-}*/
+}
 
-dataSource {
+/*dataSource {
  pooled = true
  jmxExport = true
  url = "jdbc:mysql://localhost:3306/my_database?characterEncoding=utf8"
@@ -115,4 +115,4 @@ environments {
 		 }
 	 }
  }
-}
+}*/

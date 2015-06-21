@@ -73,39 +73,51 @@ invokeTag('link','g',42,['controller':("VisitorSpace"),'action':("goToHallsAndZo
 printHtmlPart(20)
 createTagBody(2, {->
 printHtmlPart(21)
-invokeTag('textField','g',72,['id':("cafee"),'class':("form-control"),'name':("cafee"),'placeholder':("Название заведения"),'value':(cafeeInfo.cafeeName),'required':(""),'autofocus':("")],-1)
+invokeTag('textField','g',62,['id':("cafee"),'class':("form-control"),'name':("cafee"),'placeholder':("Название заведения"),'value':(cafeeInfo.cafeeName),'required':(""),'autofocus':("")],-1)
 printHtmlPart(22)
-invokeTag('textField','g',80,['id':("currencyType"),'class':("form-control"),'name':("currencyType"),'placeholder':("Тип принимаемой валюты"),'value':(cafeeInfo.currencyType),'autofocus':(""),'data-translatable-string':(""),'type':("string")],-1)
+invokeTag('textField','g',67,['id':("currencyType"),'class':("form-control"),'name':("currencyType"),'placeholder':("Тип принимаемой валюты"),'value':(cafeeInfo.currencyType),'autofocus':(""),'data-translatable-string':(""),'type':("string")],-1)
 printHtmlPart(23)
-invokeTag('checkBox','g',90,['name':("reservationAvailable"),'value':(cafeeInfo.isReservationAvailable)],-1)
+if(true && (cafeeInfo.availablePaymentSystems.isEmpty())) {
 printHtmlPart(24)
-invokeTag('checkBox','g',93,['name':("timeLimitReservation"),'value':(cafeeInfo.reservationTimeLimit)],-1)
+}
+printHtmlPart(23)
+if(true && (tableAvailable.isEmpty())) {
 printHtmlPart(25)
-invokeTag('checkBox','g',96,['name':("dateLimitReservation"),'value':(cafeeInfo.reservationDateLimit)],-1)
+}
 printHtmlPart(26)
-invokeTag('datePicker','g',100,['name':("startDateReservation"),'value':(cafeeInfo.startDateLimit),'precision':("day")],-1)
+invokeTag('checkBox','g',86,['name':("reservationAvailable"),'value':(cafeeInfo.isReservationAvailable)],-1)
 printHtmlPart(27)
-invokeTag('datePicker','g',101,['name':("endDateReservation"),'value':(cafeeInfo.endDateLimit),'precision':("day")],-1)
+invokeTag('checkBox','g',92,['name':("timeLimitReservation"),'value':(cafeeInfo.reservationTimeLimit)],-1)
 printHtmlPart(28)
-invokeTag('timePicker','joda',106,['name':("startTimeReservation"),'value':(cafeeInfo.startTimeLimit),'precision':("hour")],-1)
+invokeTag('checkBox','g',98,['name':("dateLimitReservation"),'value':(cafeeInfo.reservationDateLimit)],-1)
 printHtmlPart(29)
-invokeTag('timePicker','joda',108,['name':("endTimeReservation"),'value':(cafeeInfo.endTimeLimit),'precision':("hour")],-1)
+invokeTag('datePicker','g',105,['name':("startDateReservation"),'value':(cafeeInfo.startDateLimit),'precision':("day")],-1)
 printHtmlPart(30)
-invokeTag('actionSubmit','g',111,['value':("Подтвердить изменения"),'action':("editReservation")],-1)
+invokeTag('datePicker','g',111,['name':("endDateReservation"),'value':(cafeeInfo.endDateLimit),'precision':("day")],-1)
 printHtmlPart(31)
-})
-invokeTag('form','g',111,['class':("form-signin"),'controller':("VisitorSpace")],2)
+invokeTag('timePicker','joda',117,['name':("startTimeReservation"),'value':(cafeeInfo.startTimeLimit),'precision':("hour")],-1)
 printHtmlPart(32)
-})
-invokeTag('captureBody','sitemesh',117,[:],1)
+invokeTag('timePicker','joda',123,['name':("endTimeReservation"),'value':(cafeeInfo.endTimeLimit),'precision':("hour")],-1)
 printHtmlPart(33)
+if(true && ((!tableAvailable.isEmpty()) && (!cafeeInfo.availablePaymentSystems.isEmpty()))) {
+printHtmlPart(34)
+invokeTag('actionSubmit','g',130,['value':("Подтвердить изменения"),'action':("editReservation")],-1)
+printHtmlPart(35)
+}
+printHtmlPart(36)
+})
+invokeTag('form','g',133,['class':("form-signin"),'controller':("VisitorSpace")],2)
+printHtmlPart(37)
+})
+invokeTag('captureBody','sitemesh',146,[:],1)
+printHtmlPart(38)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1434224165678L
+public static final long LAST_MODIFIED = 1434481211793L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

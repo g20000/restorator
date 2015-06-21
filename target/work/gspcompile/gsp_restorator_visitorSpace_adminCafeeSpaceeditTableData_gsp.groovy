@@ -87,22 +87,21 @@ invokeTag('textField','g',79,['id':("currencyType"),'class':("form-control"),'na
 printHtmlPart(28)
 invokeTag('hiddenField','g',80,['name':("id"),'value':(tableInfo.getId())],-1)
 printHtmlPart(29)
-createClosureForHtmlPart(30, 3)
-invokeTag('actionSubmit','g',81,['value':("Добавить столик"),'action':("updateTableData"),'class':("btn btn-lg btn-primary btn-block")],3)
-printHtmlPart(31)
+invokeTag('actionSubmit','g',81,['value':("Применить изменения"),'action':("updateTableData")],-1)
+printHtmlPart(30)
 })
 invokeTag('form','g',83,['class':("form-signin"),'controller':("VisitorSpace")],2)
-printHtmlPart(32)
+printHtmlPart(31)
 })
 invokeTag('captureBody','sitemesh',96,[:],1)
-printHtmlPart(33)
+printHtmlPart(32)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1433860471597L
+public static final long LAST_MODIFIED = 1434462079922L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

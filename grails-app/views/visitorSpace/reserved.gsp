@@ -103,7 +103,12 @@
 									</g:else>	
 								</td>
 								<td>${table.hall}</td>
-								<td>${table.places}</td>
+								<g:if test="${table.places != 0}">
+									<td>${table.places}</td>
+								</g:if>
+								<g:else>
+									<td>-</td>
+								</g:else>
 <%--								<td>${table.cost}</td>--%>
 								<td><g:link action="deleteReservedTable" params="[cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
 								date: "${table.reservationDate }", startTime: "${table.startTimeLimit }", endTime: "${table.endTimeLimit }",

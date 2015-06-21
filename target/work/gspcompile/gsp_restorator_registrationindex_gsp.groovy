@@ -39,20 +39,20 @@ expressionOut.print(resource(dir: 'css', file: 'bootstrap.css'))
 printHtmlPart(6)
 expressionOut.print(resource(dir: 'css/reg_page_files', file: 'signing.css'))
 printHtmlPart(7)
-invokeTag('javascript','g',20,['library':("jquery")],-1)
+invokeTag('javascript','g',21,['library':("jquery")],-1)
 printHtmlPart(8)
 createTagBody(2, {->
 printHtmlPart(9)
 expressionOut.print(remoteFunction(controller:"region", action:"ajaxGetCities", params:"'id=' + zopt.value", onComplete:"updateCity(e)"))
 printHtmlPart(10)
 })
-invokeTag('javascript','g',72,[:],2)
+invokeTag('javascript','g',74,[:],2)
 printHtmlPart(11)
 invokeTag('captureMeta','sitemesh',75,['gsp_sm_xmlClosingForEmptyTag':(""),'class':("os-tdn"),'http-equiv':("Content-Language"),'content':("ru")],-1)
 invokeTag('captureMeta','sitemesh',75,['gsp_sm_xmlClosingForEmptyTag':(""),'class':("os-tdn"),'property':("og:locale"),'content':("ru")],-1)
 printHtmlPart(12)
 })
-invokeTag('captureHead','sitemesh',75,[:],1)
+invokeTag('captureHead','sitemesh',76,[:],1)
 printHtmlPart(13)
 createTagBody(1, {->
 printHtmlPart(14)
@@ -70,15 +70,15 @@ invokeTag('passwordField','g',108,['id':("inputPassword"),'class':("form-control
 printHtmlPart(20)
 invokeTag('passwordField','g',113,['id':("confirmPassword"),'class':("form-control"),'name':("controlPassword"),'placeholder':("Подтвердите пароль"),'required':(""),'data-translatable-string':("Password")],-1)
 printHtmlPart(21)
-invokeTag('checkBox','g',114,['class':("isAdminCafee"),'name':("isAdminCafee"),'value':(false)],-1)
+invokeTag('checkBox','g',116,['class':("isAdminCafee"),'name':("isAdminCafee"),'value':(false)],-1)
 printHtmlPart(22)
 invokeTag('textField','g',124,['id':("cafee"),'class':("form-control"),'name':("cafeeName"),'value':(""),'placeholder':("Название заведения"),'type':("text")],-1)
 printHtmlPart(23)
 invokeTag('textField','g',129,['id':("innName"),'class':("form-control"),'name':("inn"),'value':(""),'placeholder':("ИНН"),'type':("text")],-1)
 printHtmlPart(24)
-invokeTag('select','g',133,['optionKey':("id"),'name':("region.id"),'id':("region"),'from':(region),'noSelection':([null:'Выберите регион']),'optionValue':({it.getRegionName()}),'onchange':("categoryChanged(this.value);")],-1)
+invokeTag('textField','g',134,['id':("cafeeRegion"),'class':("form-control"),'name':("region"),'value':(""),'placeholder':("Регион"),'type':("text")],-1)
 printHtmlPart(25)
-expressionOut.print(createLink(controller: 'region', action: 'categoryChanged'))
+invokeTag('textField','g',139,['id':("cafeeCity"),'class':("form-control"),'name':("city"),'value':(""),'placeholder':("Город"),'type':("text")],-1)
 printHtmlPart(26)
 createClosureForHtmlPart(27, 3)
 invokeTag('actionSubmit','g',143,['value':("Зарегистрироваться"),'action':("saveUser"),'class':("btn btn-lg btn-primary btn-block")],3)
@@ -86,7 +86,7 @@ printHtmlPart(28)
 })
 invokeTag('form','g',143,['class':("form-signin"),'controller':("Registration")],2)
 printHtmlPart(29)
-invokeTag('javascript','g',150,['library':("reg_page_files/ie10-viewport-bug-workaround")],-1)
+invokeTag('javascript','g',147,['library':("reg_page_files/ie10-viewport-bug-workaround")],-1)
 printHtmlPart(30)
 invokeTag('javascript','g',151,['library':("reg_page_files/loader")],-1)
 printHtmlPart(31)
@@ -99,7 +99,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1434285891949L
+public static final long LAST_MODIFIED = 1434495010463L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

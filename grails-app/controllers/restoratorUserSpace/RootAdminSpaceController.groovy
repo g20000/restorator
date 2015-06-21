@@ -15,20 +15,25 @@ class RootAdminSpaceController {
 	def springSecurityService = new SpringSecurityService()
 	
     def index() { 
-		ArrayList<Cafee>allCafees = Cafee.list()
-		ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()
-		ApiRequest apiRequest
-		for(Cafee cafee : allCafees){
-			if(cafee.apiInit != ""){
-				apiRequest = ApiHandlerController.request(cafee.apiInit)
-				availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
-					city: apiRequest.getCity(), region: apiRequest.getRegion()))
-			}else{
-				availableCafee.add(cafee)
+		try {
+			ArrayList<Cafee>allCafees = Cafee.list()
+			ArrayList<Cafee>availableCafee = new ArrayList<Cafee>()
+			ApiRequest apiRequest
+			for(Cafee cafee : allCafees){
+				if(cafee.apiInit != ""){
+					apiRequest = ApiHandlerController.request(cafee.apiInit)
+							availableCafee.add(new Cafee(cafeeName: apiRequest.cafeeName, placeCost: apiRequest.placeCost, currencyType: apiRequest.currencyType, apiInit: apiRequest.apiInit,
+									city: apiRequest.getCity(), region: apiRequest.getRegion()))
+				}else{
+					availableCafee.add(cafee)
+				}
 			}
+			
+			render (view:'index.gsp', model: [availableCafee: availableCafee])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		
-		render (view:'index.gsp', model: [availableCafee: availableCafee])
 	}
 	
 	def goToCafeePage(params){
@@ -78,59 +83,79 @@ class RootAdminSpaceController {
 	}
 	
 	def goToUserInfo(params){
-		def user = Person.findById(params['id'])
-		render (view:'userInfo.gsp', model: [userInfo: user])
+		try {
+			def user = Person.findById(params['id'])
+			render (view:'userInfo.gsp', model: [userInfo: user])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
+		}
 	}
 	
 	def editPrivateData(){
-		def user = springSecurityService.currentUser
-		if(user.isAdminCafee){
-			render (view:'editPrivateData.gsp', model: [user: user])
-		}else{
-			render (view:'editPrivateData.gsp', model: [user: user])
+		try {
+			def user = springSecurityService.currentUser
+			if(user.isAdminCafee){
+				render (view:'editPrivateData.gsp', model: [user: user])
+			}else{
+				render (view:'editPrivateData.gsp', model: [user: user])
+			}
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
 	}
 	
 	def setupBillingSystem(){
-		def user = Person.findByUsername(springSecurityService.currentUser.username)
-		def cafee = user.cafee
-		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
-		for(def paymentSystem : paymentSystems){
-			if(paymentSystem.getEnabled()){
-				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
-			}else{
-				paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
-			}
+		try {
+				def user = Person.findByUsername(springSecurityService.currentUser.username)
+				def cafee = user.cafee
+				Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+				def paymentSystems = PaymentSystems.list()
+				for(def paymentSystem : paymentSystems){
+					if(paymentSystem.getEnabled()){
+						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
+					}else{
+						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
+					}
+				}
+				render (view:'billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		render (view:'billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
 	}
 	
 	def saveSetupBillingSystems(params){
-		Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
-		def paymentSystems = PaymentSystems.list()
-		def service
-		for(def paymentSystem : paymentSystems){
-			if(params.containsKey(paymentSystem.getPaymentSystemName())){
-				service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
-				service.enabled = true
-				if(!service.save(flush:true)){
-					service.errors.each{
-						println it
+		try {
+				Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+				def paymentSystems = PaymentSystems.list()
+				def service
+				for(def paymentSystem : paymentSystems){
+					if(params.containsKey(paymentSystem.getPaymentSystemName())){
+						service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
+						service.enabled = true
+						if(!service.save(flush:true)){
+							service.errors.each{
+								println it
+							}
+							return
+						}
+					}else if(!params.containsKey(paymentSystem.getPaymentSystemName())){
+						service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
+						service.enabled = false
+						if(!service.save(flush:true)){
+							service.errors.each{
+								println it
+							}
+							return
+						}
 					}
-					return
 				}
-			}else if(!params.containsKey(paymentSystem.getPaymentSystemName())){
-				service = PaymentSystems.findByPaymentSystemName(paymentSystem.getPaymentSystemName())
-				service.enabled = false
-				if(!service.save(flush:true)){
-					service.errors.each{
-						println it
-					}
-					return
-				}
-			}
+				setupBillingSystem()
+		} catch (Exception e) {
+			render (view:'error.gsp')
+			e.printStackTrace()
 		}
-		setupBillingSystem()
 	}
 }

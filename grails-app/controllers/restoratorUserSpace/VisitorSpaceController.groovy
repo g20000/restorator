@@ -1,7 +1,5 @@
 package restoratorUserSpace
 
-import java.text.SimpleDateFormat
-
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -14,6 +12,7 @@ import restorator.TablePlacesInfo
 import restorator.auth.Authority
 import restorator.auth.Person
 import billingMock.PaymentSystems
+import billingMock.PaymentSystemsAvailable
 import extApiHandler.ApiHandlerController
 import extApiMock.ApiRequest
 import grails.plugin.springsecurity.SpringSecurityService
@@ -343,11 +342,13 @@ class VisitorSpaceController {
 				
 				
 				myPlace.delete(flush: true)
-				table.tableForReservationAmount += 1
-				cafee.totalReservationPlaces += 1
-				if(!table.save(flush: true)){
-					table.errors.each{
-						println it
+				if(table != null){
+					table.tableForReservationAmount += 1
+					cafee.totalReservationPlaces += 1
+					if(!table.save(flush: true)){
+						table.errors.each{
+							println it
+						}
 					}
 				}
 				if(!cafee.save(flush: true)){
@@ -644,23 +645,26 @@ class VisitorSpaceController {
 		try {
 				def user = Person.findByUsername(springSecurityService.currentUser.username)
 				def cafee = user.cafee
-//				Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
+				Map<String, Boolean>paymentSystemsStatus = new HashMap<String, Boolean>()
 				def paymentSystems = PaymentSystems.list()
-//				for(def paymentSystem : paymentSystems){
-//					if(cafee.availablePaymentSystems.contains(paymentSystem)){
-//						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
-//					}else{
-//						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
-//					}
-//				}
-				ArrayList<PaymentSystems>paymentSystemsStatus = new ArrayList<PaymentSystems>()
 				for(def paymentSystem : paymentSystems){
 					if(cafee.availablePaymentSystems.contains(paymentSystem)){
-						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), enabled : true))
+						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), true)
 					}else{
-						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), enabled : false))
+						paymentSystemsStatus.put(paymentSystem.getPaymentSystemName(), false)
 					}
 				}
+				/*ArrayList<PaymentSystems>paymentSystemsStatus = new ArrayList<PaymentSystems>()
+				def checkablePaymentSystem
+				for(def paymentSystem : paymentSystems){
+					println cafee.availablePaymentSystems
+					checkablePaymentSystem = cafee.availablePaymentSystems.find{key, value -> key == paymentSystem.getPaymentSystemName}
+					if(cafee.availablePaymentSystems.contains(paymentSystem)){
+						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), bill: paymentSystem.getBill(), enabled : true))
+					}else{
+						paymentSystemsStatus.add(new PaymentSystems(paymentSystemName : paymentSystem.getPaymentSystemName(), bill: paymentSystem.getBill(), enabled : false))
+					}
+				}*/
 				render (view:'adminCafeeSpace/billingSystemControl.gsp', model: [paymentSystems: paymentSystemsStatus])
 		} catch (Exception e) {
 			render (view:'error.gsp')
@@ -671,15 +675,21 @@ class VisitorSpaceController {
 	@Secured(['ROLE_ADMIN'])
 	def saveSetupBillingSystems(params){
 		try {
+			println params
 			def user = Person.findByUsername(springSecurityService.currentUser.username)
 			def cafee = user.cafee
-			def paymentSystems = PaymentSystems.list()
+			def paymentSystems = PaymentSystems.list() //.unique()
+//			def billNumber
+//			def index = 0
 			for(def paymentSystem : paymentSystems){
+//				billNumber = Long.parseLong(new String(params['bill'][index]).trim())
+//				paymentSystem.setBill(billNumber)
 				if((params.containsKey(paymentSystem.getPaymentSystemName()))&&((!cafee.availablePaymentSystems.contains(paymentSystem)))){
 					cafee.addToAvailablePaymentSystems(paymentSystem)
 				}else if((!params.containsKey(paymentSystem.getPaymentSystemName()))&&((cafee.availablePaymentSystems.contains(paymentSystem)))){
 					cafee.removeFromAvailablePaymentSystems(paymentSystem)
 				}
+				//++index
 			}
 			if(!cafee.save(flush:true)){
 				cafee.errors.each{

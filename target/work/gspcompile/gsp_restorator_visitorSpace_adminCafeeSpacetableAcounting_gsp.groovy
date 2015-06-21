@@ -75,17 +75,17 @@ if(true && (tableInfo.size() != 0)) {
 printHtmlPart(22)
 for( table in (tableInfo) ) {
 printHtmlPart(23)
-expressionOut.print(table.placesInTableAmount)
+expressionOut.print(table.getPlacesInTableAmount())
 printHtmlPart(24)
-expressionOut.print(table.tableForReservationAmount)
+expressionOut.print(table.getTableForReservationAmount())
 printHtmlPart(24)
-expressionOut.print(table.tableAmount)
+expressionOut.print(table.getTableAmount())
 printHtmlPart(24)
 expressionOut.print(table.hall.getHallName())
 printHtmlPart(24)
-expressionOut.print(table.placeCost)
+expressionOut.print(table.getPlaceCost())
 printHtmlPart(24)
-expressionOut.print(table.currencyType)
+expressionOut.print(table.getCurrencyType())
 printHtmlPart(24)
 createClosureForHtmlPart(25, 4)
 invokeTag('link','g',73,['controller':("VisitorSpace"),'action':("editTableData"),'params':([id: "${table.getId()}"])],4)
@@ -114,22 +114,21 @@ invokeTag('textField','g',109,['id':("placePrice"),'class':("form-control"),'nam
 printHtmlPart(36)
 invokeTag('textField','g',114,['id':("currencyType"),'class':("form-control"),'name':("currencyType"),'placeholder':("Тип принимаемой валюты"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("string"),'required':("")],-1)
 printHtmlPart(37)
-createClosureForHtmlPart(38, 3)
-invokeTag('actionSubmit','g',115,['value':("Добавить столик"),'action':("addTable"),'class':("btn btn-lg btn-primary btn-block")],3)
-printHtmlPart(39)
+invokeTag('actionSubmit','g',115,['value':("Добавить столик"),'action':("addTable")],-1)
+printHtmlPart(38)
 })
 invokeTag('form','g',117,['class':("form-signin"),'controller':("VisitorSpace")],2)
-printHtmlPart(40)
+printHtmlPart(39)
 })
-invokeTag('captureBody','sitemesh',130,[:],1)
-printHtmlPart(41)
+invokeTag('captureBody','sitemesh',126,[:],1)
+printHtmlPart(40)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1433856893956L
+public static final long LAST_MODIFIED = 1434461493165L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

@@ -87,31 +87,38 @@ printHtmlPart(28)
 }
 printHtmlPart(29)
 expressionOut.print(table.hall)
-printHtmlPart(24)
+printHtmlPart(30)
+if(true && (table.places != 0)) {
+printHtmlPart(31)
 expressionOut.print(table.places)
 printHtmlPart(30)
-createClosureForHtmlPart(31, 4)
-invokeTag('link','g',109,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
-								date: "${table.reservationDate}", startTime: "${table.startTimeLimit}", endTime: "${table.endTimeLimit}",
-								placesAmount: "${table.places}", cost: "${table.cost}", hall: "${table.hall}"])],4)
+}
+else {
 printHtmlPart(32)
 }
 printHtmlPart(33)
+createClosureForHtmlPart(34, 4)
+invokeTag('link','g',114,['action':("deleteReservedTable"),'params':([cafeeName: "${table.cafeeName.cafeeName}", cafeeAPI: "${table.cafeeName.apiInit}",
+								date: "${table.reservationDate}", startTime: "${table.startTimeLimit}", endTime: "${table.endTimeLimit}",
+								placesAmount: "${table.places}", cost: "${table.cost}", hall: "${table.hall}"])],4)
+printHtmlPart(35)
+}
+printHtmlPart(36)
 }
 else {
-printHtmlPart(34)
+printHtmlPart(37)
 }
-printHtmlPart(35)
+printHtmlPart(38)
 })
-invokeTag('captureBody','sitemesh',130,[:],1)
-printHtmlPart(36)
+invokeTag('captureBody','sitemesh',135,[:],1)
+printHtmlPart(39)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1434214329475L
+public static final long LAST_MODIFIED = 1434920890215L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

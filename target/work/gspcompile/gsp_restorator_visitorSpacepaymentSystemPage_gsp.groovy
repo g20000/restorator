@@ -57,34 +57,39 @@ printHtmlPart(13)
 invokeTag('form','g',44,['class':("form-inline")],2)
 printHtmlPart(14)
 createClosureForHtmlPart(15, 2)
-invokeTag('link','g',51,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
+invokeTag('link','g',50,['controller':("VisitorSpace"),'action':("index")],2)
 printHtmlPart(16)
-createTagBody(2, {->
-printHtmlPart(17)
-expressionOut.print(paymentSystemName)
+createClosureForHtmlPart(17, 2)
+invokeTag('link','g',51,['controller':("VisitorSpace"),'action':("editPrivateData")],2)
 printHtmlPart(18)
-invokeTag('hiddenField','g',76,['name':("cafeeInfo"),'value':(cafeeInfo)],-1)
+createTagBody(2, {->
 printHtmlPart(19)
-invokeTag('hiddenField','g',77,['name':("paymentSystemName"),'value':(paymentSystemName)],-1)
+expressionOut.print(paymentSystemName)
 printHtmlPart(20)
-invokeTag('textField','g',79,['id':("billNumber"),'class':("form-control"),'name':("billNumber"),'placeholder':("Введите номер счета"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
+invokeTag('hiddenField','g',76,['name':("cafeeInfo"),'value':(cafeeInfo)],-1)
 printHtmlPart(21)
-createClosureForHtmlPart(22, 3)
-invokeTag('actionSubmit','g',80,['value':("Произвести оплату"),'action':("makePayment")],3)
+invokeTag('hiddenField','g',77,['name':("paymentSystemName"),'value':(paymentSystemName)],-1)
+printHtmlPart(21)
+invokeTag('hiddenField','g',78,['name':("totalCost"),'value':(totalCost)],-1)
+printHtmlPart(22)
+invokeTag('textField','g',80,['id':("billNumber"),'class':("form-control"),'name':("billNumber"),'placeholder':("Введите номер счета"),'value':(""),'autofocus':(""),'data-translatable-string':(""),'type':("number")],-1)
 printHtmlPart(23)
-})
-invokeTag('form','g',82,['class':("form-signin"),'controller':("VisitorSpace")],2)
-printHtmlPart(24)
-})
-invokeTag('captureBody','sitemesh',95,[:],1)
+createClosureForHtmlPart(24, 3)
+invokeTag('actionSubmit','g',81,['value':("Произвести оплату"),'action':("makePayment")],3)
 printHtmlPart(25)
+})
+invokeTag('form','g',83,['class':("form-signin"),'controller':("VisitorSpace")],2)
+printHtmlPart(26)
+})
+invokeTag('captureBody','sitemesh',96,[:],1)
+printHtmlPart(27)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1433345626630L
+public static final long LAST_MODIFIED = 1434922095655L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

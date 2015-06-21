@@ -73,8 +73,8 @@ invokeTag('link','g',42,['controller':("VisitorSpace"),'action':("goToHallsAndZo
 printHtmlPart(21)
 if(true && (halls.size() != 0)) {
 printHtmlPart(22)
-for( _it426301004 in (halls) ) {
-changeItVariable(_it426301004)
+for( _it947207010 in (halls) ) {
+changeItVariable(_it947207010)
 printHtmlPart(23)
 expressionOut.print(it.hallName)
 printHtmlPart(24)
@@ -95,22 +95,21 @@ createTagBody(2, {->
 printHtmlPart(31)
 invokeTag('textField','g',81,['id':("hall"),'class':("form-control"),'name':("hall"),'placeholder':("Введите название зоны или зала"),'value':(""),'type':("text"),'required':("")],-1)
 printHtmlPart(32)
-createClosureForHtmlPart(33, 3)
-invokeTag('actionSubmit','g',82,['value':("Добавить зал/зону"),'action':("addHall"),'class':("btn btn-lg btn-primary btn-block")],3)
-printHtmlPart(34)
+invokeTag('actionSubmit','g',82,['value':("Добавить зал/зону"),'action':("addHall")],-1)
+printHtmlPart(33)
 })
 invokeTag('form','g',84,['class':("form-signin"),'controller':("VisitorSpace")],2)
-printHtmlPart(35)
+printHtmlPart(34)
 })
-invokeTag('captureBody','sitemesh',97,[:],1)
-printHtmlPart(36)
+invokeTag('captureBody','sitemesh',93,[:],1)
+printHtmlPart(35)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1433872388623L
+public static final long LAST_MODIFIED = 1434461546149L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

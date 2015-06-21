@@ -77,22 +77,21 @@ invokeTag('textField','g',56,['id':("hall"),'class':("form-control"),'name':("ha
 printHtmlPart(23)
 invokeTag('hiddenField','g',57,['name':("id"),'value':(hall.getId())],-1)
 printHtmlPart(24)
-createClosureForHtmlPart(25, 3)
-invokeTag('actionSubmit','g',58,['value':("Обновить зал/зону"),'action':("updateHall"),'class':("btn btn-lg btn-primary btn-block")],3)
-printHtmlPart(26)
+invokeTag('actionSubmit','g',58,['value':("Обновить зал/зону"),'action':("updateHall")],-1)
+printHtmlPart(25)
 })
 invokeTag('form','g',60,['class':("form-signin"),'controller':("VisitorSpace")],2)
-printHtmlPart(27)
+printHtmlPart(26)
 })
-invokeTag('captureBody','sitemesh',72,[:],1)
-printHtmlPart(28)
+invokeTag('captureBody','sitemesh',69,[:],1)
+printHtmlPart(27)
 }
 public static final Map JSP_TAGS = new HashMap()
 protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1433933360870L
+public static final long LAST_MODIFIED = 1434461727677L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

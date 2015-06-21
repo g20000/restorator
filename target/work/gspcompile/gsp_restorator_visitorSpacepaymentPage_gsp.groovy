@@ -67,13 +67,13 @@ expressionOut.print(currencyType)
 printHtmlPart(19)
 }
 printHtmlPart(20)
-for( _it595560292 in (availablePaymentSystems) ) {
-changeItVariable(_it595560292)
+for( _it2006354501 in (availablePaymentSystems) ) {
+changeItVariable(_it2006354501)
 printHtmlPart(21)
 createTagBody(3, {->
 expressionOut.print(it.getPaymentSystemName())
 })
-invokeTag('link','g',83,['action':("goToPaymentSystemPage"),'params':([paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}"])],3)
+invokeTag('link','g',83,['action':("goToPaymentSystemPage"),'params':([paymentSystemName: "${it.getPaymentSystemName()}", cafeeInfo: "${cafeeInfo}", totalCost: "${totalCost}"])],3)
 printHtmlPart(22)
 }
 printHtmlPart(23)
@@ -86,7 +86,7 @@ protected void init() {
 	this.jspTags = JSP_TAGS
 }
 public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
-public static final long LAST_MODIFIED = 1434203347443L
+public static final long LAST_MODIFIED = 1434559008089L
 public static final String EXPRESSION_CODEC = 'html'
 public static final String STATIC_CODEC = 'none'
 public static final String OUT_CODEC = 'html'

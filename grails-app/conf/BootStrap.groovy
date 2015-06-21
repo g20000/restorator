@@ -1,21 +1,33 @@
 
+import org.joda.time.LocalTime
+
+import restorator.Cafee
 import restorator.City
 import restorator.Region
+import restorator.auth.Authority
+import restorator.auth.Person
+import restorator.auth.PersonAuthority
+import billingMock.PaymentSystems
+import billingMock.PaymentSystemsAvailable
+import billingMock.VisaMock
+import extApiMock.ApiRequest
+import extApiMock.ExtHallinfo
+import extApiMock.ExtTablePlacesInfo
 
 class BootStrap {
 	def springSecurityService
     def init = { servletContext ->
-		 /*def rootAdminRole = Authority.findOrSaveWhere(authority: 'ROLE_ROOT_ADMIN')
+		 def rootAdminRole = Authority.findOrSaveWhere(authority: 'ROLE_ROOT_ADMIN')
 		 def rootAdmin = new Person(username: 'root', password:'password',
 			 accountExpired: false, accountLocked: false, passwordExpired: false, 
 			 firstName:'Andrew', lastName:'Bobkov', email:'root@gmail.com', isAdminCafee: false).save(flush : true)
 		 if(!rootAdmin.authorities.contains(rootAdminRole))
 		 {
 			 PersonAuthority.create(rootAdmin, rootAdminRole, true)
-		 }*/
+		 }
 		 
 		 
-		 /*def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
+		 def adminRole = Authority.findOrSaveWhere(authority: 'ROLE_ADMIN')
 		 def visitorRole = Authority.findOrSaveWhere(authority: 'ROLE_VISITOR')
 		 def password = springSecurityService.encodePassword('password')
 		 
@@ -134,7 +146,7 @@ class BootStrap {
 		 extApiRequest2.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest3.addToAvailablePaymentSystems(visa).save(flush:true)
 		 extApiRequest4.addToAvailablePaymentSystems(visa).save(flush:true)
-		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)*/
+		 extApiRequest5.addToAvailablePaymentSystems(visa).save(flush:true)
 		 def city = City.findOrSaveWhere(cityName: "Yoshkar - Ola")
 		 def city2 = City.findOrSaveWhere(cityName: "Volzhsk")
 		 def city3 = City.findOrSaveWhere(cityName: "Kanash")
@@ -147,6 +159,9 @@ class BootStrap {
 		 def region2 = Region.findOrSaveWhere(regionName: "Chuvashia")
 		 region2.addToCities(city3).save(flush: true)
 		 region2.addToCities(city4).save(flush: true)
+		 
+		 def visaAvailable = new PaymentSystemsAvailable(paymentSystemName: "Visa").save(flush: true)
+		 def webMoneyAvailable = new PaymentSystemsAvailable(paymentSystemName: "WebMoney").save(flush: true)
     }
     def destroy = {
     }
